@@ -1,12 +1,4 @@
-import React, { Component } from 'react';
-import { AppRegistry, Text } from 'react-native';
+import React, { AppRegistry } from 'react-native';
+import Practicapp from './app';
 
-class HelloWorldApp extends Component {
-  render() {
-    return (
-      <Text>Hello world! :)</Text>
-    );
-  }
-}
-
-AppRegistry.registerComponent('practica', () => HelloWorldApp);
+AppRegistry.registerComponent('practica', () => Practicapp);
