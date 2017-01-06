@@ -12,6 +12,11 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
+const FBSDK = require('react-native-fbsdk');
+const {
+  LoginButton,
+} = FBSDK;
+
 class HomePage extends Component {
   render() {
     return (
@@ -39,11 +44,24 @@ class HomePage extends Component {
               <Text style={styles.fullWidthButtonText}>REGISTRARSE</Text>
             </TouchableHighlight>
           </View>
+
           <View style={styles.loginButtons}>
-            <TouchableHighlight style={styles.fullWidthButton} underlayColor="#66CCF5" onPress={this._sayHello.bind(this)}>
-              <Text style={styles.fullWidthButtonText}>ENTRAR CON FACEBOOK</Text>
-            </TouchableHighlight>
-          </View>
+            <LoginButton
+              style={styles.facebookButton}
+              publishPermissions={["publish_actions"]}
+              onLoginFinished={
+                (error, result) => {
+                  if (error) {
+                    alert("Login failed with error: " + result.error);
+                  } else if (result.isCancelled) {
+                    alert("Login was cancelled");
+                  } else {
+                    alert("Login was successful with permissions: " + result.grantedPermissions)
+                  }
+                }
+              }
+              onLogoutFinished={() => alert("User logged out")}/>
+            </View>
         </View>
       </View>
     );
@@ -145,6 +163,14 @@ var styles = StyleSheet.create({
     color: 'white',
     paddingTop: 10,
     paddingBottom: 10
+  },
+  facebookButton: {
+    height: 32,
+    width: 180,
+    marginTop: 20,
+    alignItems: 'center',
+    borderRadius: 5
+
   }
 });
 

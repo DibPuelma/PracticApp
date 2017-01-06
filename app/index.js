@@ -17,7 +17,7 @@ export default class App extends Component {
   render() {
     return (
       <Navigator
-        initialRoute={{id: 'HomePage'}}
+        initialRoute={{id: 'MainPage'}}
         renderScene={this.renderScene.bind(this)}
         configureScene={(route) => {
           if (route.sceneConfig) {

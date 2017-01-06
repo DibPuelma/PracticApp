@@ -19,6 +19,10 @@ class MainPage extends Component {
         renderScene={this.renderScene.bind(this)}
         navigator={this.props.navigator}
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
+        navigationBar={
+          <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+            routeMapper={NavigationBarRouteMapper} />
+        }
       />
     );
   }
@@ -33,6 +37,39 @@ class MainPage extends Component {
     );
   }
 }
+
+var NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={() => navigator.parentNavigator.pop()}>
+        <Text style={{color: 'white', margin: 10,}}>
+          hOLA
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+  RightButton(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
+          onPress={() => navigator.parentNavigator.pop()}>
+        <Text style={{color: 'white', margin: 10,}}>
+          hOLA
+        </Text>
+      </TouchableOpacity>
+    );
+  },
+  Title(route, navigator, index, navState) {
+    return (
+      <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignSelf: 'center'}}>
+        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
+          mUNDO
+        </Text>
+      </TouchableOpacity>
+    );
+  }
+};
+
 
 var styles = StyleSheet.create({
   container: {
