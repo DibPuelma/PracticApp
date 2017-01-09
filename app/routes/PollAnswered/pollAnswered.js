@@ -2,10 +2,37 @@ import React, { Component } from 'react';
 import {
   View,
   Button,
-  Text
+  Text,
+  BackAndroid
 } from 'react-native';
 import styles from './styles';
+
+import backButtonHandler from '../../lib/backButtonHandler';
+
 export default class PollAnswered extends Component {
+  constructor(props){
+    super(props);
+    this.singletonBackButtonHandler = backButtonHandler.getInstance();
+    this._accept = this._accept.bind(this);
+  }
+
+  componentWillMount(){
+    this._addBackEvent();
+  }
+
+  componentWillUnmount(){
+    this._removeBackEvent();
+  }
+
+  _addBackEvent() {
+    BackAndroid.addEventListener('hardwareBackPress', this._accept);
+    this.singletonBackButtonHandler.addFunction(this._accept);
+  }
+
+  _removeBackEvent() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._accept);
+    this.singletonBackButtonHandler.removeFunction(this._accept);
+  }
 
   render(){
     return(
@@ -33,5 +60,6 @@ export default class PollAnswered extends Component {
   }
   _accept(){
     this.props.navigator.replace({id:'scanner'});
+    return true;
   }
 }

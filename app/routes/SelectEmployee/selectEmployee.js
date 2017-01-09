@@ -6,13 +6,53 @@ import {
   TouchableHighlight,
   StyleSheet,
   Dimensions,
-  View
+  View,
+  BackAndroid,
+  Alert
 } from 'react-native';
 
 import styles from './styles';
 import employeesData from './employeesData.json';
+import backButtonHandler from '../../lib/backButtonHandler';
 
 export default class SelectEmployee extends Component{
+
+  constructor(props){
+    super(props);
+    this._backToPrevious = this._backToPrevious.bind(this);
+    this.singletonBackButtonHandler = backButtonHandler.getInstance();
+  }
+  componentWillMount(){
+    this._addBackEvent();
+  }
+
+  componentWillUnmount() {
+    this._removeBackEvent();
+  }
+
+  _addBackEvent() {
+    BackAndroid.addEventListener('hardwareBackPress', this._backToPrevious);
+    this.singletonBackButtonHandler.addFunction(this._backToPrevious);
+  }
+
+  _removeBackEvent() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._backToPrevious);
+    this.singletonBackButtonHandler.removeFunction(this._backToPrevious);
+  }
+
+  _backToPrevious() {
+    console.log("Poping SE");
+    Alert.alert(
+      '¿Quieres salir de la encuesta?',
+      'Recuerda que con solo 1 minuto de tu tiempo puedes ayudar a esta tienda a mejorar su servicio. Además estarás participando por premios mensuales',
+      [
+        {text: 'No', style: 'cancel'},
+        {text: 'Sí', onPress: () => this.props.navigator.replace({id: 'scanner'})},
+      ]
+    )
+    return true; // This is important to prevent multiple calls
+  }
+
   render(){
     store = this.props.data.data.data;
     switch (store) {

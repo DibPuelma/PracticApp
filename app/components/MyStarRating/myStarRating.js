@@ -6,7 +6,7 @@ export default class MyStarRating extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      starCount: 3
+      starCount: 0
     };
   }
 

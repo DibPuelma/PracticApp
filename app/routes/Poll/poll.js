@@ -4,23 +4,49 @@ import {
   View,
   Text,
   Button,
-  TextInput
+  TextInput,
+  BackAndroid
 } from 'react-native';
 
 import styles from './styles';
-
-import attendedJson from './jsonattended.json'
+import attendedJson from './jsonattended.json';
+import backButtonHandler from '../../lib/backButtonHandler';
 
 import MyStarRating from '../../components/MyStarRating/myStarRating';
 
 export default class Poll extends Component {
   constructor(props){
     super(props);
-    this.state = {text: '', totalQuestions: attendedJson["questions"].length}
+    this.state = {text: '', totalQuestions: attendedJson["questions"].length};
+    this._backToPrevious = this._backToPrevious.bind(this);
+    this.singletonBackButtonHandler = backButtonHandler.getInstance();
     for(i = 0; i < this.state.totalQuestions; i++){
-      console.log("dentro de addquestion " + i.toString() + ":" + 3);
-      this.state[i.toString()] = 3;
+      this.state[i.toString()] = 0;
     }
+  }
+
+  componentWillMount(){
+    this._addBackEvent();
+  }
+
+  componentWillUnmount() {
+    this._removeBackEvent();
+  }
+
+  _addBackEvent() {
+    BackAndroid.addEventListener('hardwareBackPress', this._backToPrevious);
+    this.singletonBackButtonHandler.addFunction(this._backToPrevious);
+  }
+
+  _removeBackEvent() {
+    BackAndroid.removeEventListener('hardwareBackPress', this._backToPrevious);
+    this.singletonBackButtonHandler.removeFunction(this._backToPrevious);
+  }
+
+  _backToPrevious() {
+    console.log("Poping poll");
+    this.props.navigator.pop();
+    return true; // This is important to prevent multiple calls
   }
 
   //TODO: Setear valor default de las estrellas programaticamente cuando llega el JSON
@@ -72,15 +98,17 @@ export default class Poll extends Component {
         <View style={styles.question}>
         <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
         <TextInput
-        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+        style={styles.textInput}
         onChangeText={(text) => this.setState({text})}
         value={this.state.text}
         />
-        </View>
 
+        </View>
+        <View style={styles.sendButton}>
         <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
         accessibilityLabel="Envía la encuesta"
         />
+        </View>
 
         </View>
         </View>
@@ -89,19 +117,16 @@ export default class Poll extends Component {
   }
   _handleStarChange(question, value){
     newState = {};
-    console.log("question es: " + question + " value es: " + value);
     newState[question] = value;
     this.setState(newState);
-    console.log(this.state);
   }
   _sendPoll(){
     pollAnswers = {comment: this.state.text, stars: []}
     for(i = 0; i < this.state.totalQuestions; i++){
       pollAnswers["stars"][i] = this.state[i.toString()];
     }
-    console.log(this.state);
-    console.log(pollAnswers);
     pollData = this.props.pollData;
+    this.singletonBackButtonHandler.removeAllListeners();
     this.props.navigator.push({id:'pollAnswered', pollData:pollData, pollAnswers:pollAnswers});
   }
 }
