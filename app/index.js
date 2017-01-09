@@ -17,7 +17,7 @@ export default class App extends Component {
   render() {
     return (
       <Navigator
-        initialRoute={{id: 'MainPage'}}
+        initialRoute={{id: 'HomePage'}}
         renderScene={this.renderScene.bind(this)}
         configureScene={(route) => {
           if (route.sceneConfig) {
@@ -29,16 +29,16 @@ export default class App extends Component {
   }
   renderScene(route, navigator) {
     if (route.id === 'HomePage') {
-      return (<HomePage navigator={navigator} />);
+      return (<HomePage navigator={navigator} {...route.passProps} />);
     }
     if (route.id === 'LoginPage') {
-      return (<LoginPage navigator={navigator} />);
+      return (<LoginPage navigator={navigator} {...route.passProps} />);
     }
     if (route.id === 'MainPage') {
-      return (<MainPage navigator={navigator} />);
+      return (<MainPage navigator={navigator} {...route.passProps} />);
     }
     if (route.id === 'RegisterPage') {
-      return (<RegisterPage navigator={navigator} />);
+      return (<RegisterPage navigator={navigator} {...route.passProps} />);
     }
 
     return this._noRoute(navigator);

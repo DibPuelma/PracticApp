@@ -28,12 +28,21 @@ class LoginPage extends Component {
   }
 
   componentWillMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
+    this.addBackEvent();
   }
 
   componentWillUnmount() {
+    this.removeBackEvent();
+  }
+
+  addBackEvent() {
+    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this)); 
+  }
+
+  removeBackEvent() {
     BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
   }
+
 
   render() {
     return (
@@ -125,6 +134,9 @@ class LoginPage extends Component {
     promise.then(function(result) { // ok
       console.log(result);
       login.setState({status: LoginStatus.LOGGED});
+
+      login.setState({user: {name: 'User1', lastName: 'User1', gender: 'm', age: 23, email: 'user1@abc.net'}})
+
       login._goToMain();
     }, function(err) { // error
       // TODO: switch depending on response error
@@ -151,8 +163,8 @@ class LoginPage extends Component {
   }
 
   _goToMain() {
-    Navigator.SceneConfigs.HorizontalSwipeJump
-    this.props.navigator.resetTo({id: 'MainPage'});
+    this.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}}); //resetTo
+    this.removeBackEvent();
   }
 }
 

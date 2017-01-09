@@ -24,14 +24,22 @@ var LoginStatus = {
 class RegisterPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {username: '', name: '', lastName: '', email: '', password: '', confirmPassword: '', status: LoginStatus.SLEEPING};
+    this.state = {name: '', lastName: '', email: '', password: '', confirmPassword: '', status: LoginStatus.SLEEPING};
   }
 
   componentWillMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
+    this.addBackEvent();
   }
 
   componentWillUnmount() {
+    this.removeBackEvent();
+  }
+
+  addBackEvent() {
+    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this)); 
+  }
+
+  removeBackEvent() {
     BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
   }
 
@@ -54,15 +62,6 @@ class RegisterPage extends Component {
             { this.state.error &&
               <Text style={{color: 'red'}}>{this.state.error}</Text>
             }
-
-            <View style={{flexDirection: 'row', marginBottom: 20}}>
-              <TextInput
-                maxLength = {30}
-                style={{height: 40, flex:1}}
-                placeholder="Nombre de Usuario"
-                onChangeText={(text) => this.setState({username: text})}
-              />
-            </View>
 
             <View style={{flexDirection: 'row', marginBottom: 20}}>
               <TextInput
@@ -136,14 +135,13 @@ class RegisterPage extends Component {
     this.setState({text: '', status: LoginStatus.REQUESTING, error: false});
 
     // Collect user input
-    var username        = this.state.username;
     var name            = this.state.name;
     var lastName        = this.state.lastName;
     var email           = this.state.email;
     var password        = this.state.password;
     var confirmPassword = this.state.confirmPassword;
 
-    var validation = this._validate(username, name, lastName, email, password, confirmPassword);
+    var validation = this._validate(name, lastName, email, password, confirmPassword);
     if (!validation.result) {
       this._setError(validation.message);
       return;
@@ -153,7 +151,7 @@ class RegisterPage extends Component {
     var login = this;
 
     var promise = new Promise(function(resolve, reject) {
-      var response = login._validateAPI(username, password) ? {status: 'ok'} : {status: 'error'};
+      var response = login._validateAPI(email, password) ? {status: 'ok'} : {status: 'error'};
 
       setTimeout(function() { // Wait for api simulation    
         if (response.status === 'ok') {
@@ -167,6 +165,7 @@ class RegisterPage extends Component {
     promise.then(function(result) { // ok
       console.log(result);
       login.setState({status: LoginStatus.LOGGED});
+      login.setState({user: {name: name, lastName: lastName, gender: 'm', age: 23, email: email}})
       login._goToMain();
     }, function(err) { // error
       // TODO: switch depending on response error
@@ -175,10 +174,7 @@ class RegisterPage extends Component {
     });
   }
 
-  _validate(username, name, lastName, email, password, confirmPassword) {
-    if (username.length < 5)
-      return {result: false, message: 'El nombre de usuario debe tener al menos 5 caracteres'};
-
+  _validate(name, lastName, email, password, confirmPassword) {
     if (name.length == 0 && lastName.length == 0 && email.length == 0 && password.length == 0 && confirmPassword.length == 0)
       return {result: false, message: 'Debes llenar todos los campos'};
 
@@ -188,7 +184,7 @@ class RegisterPage extends Component {
     return {result: true};
   }
 
-  _validateAPI(username, password) {
+  _validateAPI(email, password) {
     return true;
   }
 
@@ -202,8 +198,8 @@ class RegisterPage extends Component {
   }
 
   _goToMain() {
-    Navigator.SceneConfigs.HorizontalSwipeJump
-    this.props.navigator.resetTo({id: 'MainPage'});
+    this.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}});
+    this.removeBackEvent(); 
   }
 }
 

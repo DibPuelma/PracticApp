@@ -15,6 +15,9 @@ import {
 const FBSDK = require('react-native-fbsdk');
 const {
   LoginButton,
+  AccessToken,
+  GraphRequest,
+  GraphRequestManager
 } = FBSDK;
 
 class HomePage extends Component {
@@ -56,7 +59,8 @@ class HomePage extends Component {
                   } else if (result.isCancelled) {
                     alert("Login was cancelled");
                   } else {
-                    alert("Login was successful with permissions: " + result.grantedPermissions)
+                    /*alert("Login was successful with permissions: " + result.grantedPermissions);*/
+                    this._goToMain();
                   }
                 }
               }
@@ -75,9 +79,52 @@ class HomePage extends Component {
     this.props.navigator.push({id: 'RegisterPage'});
   }
 
+  _goToMain() {
+    var homepage = this;
+    AccessToken.getCurrentAccessToken().then(
+      (data) => {
+        let accessToken = data.accessToken
+        alert(accessToken.toString())
+
+        const responseInfoCallback = (error, result) => {
+          if (error) {
+            console.log(error)
+            alert('Error fetching data: ' + error.toString());
+          } else {
+            console.log(result)
+            //alert('Success fetching data: ' + result.toString());
+
+            // TODO: Parse birthday to age
+            homepage.setState({user: {name: result.first_name, lastName: result.last_name, gender: result.gender[0], age: 23, email: result.email}});
+
+            homepage.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}}); //resetTo
+          }
+        }
+
+        const infoRequest = new GraphRequest(
+          '/me',
+          {
+            accessToken: accessToken,
+            parameters: {
+              fields: {
+                string: 'email,name,first_name,middle_name,last_name,gender,birthday'
+              }
+            }
+          },
+          responseInfoCallback
+        );
+
+        // Start the graph request.
+        new GraphRequestManager().addRequest(infoRequest).start();
+      }
+    )
+    
+  }
+
   _sayHello() {
     console.log("Hi");
   }
+
 }
 
 var NavigationBarRouteMapper = {

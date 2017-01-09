@@ -13,6 +13,12 @@ import {
 } from 'react-native';
 
 class MainPage extends Component {
+
+  constructor(props) {
+    super(props);
+    console.log(props.user);
+  }
+
   render() {
     return (
       <Navigator
@@ -20,7 +26,9 @@ class MainPage extends Component {
         navigator={this.props.navigator}
         configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
         navigationBar={
-          <Navigator.NavigationBar style={{backgroundColor: '#246dd5'}}
+          <Navigator.NavigationBar
+            navigationStyles={Navigator.NavigationBar.StylesIOS} 
+            style={{backgroundColor: '#3FA9F5'}}
             routeMapper={NavigationBarRouteMapper} />
         }
       />
@@ -42,30 +50,31 @@ var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
     return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.pop()}>
-        <Text style={{color: 'white', margin: 10,}}>
-          hOLA
+          onPress={() => console.log("hello menu")}>
+        <Text style={{color: 'white', marginLeft: 10}}>
+          Menu
         </Text>
       </TouchableOpacity>
     );
   },
   RightButton(route, navigator, index, navState) {
-    return (
+    /*return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
           onPress={() => navigator.parentNavigator.pop()}>
         <Text style={{color: 'white', margin: 10,}}>
           hOLA
         </Text>
       </TouchableOpacity>
-    );
+    );*/
+    return null;
   },
   Title(route, navigator, index, navState) {
     return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center', alignSelf: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          mUNDO
-        </Text>
-      </TouchableOpacity>
+    <View style={styles.title}>
+      <Text style={{color: 'white', fontSize: 16, flex: 1, paddingTop: 12}}>
+        Main View
+      </Text>
+    </View>
     );
   }
 };
@@ -93,10 +102,10 @@ var styles = StyleSheet.create({
     marginBottom: 20
   },
   title: {
-    color: '#888888',
-    marginBottom: 30,
-    fontSize: 24,
-    fontWeight: 'bold'
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingTop: 0, marginTop: 0
   },
   loginButtons: {
     flexDirection: 'row',
