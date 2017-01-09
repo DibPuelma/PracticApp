@@ -3,121 +3,105 @@ import {
   AppRegistry,
   View,
   Text,
-  TouchableHighlight,
-  StyleSheet,
-  Dimensions,
-  Picker
+  Button,
+  TextInput
 } from 'react-native';
+
+import styles from './styles';
+
+import attendedJson from './jsonattended.json'
+
+import MyStarRating from '../../components/MyStarRating/myStarRating';
+
 export default class Poll extends Component {
+  constructor(props){
+    super(props);
+    this.state = {text: '', totalQuestions: attendedJson["questions"].length}
+    for(i = 0; i < this.state.totalQuestions; i++){
+      console.log("dentro de addquestion " + i.toString() + ":" + 3);
+      this.state[i.toString()] = 3;
+    }
+  }
 
-  state = {
-    a1: '3',
-    a2: '3',
-    a3: '3',
-    mode: Picker.MODE_DIALOG,
-  };
-
+  //TODO: Setear valor default de las estrellas programaticamente cuando llega el JSON
   render(){
-    poll = this.props.data.data.data;
-    switch(poll){
-      case 'encuesta1':
+    wasAtended = this.props.pollData.wasAtended;
+    if(wasAtended){
       return(
         <View style={styles.container}>
-        <Text style={styles.question}>¿El vendedor conocía los productos?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a1}
-        onValueChange={(value) => this.setState({a1: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        <View style={styles.card}>
 
-        <Text style={styles.question}>¿El vendedor lo trató respetuosamente?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a2}
-        onValueChange={(value) => this.setState({a2: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        {attendedJson.questions.map((text, i) =>
+        (<View key={i} style={styles.question}>
+        <Text style={styles.questionText}>{text}</Text>
+        <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
+        </View>)
+        )}
 
-        <Text style={styles.question}>¿El vendedor estuvo pendiente de usted?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a3}
-        onValueChange={(value) => this.setState({a3: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        <View style={styles.question}>
+        <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
+        <TextInput
+        style={styles.textInput}
+        onChangeText={(text) => this.setState({text})}
+        value={this.state.text}
+        />
+
+        </View>
+        <View style={styles.sendButton}>
+        <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
+        accessibilityLabel="Envía la encuesta"
+        />
+        </View>
+
+        </View>
         </View>
       );
-      case 'encuesta2':
+    }
+    else {
       return(
         <View style={styles.container}>
-        <Text style={styles.question}>¿La tienda estaba ordenada?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a1}
-        onValueChange={(value) => this.setState({a1: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        <View style={styles.card}>
 
-        <Text style={styles.question}>¿Le gustan los productos de la tienda?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a2}
-        onValueChange={(value) => this.setState({a2: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        {attendedJson.questions.map((text, i) =>
+        (<View key={i} style={styles.question}>
+        <Text style={styles.questionText}>{text}</Text>
+        <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
+        </View>)
+        )}
 
-        <Text style={styles.question}>¿Qué nota le pondría a la tienda en general?</Text>
-        <Picker style={styles.answer}
-        selectedValue={this.state.a3}
-        onValueChange={(value) => this.setState({a3: value})}>
-        <Picker.Item label="1" value="1" />
-        <Picker.Item label="2" value="2" />
-        <Picker.Item label="3" value="3" />
-        <Picker.Item label="4" value="4" />
-        <Picker.Item label="5" value="5" />
-        </Picker>
+        <View style={styles.question}>
+        <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
+        <TextInput
+        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+        onChangeText={(text) => this.setState({text})}
+        value={this.state.text}
+        />
         </View>
-      );
-      default:
-      return(
-        <Text style={styles.question}> Código no es válido </Text>
+
+        <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
+        accessibilityLabel="Envía la encuesta"
+        />
+
+        </View>
+        </View>
       );
     }
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  question: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 100,
-    width: Dimensions.get('window').width
-  },
-  answer: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: 100,
-    width: Dimensions.get('window').width
+  _handleStarChange(question, value){
+    newState = {};
+    console.log("question es: " + question + " value es: " + value);
+    newState[question] = value;
+    this.setState(newState);
+    console.log(this.state);
   }
-});
+  _sendPoll(){
+    pollAnswers = {comment: this.state.text, stars: []}
+    for(i = 0; i < this.state.totalQuestions; i++){
+      pollAnswers["stars"][i] = this.state[i.toString()];
+    }
+    console.log(this.state);
+    console.log(pollAnswers);
+    pollData = this.props.pollData;
+    this.props.navigator.push({id:'pollAnswered', pollData:pollData, pollAnswers:pollAnswers});
+  }
+}
