@@ -49,7 +49,7 @@ export default class Poll extends Component {
         {attendedJson.questions.map((text, i) =>
         (<View key={i} style={styles.question}>
         <Text style={styles.questionText}>{text}</Text>
-        <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
+        <MyStarRating isDisabled={false} onChange={(value) => this._handleStarChange(i.toString(), value)}/>
         </View>)
         )}
 

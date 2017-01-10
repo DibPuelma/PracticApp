@@ -41,7 +41,7 @@ import styles from './styles';
       {this.props.evaluationData.questions.map((questionObject, i) => (
         <View key={i} style={styles.questionContainer}>
           <Text style={styles.question}> {questionObject.question} </Text>
-          <MyStarRating style={styles.starAnswer} initialRate={questionObject.stars}/>
+          <MyStarRating isDisabled={true} style={styles.starAnswer} initialRate={questionObject.stars}/>
         </View>
       )
       )}

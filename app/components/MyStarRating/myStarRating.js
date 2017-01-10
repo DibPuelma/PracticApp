@@ -20,7 +20,7 @@ export default class MyStarRating extends Component {
   render(){
     return(
       <StarRating
-      disabled={false}
+      disabled={this.props.isDisabled}
       maxStars={5}
       rating={this.state.starCount}
       fullStar={'ios-star'}
