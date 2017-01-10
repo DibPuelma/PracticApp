@@ -9,6 +9,8 @@ import {
   Navigator
 } from 'react-native';
 
+import OneSignal from 'react-native-onesignal';
+
 import QRReader from './routes/QRReader/reader';
 import Poll from './routes/Poll/poll';
 import SelectEmployee from './routes/SelectEmployee/selectEmployee';
@@ -25,6 +27,10 @@ export default class Practicapp extends Component {
     super(props);
 
     this.state = {};
+  }
+
+  componentDidMount(){
+    OneSignal.configure({});
   }
 
   render() {
