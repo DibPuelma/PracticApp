@@ -3,11 +3,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text } from 'react-native';
 
-class MainPage extends Component {
+class MyPrizesPage extends Component {
   render() {
      return (
       <View style={styles.container}>
-        <Text>Main Page</Text>
+        <Text>Prizes Page</Text>
       </View>
     );
   }
@@ -22,4 +22,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = MainPage;
+module.exports = MyPrizesPage;
