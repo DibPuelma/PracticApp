@@ -3,7 +3,6 @@ import {
   Image,
   Text,
   View,
-  BackAndroid,
   ScrollView
 } from 'react-native';
 
@@ -11,7 +10,7 @@ import MyStarRating from '../../components/MyStarRating/myStarRating';
 import backButtonHandler from '../../lib/backButtonHandler';
 import styles from './styles';
 
-      export default class EvaluationDetails extends Component {
+export default class EvaluationDetails extends Component {
   constructor(props){
     super(props);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();

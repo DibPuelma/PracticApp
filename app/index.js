@@ -18,6 +18,7 @@ import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
 import MyPrizes from './routes/MyPrizes/myPrizes';
 import PrizeDetails from './routes/PrizeDetails/prizeDetails';
 import Stores from './routes/Stores/stores';
+import MyAccount from './routes/MyAccount/myAccount';
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -50,6 +51,9 @@ export default class Practicapp extends Component {
         }}
         onButtonPressedStores={() => {
           navigator.replace({id: 'stores'});
+        }}
+        onButtonPressedAccount={() => {
+          navigator.replace({id: 'myAccount'});
         }}
         />
       );
@@ -84,6 +88,10 @@ export default class Practicapp extends Component {
       case 'stores':
       return(
         <Stores navigator={navigator} />
+      );
+      case 'myAccount':
+      return(
+        <MyAccount navigator={navigator} />
       );
     }
   }

@@ -29,6 +29,9 @@ export default class QRReader extends Component {
       <TouchableHighlight onPress={this.props.onButtonPressedStores} >
       <Text style={styles.capture} >[TIENDAS]</Text>
       </TouchableHighlight>
+      <TouchableHighlight onPress={this.props.onButtonPressedAccount} >
+      <Text style={styles.capture} >[CUENTA]</Text>
+      </TouchableHighlight>
       </Camera>
       </View>
     );
