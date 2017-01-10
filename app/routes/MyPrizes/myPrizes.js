@@ -7,11 +7,11 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import evaluationsData from './evaluationsData';
+import prizesData from './prizesData';
 import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 
-export default class MyEvaluations extends Component{
+export default class MyPrizes extends Component{
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -21,9 +21,11 @@ export default class MyEvaluations extends Component{
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
+
   componentDidMount(){
-    this.setState({ dataSource: this.state.dataSource.cloneWithRows(evaluationsData.evaluations)});
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(prizesData.prizes)});
   }
+
   componentWillMount(){
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
@@ -36,6 +38,7 @@ export default class MyEvaluations extends Component{
     this.props.navigator.replace({id:'scanner'});
     return true; // This is important to prevent multiple calls
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -45,8 +48,9 @@ export default class MyEvaluations extends Component{
         <TouchableHighlight onPress={() => this._goToDetails(rowData)} >
         <View style={styles.listElement}>
         <Image source={{uri:rowData.logo}} style={styles.image} />
-        <Text numberOfLines={3} style={styles.comment}>{rowData.comment}</Text>
-        <Text style={styles.average}>{rowData.average}</Text>
+        <View style={styles.prize}>
+        <Text numberOfLines={3} style={styles.prizeText}>{rowData.prize}</Text>
+        </View>
         </View>
         </TouchableHighlight>
       )
@@ -56,6 +60,6 @@ export default class MyEvaluations extends Component{
   );
   }
   _goToDetails(rowData){
-    this.props.navigator.push({id:'evaluationDetails', evaluationData: rowData})
+    this.props.navigator.push({id:'prizeDetails', prizeData: rowData})
   }
 }

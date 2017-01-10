@@ -53,8 +53,4 @@ import styles from './styles';
       </View>
     );
   }
-
-  _goBack(){
-    this.props.navigator.pop();
-  }
 }

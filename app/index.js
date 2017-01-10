@@ -15,6 +15,8 @@ import SelectEmployee from './routes/SelectEmployee/selectEmployee';
 import PollAnswered from './routes/PollAnswered/pollAnswered';
 import MyEvaluations from './routes/MyEvaluations/myEvaluations';
 import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
+import MyPrizes from './routes/MyPrizes/myPrizes';
+import PrizeDetails from './routes/PrizeDetails/prizeDetails';
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -39,8 +41,11 @@ export default class Practicapp extends Component {
         onCodeRead={(data) => {
           navigator.replace({id: 'selectEmployee', codeData: data});
         }}
-        onButtonPressed= {() => {
+        onButtonPressedEval={() => {
           navigator.replace({id: 'myEvaluations'});
+        }}
+        onButtonPressedPrizes={() => {
+          navigator.replace({id: 'myPrizes'});
         }}
         />
       );
@@ -63,6 +68,14 @@ export default class Practicapp extends Component {
       case 'evaluationDetails':
       return(
         <EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />
+      );
+      case 'myPrizes':
+      return(
+        <MyPrizes navigator={navigator} />
+      );
+      case 'prizeDetails':
+      return(
+        <PrizeDetails navigator={navigator} prizeData={route.prizeData}/>
       );
     }
   }

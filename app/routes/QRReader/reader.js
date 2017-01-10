@@ -20,8 +20,11 @@ export default class QRReader extends Component {
       onBarCodeRead={this.props.onCodeRead}
       defaultOnFocusComponent={true}
       onFocusChanged={this._onFocusChanged.bind(this)}>
-      <TouchableHighlight onPress={this.props.onButtonPressed} >
-      <Text style={styles.capture} >[CAPTURE]</Text>
+      <TouchableHighlight onPress={this.props.onButtonPressedEval} >
+      <Text style={styles.capture} >[EVALUACIONES]</Text>
+      </TouchableHighlight>
+      <TouchableHighlight onPress={this.props.onButtonPressedPrizes} >
+      <Text style={styles.capture} >[PREMIOS]</Text>
       </TouchableHighlight>
       </Camera>
       </View>
