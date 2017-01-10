@@ -13,6 +13,7 @@ import QRReader from './routes/QRReader/reader';
 import Poll from './routes/Poll/poll';
 import SelectEmployee from './routes/SelectEmployee/selectEmployee';
 import PollAnswered from './routes/PollAnswered/pollAnswered';
+import MyEvaluations from './routes/MyEvaluations/myEvaluations';
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -33,8 +34,12 @@ export default class Practicapp extends Component {
     switch(route.id){
       case 'scanner':
       return (
-        <QRReader navigator={navigator} onCodeRead={(data) => {
+        <QRReader navigator={navigator}
+        onCodeRead={(data) => {
           navigator.replace({id: 'selectEmployee', data: {data}});
+        }}
+        onButtonPressed= {() => {
+          navigator.replace({id: 'myEvaluations'});
         }}
         />
       );
@@ -49,6 +54,10 @@ export default class Practicapp extends Component {
       case 'pollAnswered':
       return(
         <PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />
+      );
+      case 'myEvaluations':
+      return(
+        <MyEvaluations />
       );
     }
   }
