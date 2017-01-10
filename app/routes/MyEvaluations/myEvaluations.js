@@ -7,7 +7,9 @@ import {
   TouchableHighlight
 } from 'react-native';
 
-import evaluationsData from './evaluationsData.json';
+import evaluationsData from './evaluationsData';
+import styles from './styles';
+
 export default class MyEvaluations extends Component{
   constructor(props) {
     super(props);
@@ -21,19 +23,24 @@ export default class MyEvaluations extends Component{
   }
   render() {
     return (
-      <View style={{flex: 1, paddingTop: 22}}>
+      <View style={styles.container}>
       <ListView
       dataSource={this.state.dataSource}
       renderRow={(rowData) => (
-        <View>
+        <TouchableHighlight onPress={() => this._goToDetails(rowData)} >
+        <View style={styles.listElement}>
         <Image source={{uri:rowData.logo}} style={styles.image} />
         <Text numberOfLines={3} style={styles.comment}>{rowData.comment}</Text>
         <Text style={styles.average}>{rowData.average}</Text>
         </View>
+        </TouchableHighlight>
       )
     }
     />
     </View>
   );
-}
+  }
+  _goToDetails(rowData){
+    this.props.navigator.push({id:'evaluationDetails', evaluationData: rowData})
+  }
 }

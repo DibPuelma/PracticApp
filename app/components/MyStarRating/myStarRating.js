@@ -5,9 +5,16 @@ export default class MyStarRating extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      starCount: 0
-    };
+    if(props.initialRate){
+      this.state = {
+        starCount: props.initialRate
+      }
+    }
+    else{
+      this.state = {
+        starCount: 0
+      };
+    }
   }
 
   render(){

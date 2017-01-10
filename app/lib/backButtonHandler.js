@@ -14,6 +14,14 @@ module.exports = {
       removeFunction: function(func){
         this.addedFunctions.pop()
       },
+      addBackEvent: function(func){
+        BackAndroid.addEventListener('hardwareBackPress', func);
+        this.addFunction(func);
+      },
+      removeBackEvent: function(func){
+        BackAndroid.removeEventListener('hardwareBackPress', func);
+        this.removeFunction(func);
+      },
       removeAllListeners: function(){
         while (this.addedFunctions.length > 0) {
           torem = this.addedFunctions.pop();

@@ -14,6 +14,7 @@ import Poll from './routes/Poll/poll';
 import SelectEmployee from './routes/SelectEmployee/selectEmployee';
 import PollAnswered from './routes/PollAnswered/pollAnswered';
 import MyEvaluations from './routes/MyEvaluations/myEvaluations';
+import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -57,7 +58,11 @@ export default class Practicapp extends Component {
       );
       case 'myEvaluations':
       return(
-        <MyEvaluations />
+        <MyEvaluations navigator={navigator}/>
+      );
+      case 'evaluationDetails':
+      return(
+        <EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />
       );
     }
   }
