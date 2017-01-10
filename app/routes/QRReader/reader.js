@@ -17,12 +17,17 @@ export default class QRReader extends Component {
       }}
       style={styles.preview}
       aspect={Camera.constants.Aspect.fill}
-      onBarCodeRead={this.props.onCodeRead}>
+      onBarCodeRead={this.props.onCodeRead}
+      defaultOnFocusComponent={true}
+      onFocusChanged={this._onFocusChanged.bind(this)}>
       <TouchableHighlight onPress={this.props.onButtonPressed} >
       <Text style={styles.capture} >[CAPTURE]</Text>
       </TouchableHighlight>
       </Camera>
       </View>
     );
+  }
+  _onFocusChanged() {
+
   }
 }

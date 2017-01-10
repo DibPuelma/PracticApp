@@ -37,7 +37,7 @@ export default class Practicapp extends Component {
       return (
         <QRReader navigator={navigator}
         onCodeRead={(data) => {
-          navigator.replace({id: 'selectEmployee', data: {data}});
+          navigator.replace({id: 'selectEmployee', codeData: data});
         }}
         onButtonPressed= {() => {
           navigator.replace({id: 'myEvaluations'});
@@ -50,7 +50,7 @@ export default class Practicapp extends Component {
       );
       case 'selectEmployee':
       return(
-        <SelectEmployee data={route.data} navigator={navigator} />
+        <SelectEmployee codeData={route.codeData} navigator={navigator} />
       );
       case 'pollAnswered':
       return(
