@@ -23,21 +23,11 @@ export default class SelectEmployee extends Component{
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
   componentWillMount(){
-    this._addBackEvent();
+    this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
 
   componentWillUnmount() {
-    this._removeBackEvent();
-  }
-
-  _addBackEvent() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToPrevious);
-    this.singletonBackButtonHandler.addFunction(this._backToPrevious);
-  }
-
-  _removeBackEvent() {
-    BackAndroid.removeEventListener('hardwareBackPress', this._backToPrevious);
-    this.singletonBackButtonHandler.removeFunction(this._backToPrevious);
+    this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
   }
 
   _backToPrevious() {
