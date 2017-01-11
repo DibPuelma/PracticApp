@@ -51,8 +51,6 @@ export default class App extends Component {
 
     AsyncStorage.getItem("user").then((value) => {
       console.log("LOADED: " + value);
-      this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
-      return;
       
       if (value) {
         this._navigator.replace({id: 'MainPage', passProps: {user: JSON.parse(value)}}); 
