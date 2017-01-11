@@ -23,15 +23,6 @@ const {
 class HomePage extends Component {
   render() {
     return (
-      <Navigator
-        renderScene={this.renderScene.bind(this)}
-        navigator={this.props.navigator}
-        />
-    );
-  }
-
-  renderScene(route, navigator) {
-    return (
       <View style={styles.container}>
         <View style={styles.loginColumn}>
           <View style={styles.logo} />
@@ -72,11 +63,13 @@ class HomePage extends Component {
   }
   
   _goToLogin() {
-    this.props.navigator.push({id: 'LoginPage'});
+    this.props.navigator.push({id: 'LoginPage', displayNavbar: false});
+    return true;
   }
 
   _goToRegister() {
-    this.props.navigator.push({id: 'RegisterPage'});
+    this.props.navigator.push({id: 'RegisterPage', displayNavbar: false});
+    return true;
   }
 
   _goToMain() {
@@ -120,37 +113,8 @@ class HomePage extends Component {
     )
     
   }
-
-  _sayHello() {
-    console.log("Hi");
-  }
-
 }
 
-var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.pop()}>
-        <Text style={{color: 'white', margin: 10,}}>
-          返回
-        </Text>
-      </TouchableOpacity>
-    );
-  },
-  RightButton(route, navigator, index, navState) {
-    return null;
-  },
-  Title(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          Titutlo
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-};
 
 var styles = StyleSheet.create({
   container: {

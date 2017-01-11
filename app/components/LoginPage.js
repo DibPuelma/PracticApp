@@ -43,17 +43,7 @@ class LoginPage extends Component {
     BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
   }
 
-
   render() {
-    return (
-      <Navigator
-        renderScene={this.renderScene.bind(this)}
-        configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
-      />
-    );
-  }
-
-  renderScene(route, navigator) {
     return (
       <View style={styles.container}>
         <View style={styles.loginColumn}>
@@ -216,30 +206,5 @@ var styles = StyleSheet.create({
 });
 
 module.exports = LoginPage;
-
-/*
-  navigationBar={
-    <Navigator.NavigationBar style={{backgroundColor: '#246dd5', alignItems: 'center'}}
-        routeMapper={NavigationBarRouteMapper} />
-  } 
-
-  var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
-    return null;
-  },
-  RightButton(route, navigator, index, navState) {
-    return null;
-  },
-  Title(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}>
-        <Text style={{color: 'white', margin: 10, fontSize: 16}}>
-          登录
-        </Text>
-      </TouchableOpacity>
-    );
-  }
-};
-*/
 
 

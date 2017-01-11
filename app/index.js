@@ -30,8 +30,11 @@ var burgerIcon = require('./images/ic_menu_black_48dp.png')
 
 let _emitter = new EventEmitter();
 
-
 export default class App extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     var self = this;
 
@@ -58,7 +61,7 @@ export default class App extends Component {
         >
         <Navigator
           ref={(ref) => this._navigator = ref}
-          initialRoute={{id: 'MainPage'}}
+          initialRoute={{id: 'HomePage', displayNavbar: false}}
           renderScene={this.renderScene.bind(this)}
           configureScene={(route) => {
             if (route.sceneConfig) {
@@ -67,30 +70,17 @@ export default class App extends Component {
             return Navigator.SceneConfigs.FloatFromRight;
           }}
           navigationBar={
-            <Navigator.NavigationBar
+            <NavigationBar
               navigationStyles={Navigator.NavigationBar.StylesIOS} 
               style={{backgroundColor: '#3FA9F5'}}
-              routeMapper={NavigationBarRouteMapper} />
+              routeMapper={NavigationBarRouteMapper}
+              />
           }
           />
         </Drawer> 
     );
   }
-
-  closeDrawer() {
-    console.log("Close");
-    this._drawer.close();
-  }
-  
-  openDrawer() {
-    console.log("Open");
-    this._drawer.open();
-  }
-
-  _sayHello() {
-    console.log("HOLA MUNDO!!!");
-  }
-
+  //Navigator.NavigationBar
   renderScene(route, navigator) {
     // Login
     if (route.id === 'HomePage') {
@@ -128,6 +118,7 @@ export default class App extends Component {
 
     return this._noRoute(navigator);
   }
+  
   _noRoute(navigator) {
     return (
       <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
@@ -138,7 +129,33 @@ export default class App extends Component {
       </View>
     );
   }
+
+  openDrawer() {
+    this._drawer.open();
+  }
+
+  closeDrawer() {
+    this._drawer.close();
+  }
 }
+
+
+class NavigationBar extends Navigator.NavigationBar {
+  render() {
+    var routes = this.props.navState.routeStack;
+
+    if (routes.length) {
+      var route = routes[routes.length - 1];
+
+      if (route.displayNavbar === false) {
+        return null;
+      }
+    }
+
+    return super.render();
+  }
+}
+
 
 
 var NavigationBarRouteMapper = {

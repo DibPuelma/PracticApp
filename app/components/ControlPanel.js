@@ -19,7 +19,7 @@ class ControlPanel extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>
-          Control Panel
+          Menú
         </Text>
 
         <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
@@ -91,13 +91,3 @@ var styles = {
 }
 
 module.exports = ControlPanel;
-
-
-/*        <Button
-          onPress={() => {
-            this.props.closeDrawer();
-          }}
-          text="Close Drawer"
-        />
-        */
-

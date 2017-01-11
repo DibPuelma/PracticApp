@@ -45,15 +45,6 @@ class RegisterPage extends Component {
 
   render() {
     return (
-      <Navigator
-        renderScene={this.renderScene.bind(this)}
-        configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
-      />
-    );
-  }
-
-  renderScene(route, navigator) {
-    return (
       <ScrollView style={styles.scrollview}>
       <View style={styles.container}>
         <View style={styles.loginColumn}>
