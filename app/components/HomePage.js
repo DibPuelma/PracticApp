@@ -88,7 +88,10 @@ class HomePage extends Component {
             //alert('Success fetching data: ' + result.toString());
 
             // TODO: Parse birthday to age
-            homepage.setState({user: {name: result.first_name, lastName: result.last_name, gender: result.gender[0], age: 23, email: result.email}});
+            var user = {name: result.first_name, lastName: result.last_name, gender: result.gender[0], age: 23, email: result.email};
+            homepage.setState({user: user});
+
+            AsyncStorage.setItem("user", JSON.stringify(user));
 
             homepage.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}}); //resetTo
           }

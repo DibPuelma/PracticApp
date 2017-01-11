@@ -11,9 +11,12 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   BackAndroid,
-  ScrollView
+  ScrollView,
+  AsyncStorage,
+  Picker
 } from 'react-native';
 
+import DatePicker from 'react-native-datepicker'
 
 var LoginStatus = {
   SLEEPING: 'slepping',
@@ -49,7 +52,7 @@ class RegisterPage extends Component {
       <View style={styles.container}>
         <View style={styles.loginColumn}>
           <View style={styles.logo} />
-          <Text style={styles.title}>Entrar</Text>
+          <Text style={styles.title}>Registro</Text>
             { this.state.error &&
               <Text style={{color: 'red'}}>{this.state.error}</Text>
             }
@@ -80,6 +83,46 @@ class RegisterPage extends Component {
                 onChangeText={(text) => this.setState({email: text})}
               />
             </View>
+
+            <View style={{flexDirection: 'row', marginLeft: 6}}>
+              <Text style={{fontSize: 12, color: '#999', flex: 1}}>Género:</Text>
+            </View>
+
+            <View style={{flexDirection: 'row', marginBottom: 30}}>
+              <Picker style={{flex: 1}} onValueChange={(g) => this.setState({gender: g})}>
+                <Picker.Item label="Masculino" value="m" />
+                <Picker.Item label="Femenino" value="f" />
+                <Picker.Item label="Otro" value="o" />
+              </Picker>
+            </View>
+
+            <View style={{flexDirection: 'row', marginBottom: 20}}>
+              <DatePicker
+                style={{flex: 1}}
+                date={this.state.birthdate}
+                mode="date"
+                placeholder="Fecha de nacimiento"
+                format="DD/MM/YYYY"
+                minDate="01/01/1900"
+                maxDate="01/01/2010"
+                confirmBtnText="Confirmar"
+                cancelBtnText="Cancelar"
+                customStyles={{
+                  dateIcon: {
+                    position: 'absolute',
+                    left: 0,
+                    top: 4,
+                    marginLeft: 0
+                  },
+                  dateInput: {
+                    marginLeft: 36
+                  }
+                  // ... You can check the source to find the other keys.
+                }}
+                onDateChange={(birthdate) => {this.setState({birthdate: birthdate})}}
+              />
+            </View>
+
 
             <View style={{flexDirection: 'row', marginBottom: 20}}>
               <TextInput
@@ -132,7 +175,10 @@ class RegisterPage extends Component {
     var password        = this.state.password;
     var confirmPassword = this.state.confirmPassword;
 
-    var validation = this._validate(name, lastName, email, password, confirmPassword);
+    var birthdate = this.state.birthdate;
+    var gender    = this.state.gender;
+
+    var validation = this._validate(name, lastName, email, password, confirmPassword, birthdate);
     if (!validation.result) {
       this._setError(validation.message);
       return;
@@ -156,7 +202,12 @@ class RegisterPage extends Component {
     promise.then(function(result) { // ok
       console.log(result);
       login.setState({status: LoginStatus.LOGGED});
-      login.setState({user: {name: name, lastName: lastName, gender: 'm', age: 23, email: email}})
+
+      var user = {name: name, lastName: lastName, gender: gender, birthdate: birthdate, email: email};
+      login.setState({user: user});
+
+      AsyncStorage.setItem("user", JSON.stringify(user));
+
       login._goToMain();
     }, function(err) { // error
       // TODO: switch depending on response error
@@ -165,8 +216,9 @@ class RegisterPage extends Component {
     });
   }
 
-  _validate(name, lastName, email, password, confirmPassword) {
-    if (name.length == 0 && lastName.length == 0 && email.length == 0 && password.length == 0 && confirmPassword.length == 0)
+  _validate(name, lastName, email, password, confirmPassword, birthdate) {
+    if (name.length == 0 || lastName.length == 0 || email.length == 0 || password.length == 0 ||
+        confirmPassword.length == 0 || birthdate === undefined)
       return {result: false, message: 'Debes llenar todos los campos'};
 
     if (password !== confirmPassword)
@@ -189,8 +241,8 @@ class RegisterPage extends Component {
   }
 
   _goToMain() {
-    this.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}});
     this.removeBackEvent(); 
+    this.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}});
   }
 }
 

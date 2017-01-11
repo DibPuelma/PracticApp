@@ -57,6 +57,12 @@ class ControlPanel extends Component {
           <Text style={styles.fullWidthButtonText}>Ranking</Text>
         </TouchableHighlight>
 
+        <TouchableHighlight style={styles.exitButton} underlayColor="#FFF" 
+          onPress={() => this.props.navigate({id: 'Logout'})}>
+          <Text style={styles.fullWidthButtonText}>Salir</Text>
+        </TouchableHighlight>
+
+
       </View>
     )
   }
@@ -87,6 +93,14 @@ var styles = {
     color: '#333',
     paddingTop: 10,
     paddingBottom: 10
+  },
+  exitButton: {
+    backgroundColor: '#F9F9F9',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingLeft: 15,
+    marginBottom: 2,
+    marginTop: 20
   }
 }
 

@@ -6,12 +6,15 @@ import {
   View,
   Navigator,
   TouchableOpacity,
-  Image
+  Image,
+  AsyncStorage
 } from 'react-native';
 
 import Drawer from 'react-native-drawer'
 
 import { EventEmitter } from 'fbemitter';
+
+var SplashPage   = require('./components/SplashPage');
 
 var HomePage     = require('./components/HomePage');
 var LoginPage    = require('./components/LoginPage');
@@ -45,11 +48,30 @@ export default class App extends Component {
     _emitter.addListener('back', () => {
       self._navigator.pop();
     });
+
+    AsyncStorage.getItem("user").then((value) => {
+      console.log("LOADED: " + value);
+      this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
+      return;
+      
+      if (value) {
+        this._navigator.replace({id: 'MainPage', passProps: {user: JSON.parse(value)}}); 
+      } else {
+        this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
+      }
+    }).done();
   }
 
   navigate(route) {
-    this._navigator.replace(route);
-    this._drawer.close();
+    if (route.id === 'Logout') {
+      // TODO: add facebook logout call here
+      AsyncStorage.setItem('user', '');
+      this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
+      this._drawer.close();
+    } else {
+      this._navigator.replace(route);
+      this._drawer.close();
+    }
   }
 
   render() {
@@ -61,7 +83,7 @@ export default class App extends Component {
         >
         <Navigator
           ref={(ref) => this._navigator = ref}
-          initialRoute={{id: 'HomePage', displayNavbar: false}}
+          initialRoute={{id: 'SplashPage', displayNavbar: false}}
           renderScene={this.renderScene.bind(this)}
           configureScene={(route) => {
             if (route.sceneConfig) {
@@ -82,6 +104,11 @@ export default class App extends Component {
   }
   //Navigator.NavigationBar
   renderScene(route, navigator) {
+    // Init
+    if (route.id === 'SplashPage') {
+      return (<SplashPage navigator={navigator} />);
+    }
+
     // Login
     if (route.id === 'HomePage') {
       return (<HomePage navigator={navigator} {...route.passProps} />);

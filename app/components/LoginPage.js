@@ -11,7 +11,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   BackAndroid,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native';
 
 
@@ -21,9 +22,12 @@ var LoginStatus = {
   LOGGED: 'logged'
 }
 
+var _navigator;
+
 class LoginPage extends Component {
   constructor(props) {
     super(props);
+    _navigator = this.props.navigator;
     this.state = {username: '', password: '', status: LoginStatus.SLEEPING};
   }
 
@@ -36,11 +40,11 @@ class LoginPage extends Component {
   }
 
   addBackEvent() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this)); 
+    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu);  // .bind(this)
   }
 
   removeBackEvent() {
-    BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
+    BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu); // .bind(this)
   }
 
   render() {
@@ -125,7 +129,10 @@ class LoginPage extends Component {
       console.log(result);
       login.setState({status: LoginStatus.LOGGED});
 
-      login.setState({user: {name: 'User1', lastName: 'User1', gender: 'm', age: 23, email: 'user1@abc.net'}})
+      var user = {name: 'User1', lastName: 'User1', gender: 'm', age: 23, email: 'user1@abc.net'};
+      login.setState({user: user})
+
+      AsyncStorage.setItem("user", JSON.stringify(user));
 
       login._goToMain();
     }, function(err) { // error
@@ -148,13 +155,13 @@ class LoginPage extends Component {
   }
 
   _backToMainMenu() {
-    this.props.navigator.pop();
+    _navigator.pop();
     return true; // This is important to prevent multiple calls
   }
 
   _goToMain() {
-    this.props.navigator.push({id: 'MainPage', passProps: {user: this.state.user}}); //resetTo
     this.removeBackEvent();
+    _navigator.push({id: 'MainPage', passProps: {user: this.state.user}}); //
   }
 }
 
