@@ -11,6 +11,7 @@ import Camera from 'react-native-camera';
 export default class QRReader extends Component {
 
   render() {
+
     return (
       <View style={styles.container}>
       <Camera

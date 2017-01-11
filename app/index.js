@@ -9,8 +9,6 @@ import {
   Navigator
 } from 'react-native';
 
-import OneSignal from 'react-native-onesignal';
-
 import QRReader from './routes/QRReader/reader';
 import Poll from './routes/Poll/poll';
 import SelectEmployee from './routes/SelectEmployee/selectEmployee';
@@ -22,6 +20,33 @@ import PrizeDetails from './routes/PrizeDetails/prizeDetails';
 import Stores from './routes/Stores/stores';
 import MyAccount from './routes/MyAccount/myAccount';
 
+import OneSignal from 'react-native-onesignal';
+
+OneSignal.configure({
+  onIdsAvailable: function(device) {
+    console.log('UserId = ', device.userId);
+    console.log('PushToken = ', device.pushToken);
+  },
+  onNotificationOpened: function(message, data, isActive) {
+    if(data.hasOwnProperty('premio')){
+
+    }
+    console.log('MESSAGE: ', message);
+    console.log('DATA: ', data);
+    console.log('ISACTIVE: ', isActive);
+    // Do whatever you want with the objects here
+    // _navigator.to('main.post', data.title, { // If applicable
+    //  article: {
+    //    title: data.title,
+    //    link: data.url,
+    //    action: data.actionSelected
+    //  }
+    // });
+  }
+});
+
+OneSignal.enableInAppAlertNotification(true);
+
 export default class Practicapp extends Component {
   constructor(props) {
     super(props);
@@ -29,9 +54,6 @@ export default class Practicapp extends Component {
     this.state = {};
   }
 
-  componentDidMount(){
-    OneSignal.configure({});
-  }
 
   render() {
     return (
