@@ -11,29 +11,35 @@ import {
 } from 'react-native';
 
 import Drawer from 'react-native-drawer'
-
 import { EventEmitter } from 'fbemitter';
+import { FBLoginManager } from 'react-native-facebook-login';
 
-var SplashPage   = require('./components/SplashPage');
+import Splash from './routes/Splash/Splash';
+import Home from './routes/Home/Home';
+import Login from './routes/Login/Login';
+import Register from './routes/Register/Register';
 
-var HomePage     = require('./components/HomePage');
-var LoginPage    = require('./components/LoginPage');
-var MainPage     = require('./components/MainPage');
-var RegisterPage = require('./components/RegisterPage');
-var ControlPanel = require('./components/ControlPanel');
+import ControlPanel from './components/ControlPanel/ControlPanel';
 
-var MyAccountPage     = require('./components/MyAccountPage');
-var MySweepstakesPage = require('./components/MySweepstakesPage');
-var MyPrizesPage      = require('./components/MyPrizesPage');
-var MyEvaluationsPage = require('./components/MyEvaluationsPage');
-var ShopsPage         = require('./components/ShopsPage');
-var RankingPage       = require('./components/RankingPage');
+import QRReader from './routes/QRReader/reader';
+import Poll from './routes/Poll/poll';
+import SelectEmployee from './routes/SelectEmployee/selectEmployee';
+import PollAnswered from './routes/PollAnswered/pollAnswered';
+
+import MyAccount from './routes/MyAccount/myAccount';
+import MyEvaluations from './routes/MyEvaluations/myEvaluations';
+import MyPrizes from './routes/MyPrizes/myPrizes';
+import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
+import Stores from './routes/Stores/stores';
+import Ranking from './routes/Ranking/Ranking';
+
+import PrizeDetails from './routes/PrizeDetails/prizeDetails'; //?
 
 var burgerIcon = require('./images/ic_menu_black_48dp.png')
 
 let _emitter = new EventEmitter();
 
-export default class App extends Component {
+export default class Practicapp extends Component {
   constructor(props) {
     super(props);
   }
@@ -53,7 +59,7 @@ export default class App extends Component {
       console.log("LOADED: " + value);
       
       if (value) {
-        this._navigator.replace({id: 'MainPage', passProps: {user: JSON.parse(value)}}); 
+        this._navigator.replace({id: 'QRReader', passProps: {user: JSON.parse(value)}}); 
       } else {
         this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
       }
@@ -62,8 +68,15 @@ export default class App extends Component {
 
   navigate(route) {
     if (route.id === 'Logout') {
-      // TODO: add facebook logout call here
+      // Delete user stored data
       AsyncStorage.setItem('user', '');
+
+      // TODO: Facebook logout
+      FBLoginManager.logout(function(error, data) {
+        console.log(error, data);
+      });
+
+      // Add redirect
       this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
       this._drawer.close();
     } else {
@@ -104,41 +117,61 @@ export default class App extends Component {
   renderScene(route, navigator) {
     // Init
     if (route.id === 'SplashPage') {
-      return (<SplashPage navigator={navigator} />);
+      return (<Splash navigator={navigator} />);
     }
 
     // Login
     if (route.id === 'HomePage') {
-      return (<HomePage navigator={navigator} {...route.passProps} />);
+      return (<Home navigator={navigator} {...route.passProps} />);
     }
     if (route.id === 'LoginPage') {
-      return (<LoginPage navigator={navigator} {...route.passProps} />);
+      return (<Login navigator={navigator} {...route.passProps} />);
     }
     if (route.id === 'RegisterPage') {
-      return (<RegisterPage navigator={navigator} {...route.passProps} />);
+      return (<Register navigator={navigator} {...route.passProps} />);
     }
 
-    // App
-    if (route.id === 'MainPage') {
-      return (<MainPage navigator={navigator} {...route.passProps} />);
+    // General
+    if (route.id === 'QRReader') {
+      return (<QRReader navigator={navigator} {...route.passProps}
+                onCodeRead={(data) => {navigator.replace({id: 'selectEmployee', codeData: data})}}
+                />);
     }
-    if (route.id === 'MyAccountPage') {
-      return (<MyAccountPage navigator={navigator} {...route.passProps} />);
+    if (route.id === 'MyAccount') {
+      return (<MyAccount navigator={navigator} {...route.passProps} />);
     }
-    if (route.id === 'MySweepstakesPage') {
-      return (<MySweepstakesPage navigator={navigator} {...route.passProps} />);
+    if (route.id === 'MyPolls') {
+      return (<MyPolls navigator={navigator} {...route.passProps} />);
     }
-    if (route.id === 'MyPrizesPage') {
-      return (<MyPrizesPage navigator={navigator} {...route.passProps} />);
+    if (route.id === 'MyPrizes') {
+      return (<MyPrizes navigator={navigator} {...route.passProps} />);
     }
-    if (route.id === 'MyEvaluationsPage') {
-      return (<MyEvaluationsPage navigator={navigator} {...route.passProps} />);
+    if (route.id === 'MyEvaluations') {
+      return (<MyEvaluations navigator={navigator} {...route.passProps} />);
     }
-    if (route.id === 'ShopsPage') {
-      return (<ShopsPage navigator={navigator} {...route.passProps} />);
+    if (route.id == 'evaluationDetails') {
+      return(<EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />);
     }
-    if (route.id === 'RankingPage') {
-      return (<RankingPage navigator={navigator} {...route.passProps} />);
+    if (route.id === 'Stores') {
+      return (<Stores navigator={navigator} {...route.passProps} />);
+    }
+    if (route.id === 'Ranking') {
+      return (<Ranking navigator={navigator} {...route.passProps} />);
+    }
+
+    if (route.id === 'prizeDetails') {
+      return(<PrizeDetails navigator={navigator} prizeData={route.prizeData}/>);
+    }
+
+    // Poll
+    if (route.id === 'poll') {
+      return (<Poll pollData={route.pollData} navigator={navigator}/>);
+    }
+    if (route.id === 'selectEmployee') {
+      return(<SelectEmployee codeData={route.codeData} navigator={navigator} />);
+    }
+    if (route.id === 'pollAnswered') {
+      return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />);
     }
 
     return this._noRoute(navigator);
@@ -164,7 +197,6 @@ export default class App extends Component {
   }
 }
 
-
 class NavigationBar extends Navigator.NavigationBar {
   render() {
     var routes = this.props.navState.routeStack;
@@ -180,8 +212,6 @@ class NavigationBar extends Navigator.NavigationBar {
     return super.render();
   }
 }
-
-
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
@@ -212,13 +242,14 @@ var NavigationBarRouteMapper = {
       case 'HomePage'         : title = ''; break;
       case 'LoginPage'        : title = ''; break;
       case 'RegisterPage'     : title = ''; break;
-      case 'MainPage'         : title = 'Escanner'; break;
-      case 'MyAccountPage'    : title = 'Mi Cuenta'; break;
-      case 'MySweepstakesPage': title = 'Mis Sorteos'; break;
-      case 'MyPrizesPage'     : title = 'Mis Premios'; break;
-      case 'MyEvaluationsPage': title = 'Mis Evaluaciones'; break;
-      case 'ShopsPage'        : title = 'Tiendas'; break;
-      case 'RankingPage'      : title = 'Ranking'; break;
+
+      case 'QRReader'         : title = 'Escanner'; break;
+      case 'MyAccount'        : title = 'Mi Cuenta'; break;
+      case 'PollAnswered'     : title = 'Mis Sorteos'; break;
+      case 'MyPrizes'         : title = 'Mis Premios'; break;
+      case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
+      case 'Stores'           : title = 'Tiendas'; break;
+      case 'Ranking'          : title = 'Ranking'; break;
     }
 
     return (
@@ -254,3 +285,25 @@ const drawerStyles = {
   },
   main: {paddingLeft: 3},
 }
+
+
+/**
+
+  navigatorRenderScene(route, navigator){
+    switch(route.id){
+      case 'poll':
+      return (
+        <Poll pollData={route.pollData} navigator={navigator}/>
+      );
+      case 'selectEmployee':
+      return(
+        <SelectEmployee codeData={route.codeData} navigator={navigator} />
+      );
+      case 'pollAnswered':
+      return(
+        <PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />
+      );
+
+    }
+  }
+*/

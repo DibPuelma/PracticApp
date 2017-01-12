@@ -1,4 +1,5 @@
 import React, { AppRegistry } from 'react-native';
-import CodeSharing from './app';
+import Practicapp from './app';
 
-AppRegistry.registerComponent('practica', () => HelloWorldApp);
+AppRegistry.registerComponent('practica', () => Practicapp);
+
