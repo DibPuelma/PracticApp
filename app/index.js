@@ -12,7 +12,7 @@ import {
 
 import Drawer from 'react-native-drawer'
 import { EventEmitter } from 'fbemitter';
-import { FBLoginManager } from 'react-native-facebook-login';
+//import { FBLoginManager } from 'react-native-facebook-login';
 
 import Splash from './routes/Splash/Splash';
 import Home from './routes/Home/Home';
@@ -72,9 +72,6 @@ export default class Practicapp extends Component {
       AsyncStorage.setItem('user', '');
 
       // TODO: Facebook logout
-      FBLoginManager.logout(function(error, data) {
-        console.log(error, data);
-      });
 
       // Add redirect
       this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
