@@ -1,0 +1,291 @@
+exports[`test renders correctly 1`] = `
+<ScrollView
+  style={
+    Object {
+      "flex": 1,
+      "marginBottom": 0,
+      "marginLeft": 0,
+      "marginRight": 0,
+      "marginTop": 72,
+      "paddingTop": 30,
+    }
+  }>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 30,
+        "textAlign": "center",
+      }
+    }>
+     ¿Quién lo atendió hoy? 
+  </Text>
+  <View
+    style={
+      Object {
+        "backgroundColor": "#E6E6E6",
+        "borderColor": "#E6E6E6",
+        "borderRadius": 5,
+        "borderWidth": 0.5,
+        "elevation": 3,
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "margin": 20,
+        "paddingBottom": 20,
+        "paddingTop": 20,
+      }
+    }>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Image
+        source={
+          Object {
+            "uri": "http://people.csail.mit.edu/sanchez/daniel.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Image
+        source={
+          Object {
+            "uri": "http://people.csail.mit.edu/sanchez/daniel.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Image
+        source={
+          Object {
+            "uri": "http://people.csail.mit.edu/sanchez/daniel.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Image
+        source={
+          Object {
+            "uri": "http://people.csail.mit.edu/sanchez/daniel.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 5,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#C6C6C6",
+            "borderColor": "#C6C6C6",
+            "borderWidth": 0.5,
+            "height": 120,
+            "justifyContent": "center",
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 20,
+            "textAlign": "center",
+          }
+        }>
+         No lo recuerdo 
+      </Text>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#C6C6C6",
+            "borderColor": "#C6C6C6",
+            "borderWidth": 0.5,
+            "height": 120,
+            "justifyContent": "center",
+            "margin": 5,
+            "width": 120,
+          },
+        ]
+      }
+      testID={undefined}>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 20,
+            "textAlign": "center",
+          }
+        }>
+         No me atendieron 
+      </Text>
+    </View>
+  </View>
+</ScrollView>
+`;
