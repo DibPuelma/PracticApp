@@ -47,6 +47,7 @@ OneSignal.configure({
     console.log("notification received: ", notification);
   },
   onNotificationOpened: function(openResult) {
+    console.log("ABIERTAAAAAAAAAA");
     console.log('MESSAGE: ', openResult.notification.payload.body);
     console.log('DATA: ', openResult.notification.payload.additionalData);
     console.log('ISACTIVE: ', openResult.notification.isAppInFocus);
