@@ -27,7 +27,6 @@ export default class MyEvaluations extends Component{
   componentWillMount(){
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
-
   componentWillUnmount() {
     this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
   }
@@ -56,6 +55,6 @@ export default class MyEvaluations extends Component{
   );
   }
   _goToDetails(rowData){
-    this.props.navigator.push({id:'evaluationDetails', evaluationData: rowData})
+    this.props.navigator.push({id:'EvaluationDetails', evaluationData: rowData})
   }
 }

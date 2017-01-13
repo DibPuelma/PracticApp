@@ -59,7 +59,7 @@ export default class Home extends Component {
       </View>
     );
   }
-  
+
   _goToLogin() {
     this.props.navigator.push({id: 'LoginPage', displayNavbar: false});
     return true;
@@ -91,7 +91,7 @@ export default class Home extends Component {
 
             AsyncStorage.setItem("user", JSON.stringify(user));
 
-            homepage.props.navigator.push({id: 'QRReader', passProps: {user: this.state.user}}); //resetTo
+            homepage.props.navigator.replace({id: 'QRReader', passProps: {user: this.state.user}}); //resetTo
           }
         }
 
@@ -112,6 +112,6 @@ export default class Home extends Component {
         new GraphRequestManager().addRequest(infoRequest).start();
       }
     )
-    
+
   }
 }

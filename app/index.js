@@ -57,11 +57,11 @@ export default class Practicapp extends Component {
 
     AsyncStorage.getItem("user").then((value) => {
       console.log("LOADED: " + value);
-      
+
       if (value) {
-        this._navigator.replace({id: 'QRReader', passProps: {user: JSON.parse(value)}}); 
+        this._navigator.replace({id: 'QRReader', passProps: {user: JSON.parse(value)}});
       } else {
-        this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
+        this._navigator.replace({id: 'HomePage', displayNavbar: false});
       }
     }).done();
   }
@@ -74,7 +74,7 @@ export default class Practicapp extends Component {
       // TODO: Facebook logout
 
       // Add redirect
-      this._navigator.replace({id: 'HomePage', displayNavbar: false}); 
+      this._navigator.replace({id: 'HomePage', displayNavbar: false});
       this._drawer.close();
     } else {
       this._navigator.replace(route);
@@ -84,9 +84,9 @@ export default class Practicapp extends Component {
 
   render() {
     return (
-      <Drawer 
-        content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />} 
-        ref={(ref) => this._drawer = ref} 
+      <Drawer
+        content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />}
+        ref={(ref) => this._drawer = ref}
         {...drawerProps}
         >
         <Navigator
@@ -101,13 +101,13 @@ export default class Practicapp extends Component {
           }}
           navigationBar={
             <NavigationBar
-              navigationStyles={Navigator.NavigationBar.StylesIOS} 
+              navigationStyles={Navigator.NavigationBar.StylesIOS}
               style={{backgroundColor: '#3FA9F5'}}
               routeMapper={NavigationBarRouteMapper}
               />
           }
           />
-        </Drawer> 
+        </Drawer>
     );
   }
   //Navigator.NavigationBar
@@ -131,7 +131,7 @@ export default class Practicapp extends Component {
     // General
     if (route.id === 'QRReader') {
       return (<QRReader navigator={navigator} {...route.passProps}
-                onCodeRead={(data) => {navigator.replace({id: 'selectEmployee', codeData: data})}}
+                onCodeRead={(data) => {navigator.replace({id: 'SelectEmployee', codeData: data})}}
                 />);
     }
     if (route.id === 'MyAccount') {
@@ -146,7 +146,7 @@ export default class Practicapp extends Component {
     if (route.id === 'MyEvaluations') {
       return (<MyEvaluations navigator={navigator} {...route.passProps} />);
     }
-    if (route.id == 'evaluationDetails') {
+    if (route.id === 'EvaluationDetails') {
       return(<EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />);
     }
     if (route.id === 'Stores') {
@@ -156,24 +156,24 @@ export default class Practicapp extends Component {
       return (<Ranking navigator={navigator} {...route.passProps} />);
     }
 
-    if (route.id === 'prizeDetails') {
+    if (route.id === 'PrizeDetails') {
       return(<PrizeDetails navigator={navigator} prizeData={route.prizeData}/>);
     }
 
     // Poll
-    if (route.id === 'poll') {
+    if (route.id === 'Poll') {
       return (<Poll pollData={route.pollData} navigator={navigator}/>);
     }
-    if (route.id === 'selectEmployee') {
+    if (route.id === 'SelectEmployee') {
       return(<SelectEmployee codeData={route.codeData} navigator={navigator} />);
     }
-    if (route.id === 'pollAnswered') {
+    if (route.id === 'PollAnswered') {
       return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />);
     }
 
     return this._noRoute(navigator);
   }
-  
+
   _noRoute(navigator) {
     return (
       <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
@@ -276,7 +276,7 @@ var drawerProps = {
 
 const drawerStyles = {
   drawer: {
-    shadowColor: '#000000', 
+    shadowColor: '#000000',
     shadowOpacity: 1.0,
     shadowRadius: 8
   },

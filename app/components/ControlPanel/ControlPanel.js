@@ -22,42 +22,37 @@ class ControlPanel extends Component {
           Menú
         </Text>
 
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'QRReader'})}>
           <Text style={styles.fullWidthButtonText}>Escanner</Text>
         </TouchableHighlight>
-        
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'MyAccount'})}>
           <Text style={styles.fullWidthButtonText}>Mi Cuenta</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
-          onPress={() => this.props.navigate({id: 'PollAnswered'})}>
-          <Text style={styles.fullWidthButtonText}>Mis Sorteos</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'MyPrizes'})}>
           <Text style={styles.fullWidthButtonText}>Mis Premios</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'MyEvaluations'})}>
           <Text style={styles.fullWidthButtonText}>Mis Evaluaciones</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'Stores'})}>
           <Text style={styles.fullWidthButtonText}>Tiendas</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'Ranking'})}>
           <Text style={styles.fullWidthButtonText}>Ranking</Text>
         </TouchableHighlight>
 
-        <TouchableHighlight style={styles.exitButton} underlayColor="#FFF" 
+        <TouchableHighlight style={styles.exitButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'Logout'})}>
           <Text style={styles.fullWidthButtonText}>Salir</Text>
         </TouchableHighlight>

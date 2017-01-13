@@ -117,6 +117,6 @@ export default class Poll extends Component {
     }
     pollData = this.props.pollData;
     this.singletonBackButtonHandler.removeAllListeners();
-    this.props.navigator.push({id:'pollAnswered', pollData:pollData, pollAnswers:pollAnswers});
+    this.props.navigator.push({id:'PollAnswered', pollData:pollData, pollAnswers:pollAnswers});
   }
 }

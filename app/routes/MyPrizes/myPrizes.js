@@ -60,6 +60,6 @@ export default class MyPrizes extends Component{
   );
   }
   _goToDetails(rowData){
-    this.props.navigator.push({id:'prizeDetails', prizeData: rowData})
+    this.props.navigator.push({id:'PrizeDetails', prizeData: rowData})
   }
 }

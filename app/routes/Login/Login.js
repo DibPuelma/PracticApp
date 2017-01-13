@@ -10,11 +10,12 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ActivityIndicator,
-  BackAndroid,
   ScrollView,
   AsyncStorage
 } from 'react-native';
 import styles from './styles';
+
+import backButtonHandler from '../../lib/backButtonHandler';
 
 
 var LoginStatus = {
@@ -30,22 +31,16 @@ export default class Login extends Component {
     super(props);
     _navigator = this.props.navigator;
     this.state = {username: '', password: '', status: LoginStatus.SLEEPING};
+    this._backToMainMenu = this._backToMainMenu.bind(this);
+    this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
 
   componentWillMount() {
-    this.addBackEvent();
+    this.singletonBackButtonHandler.addBackEvent(this._backToMainMenu);
   }
 
   componentWillUnmount() {
-    this.removeBackEvent();
-  }
-
-  addBackEvent() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu);  // .bind(this)
-  }
-
-  removeBackEvent() {
-    BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu); // .bind(this)
+    this.singletonBackButtonHandler.removeBackEvent(this._backToMainMenu);
   }
 
   render() {
@@ -78,7 +73,7 @@ export default class Login extends Component {
                 value={this.state.password}
               />
             </View>
-          
+
           <View style={styles.loginButtons}>
             { this.state.status === LoginStatus.SLEEPING &&
             <TouchableHighlight style={styles.fullWidthButton} underlayColor="#66CCF5" onPress={this._login.bind(this)}>
@@ -117,7 +112,7 @@ export default class Login extends Component {
     var promise = new Promise(function(resolve, reject) {
       var response = login._validateAPI(username, password) ? {status: 'ok'} : {status: 'error'};
 
-      setTimeout(function() { // Wait for api simulation    
+      setTimeout(function() { // Wait for api simulation
         if (response.status === 'ok') {
           resolve("Stuff worked!");
         } else {
@@ -161,7 +156,6 @@ export default class Login extends Component {
   }
 
   _goToMain() {
-    this.removeBackEvent();
-    _navigator.push({id: 'QRReader', passProps: {user: this.state.user}}); //
+    _navigator.replace({id: 'QRReader', passProps: {user: this.state.user}}); //
   }
 }

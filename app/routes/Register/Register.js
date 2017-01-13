@@ -10,14 +10,14 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   ActivityIndicator,
-  BackAndroid,
   ScrollView,
   AsyncStorage,
   Picker
 } from 'react-native';
 
-import DatePicker from 'react-native-datepicker'
+import DatePicker from 'react-native-datepicker';
 import styles from './styles';
+import backButtonHandler from '../../lib/backButtonHandler';
 
 var LoginStatus = {
   SLEEPING: 'slepping',
@@ -29,22 +29,16 @@ export default class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {name: '', lastName: '', email: '', password: '', confirmPassword: '', status: LoginStatus.SLEEPING};
+    this._backToMainMenu = this._backToMainMenu.bind(this);
+    this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
 
   componentWillMount() {
-    this.addBackEvent();
+    this.singletonBackButtonHandler.addBackEvent(this._backToMainMenu);
   }
 
   componentWillUnmount() {
-    this.removeBackEvent();
-  }
-
-  addBackEvent() {
-    BackAndroid.addEventListener('hardwareBackPress', this._backToMainMenu.bind(this)); 
-  }
-
-  removeBackEvent() {
-    BackAndroid.removeEventListener('hardwareBackPress', this._backToMainMenu.bind(this));
+    this.singletonBackButtonHandler.removeBackEvent(this._backToMainMenu);
   }
 
   render() {
@@ -66,7 +60,7 @@ export default class Register extends Component {
                 onChangeText={(text) => this.setState({name: text})}
               />
             </View>
-          
+
             <View style={{flexDirection: 'row', marginBottom: 20}}>
               <TextInput
                 maxLength = {30}
@@ -191,7 +185,7 @@ export default class Register extends Component {
     var promise = new Promise(function(resolve, reject) {
       var response = login._validateAPI(email, password) ? {status: 'ok'} : {status: 'error'};
 
-      setTimeout(function() { // Wait for api simulation    
+      setTimeout(function() { // Wait for api simulation
         if (response.status === 'ok') {
           resolve("Stuff worked!");
         } else {
@@ -242,7 +236,7 @@ export default class Register extends Component {
   }
 
   _goToMain() {
-    this.removeBackEvent(); 
+    this.removeBackEvent();
     this.props.navigator.push({id: 'QRReader', passProps: {user: this.state.user}});
   }
 }

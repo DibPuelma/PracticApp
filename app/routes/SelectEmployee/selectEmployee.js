@@ -46,10 +46,10 @@ export default class SelectEmployee extends Component{
   render(){
     store = this.props.codeData.data;
     console.log(store);
-    switch (store) { 
+    switch (store) {
       case 'encuesta1'://contentContainerStyle
         return (
-          <ScrollView style={styles.container}> 
+          <ScrollView style={styles.container}>
             <Text style={styles.title}> ¿Quién lo atendió hoy? </Text>
 
             <View style={styles.card}>
@@ -125,6 +125,6 @@ export default class SelectEmployee extends Component{
   }
   _buttonPressed(employeeId, wasAtended){
     pollData = {wasAtended:wasAtended, store:this.props.codeData.data, employeeId:employeeId}
-    this.props.navigator.push({id:'poll', pollData:pollData});
+    this.props.navigator.push({id:'Poll', pollData:pollData});
   }
 }
