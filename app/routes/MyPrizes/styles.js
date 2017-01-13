@@ -5,7 +5,10 @@ import {
 
 module.exports = StyleSheet.create({
   container:{
-    marginTop: 20
+    marginTop: 72,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 10
   },
   listElement: {
     flex: 2,
@@ -21,7 +24,6 @@ module.exports = StyleSheet.create({
   },
   prize: {
     flex: 1,
-    marginRight: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#E6E6E6'

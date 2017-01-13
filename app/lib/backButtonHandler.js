@@ -25,17 +25,13 @@ module.exports = {
       removeAllListeners: function(){
         while (this.addedFunctions.length > 0) {
           torem = this.addedFunctions.pop();
-          console.log(torem);
-          console.log(this.addedFunctions.length);
           BackAndroid.removeEventListener('hardwareBackPress', torem);
         }
       }
     };
   },
   getInstance: function(){
-    console.log("gettting instance");
     if(Object.keys(this.instance).length === 0){
-      console.log("inside if");
       this.instance = this.init();
     }
     return this.instance;

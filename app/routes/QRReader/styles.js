@@ -5,14 +5,14 @@ import {
 
 module.exports = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginLeft: 6,
+    marginTop: 68,
+    marginRight: 4,
+    marginBottom: 4
   },
   preview: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width
+    flex: 1
   },
   capture: {
     flex: 0,

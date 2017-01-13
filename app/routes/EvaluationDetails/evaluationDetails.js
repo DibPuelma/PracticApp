@@ -31,7 +31,6 @@ export default class EvaluationDetails extends Component {
   }
 
   render(){
-    console.log(this.props.evaluationData.questions);
     return(
       <View style={styles.background}>
       <ScrollView contentContainerStyle={styles.container}>

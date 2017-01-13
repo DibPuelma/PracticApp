@@ -4,7 +4,10 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
+
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -17,8 +20,21 @@ import java.util.List;
 import com.geektime.reactnativeonesignal.ReactNativeOneSignalPackage;
 
 public class MainApplication extends Application implements ReactApplication {
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.reactnative.androidsdk.FBSDKPackage;
+import com.facebook.appevents.AppEventsLogger;
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+  private static CallbackManager mCallbackManager =
+    CallbackManager.Factory.create();
+
+  protected static CallbackManager getCallbackManager() {
+    return mCallbackManager;
+  }
+
+  private final ReactNativeHost mReactNativeHost =
+    new ReactNativeHost(this) {
+
     @Override
     protected boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -28,20 +44,22 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
-        new RCTCameraPackage(),
-        new ReactNativeOneSignalPackage()
+        new ReactNativeOneSignalPackage(),
+        new FBSDKPackage(mCallbackManager),
+        new RCTCameraPackage()
       );
     }
   };
 
   @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
+  public void onCreate() {
+    super.onCreate();
+    FacebookSdk.sdkInitialize(getApplicationContext());
+    AppEventsLogger.activateApp(this);
   }
 
   @Override
-  public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
+  public ReactNativeHost getReactNativeHost() {
+    return mReactNativeHost;
   }
 }

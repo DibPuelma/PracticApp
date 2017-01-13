@@ -1,0 +1,330 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "marginBottom": 10,
+      "marginLeft": 10,
+      "marginRight": 10,
+      "marginTop": 72,
+    }
+  }>
+  <ScrollView
+    dataSource={
+      ListViewDataSource {
+        "items": 4,
+      }
+    }
+    initialListSize={10}
+    onContentSizeChange={[Function]}
+    onEndReachedThreshold={1000}
+    onKeyboardDidHide={undefined}
+    onKeyboardDidShow={undefined}
+    onKeyboardWillHide={undefined}
+    onKeyboardWillShow={undefined}
+    onLayout={[Function]}
+    onScroll={[Function]}
+    pageSize={1}
+    removeClippedSubviews={true}
+    renderRow={[Function]}
+    scrollEventThrottle={50}
+    scrollRenderAheadDistance={1000}
+    stickyHeaderIndices={Array []}>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      testID={undefined}>
+      <View
+        style={
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#565656",
+            "flex": 5,
+            "flexDirection": "row",
+            "padding": 5,
+          }
+        }>
+        <Image
+          source={
+            Object {
+              "uri": "https://www.republicamoda.com/media/catalog/category/20120302-logoPrune_1.jpg",
+            }
+          }
+          style={
+            Object {
+              "flex": 1,
+              "height": 60,
+              "width": 60,
+            }
+          } />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={3}
+          style={
+            Object {
+              "flex": 3,
+              "marginLeft": 10,
+              "marginRight": 10,
+            }
+          }>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "flex": 1,
+              "fontSize": 30,
+              "textAlign": "center",
+            }
+          }>
+          3.7
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      testID={undefined}>
+      <View
+        style={
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#565656",
+            "flex": 5,
+            "flexDirection": "row",
+            "padding": 5,
+          }
+        }>
+        <Image
+          source={
+            Object {
+              "uri": "http://static.dnaindia.com/sites/default/files/2015/04/19/328875-reebok-logo.jpg",
+            }
+          }
+          style={
+            Object {
+              "flex": 1,
+              "height": 60,
+              "width": 60,
+            }
+          } />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={3}
+          style={
+            Object {
+              "flex": 3,
+              "marginLeft": 10,
+              "marginRight": 10,
+            }
+          }>
+          Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "flex": 1,
+              "fontSize": 30,
+              "textAlign": "center",
+            }
+          }>
+          2.5
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      testID={undefined}>
+      <View
+        style={
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#565656",
+            "flex": 5,
+            "flexDirection": "row",
+            "padding": 5,
+          }
+        }>
+        <Image
+          source={
+            Object {
+              "uri": "http://zapalook.com.ar/wp-content/uploads/2015/07/logo-Amphora.jpg",
+            }
+          }
+          style={
+            Object {
+              "flex": 1,
+              "height": 60,
+              "width": 60,
+            }
+          } />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={3}
+          style={
+            Object {
+              "flex": 3,
+              "marginLeft": 10,
+              "marginRight": 10,
+            }
+          }>
+          Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "flex": 1,
+              "fontSize": 30,
+              "textAlign": "center",
+            }
+          }>
+          5
+        </Text>
+      </View>
+    </View>
+    <View
+      accessibilityComponentType={undefined}
+      accessibilityLabel={undefined}
+      accessibilityTraits={undefined}
+      accessible={true}
+      hitSlop={undefined}
+      onLayout={undefined}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "transparent",
+          },
+          undefined,
+        ]
+      }
+      testID={undefined}>
+      <View
+        style={
+          Object {
+            "borderBottomWidth": 1,
+            "borderColor": "#565656",
+            "flex": 5,
+            "flexDirection": "row",
+            "padding": 5,
+          }
+        }>
+        <Image
+          source={
+            Object {
+              "uri": "http://www.tutarjeta.cl/wp-content/uploads/2016/01/logo-microplay.jpg",
+            }
+          }
+          style={
+            Object {
+              "flex": 1,
+              "height": 60,
+              "width": 60,
+            }
+          } />
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={3}
+          style={
+            Object {
+              "flex": 3,
+              "marginLeft": 10,
+              "marginRight": 10,
+            }
+          }>
+          Meeeeeeeeh
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "flex": 1,
+              "fontSize": 30,
+              "textAlign": "center",
+            }
+          }>
+          4.2
+        </Text>
+      </View>
+    </View>
+  </ScrollView>
+</View>
+`;

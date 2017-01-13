@@ -5,8 +5,12 @@ import {
 
 module.exports = StyleSheet.create({
   container: {
-    width: Dimensions.get('window').width,
-    paddingTop: 30
+    flex: 1,
+    paddingTop: 30,
+    marginLeft: 0,
+    marginTop: 72,
+    marginRight: 0,
+    marginBottom: 0
   },
   card: {
     flexDirection: 'row',

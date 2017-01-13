@@ -27,13 +27,12 @@ export default class MyEvaluations extends Component{
   componentWillMount(){
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
-
   componentWillUnmount() {
     this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
   }
 
   _backToPrevious() {
-    this.props.navigator.replace({id:'scanner'});
+    this.props.navigator.replace({id:'QRReader'});
     return true; // This is important to prevent multiple calls
   }
   render() {
@@ -56,6 +55,6 @@ export default class MyEvaluations extends Component{
   );
   }
   _goToDetails(rowData){
-    this.props.navigator.push({id:'evaluationDetails', evaluationData: rowData})
+    this.props.navigator.push({id:'EvaluationDetails', evaluationData: rowData})
   }
 }

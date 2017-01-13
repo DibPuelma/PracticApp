@@ -5,12 +5,14 @@ import {
 
 module.exports = StyleSheet.create({
   container:{
-    marginTop: 20
+    marginLeft: 10,
+    marginTop: 72,
+    marginRight: 10,
+    marginBottom: 10
   },
   listElement: {
     flex: 5,
     flexDirection: 'row',
-    width: Dimensions.get('window').width,
     padding: 5,
     borderBottomWidth: 1,
     borderColor: '#565656'

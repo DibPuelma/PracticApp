@@ -5,7 +5,8 @@ import {
   Text,
   Button,
   TextInput,
-  BackAndroid
+  BackAndroid,
+  ScrollView
 } from 'react-native';
 
 import styles from './styles';
@@ -43,64 +44,64 @@ export default class Poll extends Component {
     wasAtended = this.props.pollData.wasAtended;
     if(wasAtended){
       return(
-        <View style={styles.container}>
-        <View style={styles.card}>
+        <ScrollView style={styles.container}>
+          <View style={styles.card}>
 
-        {attendedJson.questions.map((text, i) =>
-        (<View key={i} style={styles.question}>
-        <Text style={styles.questionText}>{text}</Text>
-        <MyStarRating isDisabled={false} onChange={(value) => this._handleStarChange(i.toString(), value)}/>
-        </View>)
-        )}
+          {attendedJson.questions.map((text, i) =>
+          (<View key={i} style={styles.question}>
+          <Text style={styles.questionText}>{text}</Text>
+          <MyStarRating isDisabled={false} onChange={(value) => this._handleStarChange(i.toString(), value)}/>
+          </View>)
+          )}
 
-        <View style={styles.question}>
-        <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
-        <TextInput
-        style={styles.textInput}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
-        />
+          <View style={styles.question}>
+          <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
+          <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+          />
 
-        </View>
-        <View style={styles.sendButton}>
-        <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
-        accessibilityLabel="Envía la encuesta"
-        />
-        </View>
+          </View>
+          <View style={styles.sendButton}>
+          <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
+          accessibilityLabel="Envía la encuesta"
+          />
+          </View>
 
-        </View>
-        </View>
+          </View>
+        </ScrollView>
       );
     }
     else {
       return(
-        <View style={styles.container}>
-        <View style={styles.card}>
+        <ScrollView style={styles.container}>
+          <View style={styles.card}>
 
-        {attendedJson.questions.map((text, i) =>
-        (<View key={i} style={styles.question}>
-        <Text style={styles.questionText}>{text}</Text>
-        <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
-        </View>)
-        )}
+          {attendedJson.questions.map((text, i) =>
+          (<View key={i} style={styles.question}>
+          <Text style={styles.questionText}>{text}</Text>
+          <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
+          </View>)
+          )}
 
-        <View style={styles.question}>
-        <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
-        <TextInput
-        style={styles.textInput}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
-        />
+          <View style={styles.question}>
+          <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
+          <TextInput
+          style={styles.textInput}
+          onChangeText={(text) => this.setState({text})}
+          value={this.state.text}
+          />
 
-        </View>
-        <View style={styles.sendButton}>
-        <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
-        accessibilityLabel="Envía la encuesta"
-        />
-        </View>
+          </View>
+          <View style={styles.sendButton}>
+          <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
+          accessibilityLabel="Envía la encuesta"
+          />
+          </View>
 
-        </View>
-        </View>
+          </View>
+        </ScrollView>
       );
     }
   }
@@ -111,11 +112,11 @@ export default class Poll extends Component {
   }
   _sendPoll(){
     pollAnswers = {comment: this.state.text, stars: []}
-    for(i = 0; i < this.state.totalQuestions; i++){
+    for (i = 0; i < this.state.totalQuestions; i++) {
       pollAnswers["stars"][i] = this.state[i.toString()];
     }
     pollData = this.props.pollData;
     this.singletonBackButtonHandler.removeAllListeners();
-    this.props.navigator.push({id:'pollAnswered', pollData:pollData, pollAnswers:pollAnswers});
+    this.props.navigator.push({id:'PollAnswered', pollData:pollData, pollAnswers:pollAnswers});
   }
 }

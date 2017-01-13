@@ -6,7 +6,11 @@ import {
 module.exports = StyleSheet.create({
   background: {
     height: 600,
-    margin: 10,
+    flex: 1,
+    marginLeft: 10,
+    marginTop: 72,
+    marginRight: 10,
+    marginBottom: 10,
     elevation: 3,
     backgroundColor: '#E6E6E6',
     borderColor: '#C6C6C6',

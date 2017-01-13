@@ -27,7 +27,7 @@ export default class Stores extends Component {
   }
 
   _backToPrevious() {
-    this.props.navigator.replace({id:'scanner'});
+    this.props.navigator.replace({id:'QRReader'});
     return true; // This is important to prevent multiple calls
   }
 

@@ -5,8 +5,12 @@ import {
 module.exports = StyleSheet.create({
   container: {
     backgroundColor: '#F6F6F6',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height
+    flex: 1,
+    marginLeft: 0,
+    marginTop: 72,
+    marginRight: 0,
+    marginBottom: 10
+
   },
   card: {
     margin: 20,

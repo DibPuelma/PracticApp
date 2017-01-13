@@ -35,7 +35,7 @@ export default class MyPrizes extends Component{
   }
 
   _backToPrevious() {
-    this.props.navigator.replace({id:'scanner'});
+    this.props.navigator.replace({id:'QRReader'});
     return true; // This is important to prevent multiple calls
   }
 
@@ -60,6 +60,6 @@ export default class MyPrizes extends Component{
   );
   }
   _goToDetails(rowData){
-    this.props.navigator.push({id:'prizeDetails', prizeData: rowData})
+    this.props.navigator.push({id:'PrizeDetails', prizeData: rowData})
   }
 }

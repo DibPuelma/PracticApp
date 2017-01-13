@@ -1,0 +1,388 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#E6E6E6",
+      "borderColor": "#C6C6C6",
+      "borderWidth": 1,
+      "elevation": 3,
+      "flex": 1,
+      "marginBottom": 10,
+      "marginLeft": 10,
+      "marginRight": 10,
+      "marginTop": 72,
+    }
+  }>
+  <ScrollView
+    contentContainerStyle={
+      Object {
+        "backgroundColor": "#E6E6E6",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+      }
+    }>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "marginTop": 20,
+        }
+      }>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 20,
+          }
+        }>
+         Hola 
+        Agustín
+         
+        Ibieta
+      </Text>
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "fontSize": 18,
+            "fontStyle": "italic",
+          }
+        }>
+         
+        aibieta3@usm.cl
+         
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "flexWrap": "wrap",
+          "height": 300,
+          "marginTop": 20,
+        }
+      }>
+      <View
+        style={
+          Object {
+            "flex": 3,
+            "flexDirection": "row",
+          }
+        }>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Puntos 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            150
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Evaluación Promedio 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            3.6
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Premios Ganados 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            2
+             
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "flex": 3,
+            "flexDirection": "row",
+          }
+        }>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Encuestas contestadas 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            10
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Tiendas ayudadas 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            7
+             
+          </Text>
+        </View>
+        <View
+          style={
+            Object {
+              "alignItems": "center",
+              "backgroundColor": "#f84a4a",
+              "borderColor": "#C6C6C6",
+              "borderRadius": 8,
+              "borderWidth": 1,
+              "elevation": 4,
+              "flex": 1,
+              "justifyContent": "center",
+              "margin": 8,
+            }
+          }>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             Marcas Ayudadas 
+          </Text>
+          <Text
+            accessible={true}
+            allowFontScaling={true}
+            ellipsizeMode="tail"
+            style={
+              Object {
+                "fontSize": 16,
+                "marginBottom": 5,
+                "textAlign": "center",
+              }
+            }>
+             
+            5
+             
+          </Text>
+        </View>
+      </View>
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "#f84a4a",
+            "borderColor": "#C6C6C6",
+            "borderRadius": 8,
+            "borderWidth": 1,
+            "elevation": 4,
+            "flex": 1,
+            "justifyContent": "center",
+            "margin": 8,
+          }
+        }>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 16,
+              "marginBottom": 5,
+              "textAlign": "center",
+            }
+          }>
+           Nivel 
+        </Text>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Object {
+              "fontSize": 16,
+              "marginBottom": 5,
+              "textAlign": "center",
+            }
+          }>
+           
+          2
+           
+        </Text>
+      </View>
+    </View>
+  </ScrollView>
+</View>
+`;

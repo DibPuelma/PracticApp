@@ -1,0 +1,226 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#E6E6E6",
+      "borderColor": "#C6C6C6",
+      "borderWidth": 1,
+      "elevation": 3,
+      "flex": 1,
+      "height": 600,
+      "marginBottom": 10,
+      "marginLeft": 10,
+      "marginRight": 10,
+      "marginTop": 72,
+    }
+  }>
+  <ScrollView
+    contentContainerStyle={
+      Object {
+        "backgroundColor": "#E6E6E6",
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+      }
+    }>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://www.borde.cl/wp-content/uploads/2005/11/Americanino-2.png",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://zapalook.com.ar/wp-content/uploads/2015/07/logo-Amphora.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://static03.ofertia.cl/comercios/Umbrale/profile-850.v11.png",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://www.brycomm.com/wp-content/uploads/2011/08/Samsung-Logo.png",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://pelfind.me/images/187941/apple-logo-9th.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://emblemsbf.com/img/7808.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "https://www.republicamoda.com/media/catalog/category/20120302-logoPrune_1.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://static.dnaindia.com/sites/default/files/2015/04/19/328875-reebok-logo.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+    <View
+      style={
+        Object {
+          "height": 120,
+          "margin": 10,
+          "width": 120,
+        }
+      }>
+      <Image
+        source={
+          Object {
+            "uri": "http://www.tutarjeta.cl/wp-content/uploads/2016/01/logo-microplay.jpg",
+          }
+        }
+        style={
+          Object {
+            "height": 120,
+            "margin": 10,
+            "width": 120,
+          }
+        } />
+    </View>
+  </ScrollView>
+</View>
+`;
