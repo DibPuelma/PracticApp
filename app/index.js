@@ -13,6 +13,7 @@ import {
 import Drawer from 'react-native-drawer'
 import { EventEmitter } from 'fbemitter';
 //import { FBLoginManager } from 'react-native-facebook-login';
+import OneSignal from 'react-native-onesignal'; // Import package from node modules
 
 import Splash from './routes/Splash/Splash';
 import Home from './routes/Home/Home';
@@ -34,6 +35,32 @@ import Stores from './routes/Stores/stores';
 import Ranking from './routes/Ranking/Ranking';
 
 import PrizeDetails from './routes/PrizeDetails/prizeDetails'; //?
+
+// var _navigator; // If applicable, declare a variable for accessing your navigator object to handle payload.
+
+OneSignal.configure({
+  onIdsAvailable: function(device) {
+    console.log('UserId = ', device.userId);
+    console.log('PushToken = ', device.pushToken);
+  },
+  onNotificationReceived: function(notification) {
+    console.log("notification received: ", notification);
+  },
+  onNotificationOpened: function(openResult) {
+    console.log('MESSAGE: ', openResult.notification.payload.body);
+    console.log('DATA: ', openResult.notification.payload.additionalData);
+    console.log('ISACTIVE: ', openResult.notification.isAppInFocus);
+    console.log('openResult: ', openResult);
+    // Do whatever you want with the objects here
+    // _navigator.to('main.post', data.title, { // If applicable
+    //  article: {
+    //    title: openResult.notification.payload.body,
+    //    link: openResult.notification.payload.launchURL,
+    //    action: data.openResult.notification.action.actionSelected
+    //  }
+    // });
+  }
+});
 
 var burgerIcon = require('./images/ic_menu_black_48dp.png')
 
@@ -85,29 +112,29 @@ export default class Practicapp extends Component {
   render() {
     return (
       <Drawer
-        content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />}
-        ref={(ref) => this._drawer = ref}
-        {...drawerProps}
-        >
-        <Navigator
-          ref={(ref) => this._navigator = ref}
-          initialRoute={{id: 'SplashPage', displayNavbar: false}}
-          renderScene={this.renderScene.bind(this)}
-          configureScene={(route) => {
-            if (route.sceneConfig) {
-              return route.sceneConfig;
-            }
-            return Navigator.SceneConfigs.FloatFromRight;
-          }}
-          navigationBar={
-            <NavigationBar
-              navigationStyles={Navigator.NavigationBar.StylesIOS}
-              style={{backgroundColor: '#3FA9F5'}}
-              routeMapper={NavigationBarRouteMapper}
-              />
-          }
-          />
-        </Drawer>
+      content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />}
+      ref={(ref) => this._drawer = ref}
+      {...drawerProps}
+      >
+      <Navigator
+      ref={(ref) => this._navigator = ref}
+      initialRoute={{id: 'SplashPage', displayNavbar: false}}
+      renderScene={this.renderScene.bind(this)}
+      configureScene={(route) => {
+        if (route.sceneConfig) {
+          return route.sceneConfig;
+        }
+        return Navigator.SceneConfigs.FloatFromRight;
+      }}
+      navigationBar={
+        <NavigationBar
+        navigationStyles={Navigator.NavigationBar.StylesIOS}
+        style={{backgroundColor: '#3FA9F5'}}
+        routeMapper={NavigationBarRouteMapper}
+        />
+      }
+      />
+      </Drawer>
     );
   }
   //Navigator.NavigationBar
@@ -131,104 +158,104 @@ export default class Practicapp extends Component {
     // General
     if (route.id === 'QRReader') {
       return (<QRReader navigator={navigator} {...route.passProps}
-                onCodeRead={(data) => {navigator.replace({id: 'SelectEmployee', codeData: data})}}
-                />);
-    }
-    if (route.id === 'MyAccount') {
-      return (<MyAccount navigator={navigator} {...route.passProps} />);
-    }
-    if (route.id === 'MyPolls') {
-      return (<MyPolls navigator={navigator} {...route.passProps} />);
-    }
-    if (route.id === 'MyPrizes') {
-      return (<MyPrizes navigator={navigator} {...route.passProps} />);
-    }
-    if (route.id === 'MyEvaluations') {
-      return (<MyEvaluations navigator={navigator} {...route.passProps} />);
-    }
-    if (route.id === 'EvaluationDetails') {
-      return(<EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />);
-    }
-    if (route.id === 'Stores') {
-      return (<Stores navigator={navigator} {...route.passProps} />);
-    }
-    if (route.id === 'Ranking') {
-      return (<Ranking navigator={navigator} {...route.passProps} />);
-    }
-
-    if (route.id === 'PrizeDetails') {
-      return(<PrizeDetails navigator={navigator} prizeData={route.prizeData}/>);
-    }
-
-    // Poll
-    if (route.id === 'Poll') {
-      return (<Poll pollData={route.pollData} navigator={navigator}/>);
-    }
-    if (route.id === 'SelectEmployee') {
-      return(<SelectEmployee codeData={route.codeData} navigator={navigator} />);
-    }
-    if (route.id === 'PollAnswered') {
-      return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />);
-    }
-
-    return this._noRoute(navigator);
-  }
-
-  _noRoute(navigator) {
-    return (
-      <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
-        <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
-            onPress={() => navigator.pop()}>
-          <Text style={{color: 'red', fontWeight: 'bold'}}>No route :0</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  openDrawer() {
-    this._drawer.open();
-  }
-
-  closeDrawer() {
-    this._drawer.close();
-  }
-}
-
-class NavigationBar extends Navigator.NavigationBar {
-  render() {
-    var routes = this.props.navState.routeStack;
-
-    if (routes.length) {
-      var route = routes[routes.length - 1];
-
-      if (route.displayNavbar === false) {
-        return null;
+        onCodeRead={(data) => {navigator.replace({id: 'SelectEmployee', codeData: data})}}
+        />);
       }
+      if (route.id === 'MyAccount') {
+        return (<MyAccount navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'MyPolls') {
+        return (<MyPolls navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'MyPrizes') {
+        return (<MyPrizes navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'MyEvaluations') {
+        return (<MyEvaluations navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'EvaluationDetails') {
+        return(<EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />);
+      }
+      if (route.id === 'Stores') {
+        return (<Stores navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'Ranking') {
+        return (<Ranking navigator={navigator} {...route.passProps} />);
+      }
+
+      if (route.id === 'PrizeDetails') {
+        return(<PrizeDetails navigator={navigator} prizeData={route.prizeData}/>);
+      }
+
+      // Poll
+      if (route.id === 'Poll') {
+        return (<Poll pollData={route.pollData} navigator={navigator}/>);
+      }
+      if (route.id === 'SelectEmployee') {
+        return(<SelectEmployee codeData={route.codeData} navigator={navigator} />);
+      }
+      if (route.id === 'PollAnswered') {
+        return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />);
+      }
+
+      return this._noRoute(navigator);
     }
 
-    return super.render();
-  }
-}
+    _noRoute(navigator) {
+      return (
+        <View style={{flex: 1, alignItems: 'stretch', justifyContent: 'center'}}>
+        <TouchableOpacity style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}
+        onPress={() => navigator.pop()}>
+        <Text style={{color: 'red', fontWeight: 'bold'}}>No route :0</Text>
+        </TouchableOpacity>
+        </View>
+      );
+    }
 
-var NavigationBarRouteMapper = {
-  LeftButton(route, navigator, index, navState) {
-    return (
-      <TouchableOpacity style={{flex: 1, paddingLeft: 20}}
-           onPress={() => {_emitter.emit('openMenu')}}>
+    openDrawer() {
+      this._drawer.open();
+    }
+
+    closeDrawer() {
+      this._drawer.close();
+    }
+  }
+
+  class NavigationBar extends Navigator.NavigationBar {
+    render() {
+      var routes = this.props.navState.routeStack;
+
+      if (routes.length) {
+        var route = routes[routes.length - 1];
+
+        if (route.displayNavbar === false) {
+          return null;
+        }
+      }
+
+      return super.render();
+    }
+  }
+
+  var NavigationBarRouteMapper = {
+    LeftButton(route, navigator, index, navState) {
+      return (
+        <TouchableOpacity style={{flex: 1, paddingLeft: 20}}
+        onPress={() => {_emitter.emit('openMenu')}}>
         <Image
-          style={{marginTop:-8, width: 42, height: 42, tintColor: '#FFF'}}
-          source={burgerIcon}
+        style={{marginTop:-8, width: 42, height: 42, tintColor: '#FFF'}}
+        source={burgerIcon}
         />
-      </TouchableOpacity>
-    );
-  },
-  RightButton(route, navigator, index, navState) {
-    /*return (
+        </TouchableOpacity>
+      );
+    },
+    RightButton(route, navigator, index, navState) {
+      /*return (
       <TouchableOpacity style={{flex: 1, justifyContent: 'center'}}
-          onPress={() => navigator.parentNavigator.pop()}>
-        <Text style={{color: 'white', margin: 10,}}>
-          hOLA
-        </Text>
+      onPress={() => navigator.parentNavigator.pop()}>
+      <Text style={{color: 'white', margin: 10,}}>
+      hOLA
+      </Text>
       </TouchableOpacity>
     );*/
     return null;
@@ -251,7 +278,7 @@ var NavigationBarRouteMapper = {
 
     return (
       <Text style={{color: 'white', fontSize: 16, flex: 1}}>
-        {title}
+      {title}
       </Text>
     );
   }
@@ -270,8 +297,8 @@ var drawerProps = {
   closedDrawerOffset: -3,
   styles: drawerStyles,
   tweenHandler: (ratio) => ({
-      main: { opacity:(2-ratio)/2 }
-    })
+    main: { opacity:(2-ratio)/2 }
+  })
 };
 
 const drawerStyles = {
@@ -286,21 +313,21 @@ const drawerStyles = {
 
 /**
 
-  navigatorRenderScene(route, navigator){
-    switch(route.id){
-      case 'poll':
-      return (
-        <Poll pollData={route.pollData} navigator={navigator}/>
-      );
-      case 'selectEmployee':
-      return(
-        <SelectEmployee codeData={route.codeData} navigator={navigator} />
-      );
-      case 'pollAnswered':
-      return(
-        <PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />
-      );
+navigatorRenderScene(route, navigator){
+switch(route.id){
+case 'poll':
+return (
+<Poll pollData={route.pollData} navigator={navigator}/>
+);
+case 'selectEmployee':
+return(
+<SelectEmployee codeData={route.codeData} navigator={navigator} />
+);
+case 'pollAnswered':
+return(
+<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />
+);
 
-    }
-  }
+}
+}
 */

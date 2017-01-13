@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.geektime.rnonesignalandroid.ReactNativeOneSignalPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 
 import com.lwansbrough.RCTCamera.RCTCameraPackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
+            new ReactNativeOneSignalPackage(),
         new FBSDKPackage(mCallbackManager),
         new RCTCameraPackage()
       );
