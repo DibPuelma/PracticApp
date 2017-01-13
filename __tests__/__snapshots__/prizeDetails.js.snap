@@ -1,0 +1,97 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "height": 1334,
+      "justifyContent": "center",
+      "width": 750,
+    }
+  }>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#E6E6E6",
+        "borderColor": "#C6C6C6",
+        "borderWidth": 1,
+        "elevation": 3,
+        "height": 400,
+        "marginLeft": 20,
+        "marginRight": 20,
+      }
+    }>
+    <Image
+      source={
+        Object {
+          "uri": "http://www.borde.cl/wp-content/uploads/2005/11/Americanino-2.png",
+        }
+      }
+      style={
+        Object {
+          "height": 80,
+          "margin": 5,
+          "width": 80,
+        }
+      } />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 25,
+          "fontWeight": "bold",
+          "marginBottom": 5,
+          "textAlign": "right",
+        }
+      }>
+       
+      Americanino
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 20,
+          "marginBottom": 15,
+          "textAlign": "center",
+        }
+      }>
+       ¡Felicitaciones! Has ganado 
+      $100.000
+       pesos en productos 
+      Americanino
+      .
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 16,
+          "marginBottom": 20,
+          "textAlign": "center",
+        }
+      }>
+       Para canjearlos anda a cualquier tienda de la marca y muestra el código que aparece a continuación a cualquier vendedor
+    </Text>
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 50,
+          "textAlign": "center",
+        }
+      }>
+       
+      187297
+       
+    </Text>
+  </View>
+</View>
+`;

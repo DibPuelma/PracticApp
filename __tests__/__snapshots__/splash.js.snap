@@ -1,0 +1,25 @@
+exports[`test renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "flex": 1,
+      "flexDirection": "row",
+      "justifyContent": "center",
+    }
+  }>
+  <ActivityIndicator
+    animating={true}
+    color="#3FA9F5"
+    hidesWhenStopped={true}
+    size="large"
+    style={
+      Array [
+        undefined,
+        Object {
+          "height": 50,
+        },
+      ]
+    } />
+</View>
+`;

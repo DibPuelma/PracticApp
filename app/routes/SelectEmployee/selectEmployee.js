@@ -45,7 +45,6 @@ export default class SelectEmployee extends Component{
 
   render(){
     store = this.props.codeData.data;
-    console.log(store);
     switch (store) {
       case 'encuesta1'://contentContainerStyle
         return (
