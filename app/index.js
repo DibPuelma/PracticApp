@@ -76,7 +76,7 @@ export default class Practicapp extends Component {
     var self = this;
 
     _emitter.addListener('openMenu', () => {
-      self._drawer.open();
+      this.openDrawer();
     });
 
     _emitter.addListener('back', () => {
@@ -103,10 +103,10 @@ export default class Practicapp extends Component {
 
       // Add redirect
       this._navigator.replace({id: 'HomePage', displayNavbar: false});
-      this._drawer.close();
+      this.openDrawer();
     } else {
       this._navigator.replace(route);
-      this._drawer.close();
+      this.closeDrawer();
     }
   }
 
@@ -214,11 +214,13 @@ export default class Practicapp extends Component {
     }
 
     openDrawer() {
-      this._drawer.open();
+      if (this._drawer != null)
+        this._drawer.open();
     }
 
     closeDrawer() {
-      this._drawer.close();
+      if (this._drawer != null)
+        this._drawer.close();
     }
   }
 

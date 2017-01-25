@@ -18,10 +18,6 @@ import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import settings from '../../config/settings'
 
-
-var LOGIN_URL  = settings.API_HOST + '/user/login';
-var LOGOUT_URL = settings.API_HOST + '/user/logout';
-
 var LoginStatus = {
   SLEEPING  : 'slepping',
   REQUESTING: 'requesting',
@@ -113,19 +109,7 @@ export default class Login extends Component {
     // Make a login request
     var login = this;
 
-    /*var promise = new Promise(function(resolve, reject) {
-      var response = login._validateAPI(username, password) ? {status: 'ok'} : {status: 'error'};
-
-      setTimeout(function() { // Wait for api simulation
-        if (response.status === 'ok') {
-          resolve("Stuff worked!");
-        } else {
-          reject(Error("It broke"));
-        }
-      }, 1000);
-    });*/
-
-    var promise = fetch(LOGIN_URL, {
+    var promise = fetch(settings.LOGIN_URL, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -149,7 +133,6 @@ export default class Login extends Component {
         } 
         return;
       }
-
       
       login.setState({status: LoginStatus.LOGGED});
 
@@ -157,9 +140,9 @@ export default class Login extends Component {
       AsyncStorage.setItem("user", JSON.stringify(result.user));
 
       login._goToMain();
-    }, function(err) { // error
+    }, function(err) {
+      login._setError('Error interno, inténtalo de nuevo');
       console.log(err);
-    
     });
   }
 
