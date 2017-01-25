@@ -28,6 +28,7 @@ import SelectEmployee from './routes/SelectEmployee/selectEmployee';
 import PollAnswered from './routes/PollAnswered/pollAnswered';
 
 import MyAccount from './routes/MyAccount/myAccount';
+import MyContests from './routes/MyContests/myContests';
 import MyEvaluations from './routes/MyEvaluations/myEvaluations';
 import MyPrizes from './routes/MyPrizes/myPrizes';
 import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
@@ -165,6 +166,9 @@ export default class Practicapp extends Component {
       if (route.id === 'MyAccount') {
         return (<MyAccount navigator={navigator} {...route.passProps} />);
       }
+      if (route.id === 'MyContests') {
+        return (<MyContests navigator={navigator} {...route.passProps} />);
+      }
       if (route.id === 'MyPolls') {
         return (<MyPolls navigator={navigator} {...route.passProps} />);
       }
@@ -272,6 +276,7 @@ export default class Practicapp extends Component {
 
       case 'QRReader'         : title = 'Escanner'; break;
       case 'MyAccount'        : title = 'Mi Cuenta'; break;
+      case 'MyContests'       : title = 'Mis Sorteos'; break;
       case 'PollAnswered'     : title = 'Mis Sorteos'; break;
       case 'MyPrizes'         : title = 'Mis Premios'; break;
       case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
