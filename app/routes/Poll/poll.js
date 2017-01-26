@@ -6,117 +6,205 @@ import {
   Button,
   TextInput,
   BackAndroid,
-  ScrollView
+  ScrollView,
+  Picker,
+  Alert
 } from 'react-native';
 
 import styles from './styles';
 import attendedJson from './jsonattended.json';
 import backButtonHandler from '../../lib/backButtonHandler';
 
+import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
 import MyStarRating from '../../components/MyStarRating/myStarRating';
 
 export default class Poll extends Component {
   constructor(props){
     super(props);
-    this.state = {text: '', totalQuestions: attendedJson["questions"].length};
-    this._backToPrevious = this._backToPrevious.bind(this);
-    this.singletonBackButtonHandler = backButtonHandler.getInstance();
+    this.state = {uri: "https://practicapi.herokuapp.com/company/" +
+    props.pollData.companyId +
+    "/poll/" +
+    props.pollData.pollId
+  }
+  this._backToPrevious = this._backToPrevious.bind(this);
+  this.singletonBackButtonHandler = backButtonHandler.getInstance();
+}
+
+componentDidMount(){
+  fetch(this.state.uri, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    this.setState({pollData: responseJson});
+    this.setState({ready: true});
+    this.setState({totalQuestions: responseJson.Questions.length});
     for(i = 0; i < this.state.totalQuestions; i++){
-      this.state[i.toString()] = 0;
+      var keyValue = {}
+      keyValue[responseJson.Questions[i].id] = "";
+      this.setState(keyValue);
     }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
+componentWillMount(){
+  this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
+}
+
+componentWillUnmount() {
+  this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
+}
+
+_backToPrevious() {
+  this.props.navigator.pop();
+  return true; // This is important to prevent multiple calls
+}
+
+//TODO: Hacer que el local tenga 2 encuestas, una para personas atendidas y otra para los que no
+render(){
+  wasAtended = this.props.pollData.wasAtended;
+  if(!this.state.ready) {
+    return(
+      <LoadingSpinner/>
+    )
   }
+  else {
+    return(
+      <ScrollView style={styles.container}>
+      <Text style={styles.title}> Encuesta para {this.props.pollData.storeName} </Text>
+      <View style={styles.card}>
+      {this.state.pollData.Questions.map((question, i) => {
+        return this._getQuestion(question, i);
+      })}
 
-  componentWillMount(){
-    this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
+      <View style={styles.sendButton}>
+      <Button onPress={() => this._sendPollAlert()} title="Enviar encuesta" color="#841584"
+      accessibilityLabel="Envía la encuesta"
+      />
+      </View>
+
+      </View>
+      </ScrollView>
+    );
   }
+}
+_addValueToState(question, value){
+  var newValue = {};
+  newValue[question] = value
+  this.setState(newValue);
+}
+_sendPollAlert(){
+  Alert.alert(
+    '¿Estás listo con tus respuestas?',
+    'Después de esto no hay vuelta atrás',
+    [
+      {text: 'No', style: 'cancel'},
+      {text: 'Sí', onPress: () => this._sendPoll()},
+    ]
+  )
+}
+_sendPoll(){
 
-  componentWillUnmount() {
-    this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
+  //TODO: poner user id como variable
+  pollAnswers = {
+    "employeeId":this.props.pollData.employeeId,
+    "sellPointId":this.props.pollData.storeId,
+    "userId":1,
+    "pollId":this.props.pollData.pollId,
+    "companyId":this.props.pollData.companyId,
+    "answers":[]
+    // "userId":this.props.pollData.userId
   }
-
-  _backToPrevious() {
-    this.props.navigator.pop();
-    return true; // This is important to prevent multiple calls
-  }
-
-  //TODO: Setear valor default de las estrellas programaticamente cuando llega el JSON
-  render(){
-    wasAtended = this.props.pollData.wasAtended;
-    if(wasAtended){
-      return(
-        <ScrollView style={styles.container}>
-          <View style={styles.card}>
-
-          {attendedJson.questions.map((text, i) =>
-          (<View key={i} style={styles.question}>
-          <Text style={styles.questionText}>{text}</Text>
-          <MyStarRating isDisabled={false} onChange={(value) => this._handleStarChange(i.toString(), value)}/>
-          </View>)
-          )}
-
-          <View style={styles.question}>
-          <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
-          <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-          />
-
-          </View>
-          <View style={styles.sendButton}>
-          <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
-          accessibilityLabel="Envía la encuesta"
-          />
-          </View>
-
-          </View>
-        </ScrollView>
-      );
+  this.state.pollData.Questions.map((question, i) => {
+    var answer = {"question":question.id};
+    switch (question.type) {
+      case 'text':
+      answer["string_value"] = this.state[question.id];
+      break;
+      case 'number':
+      answer["number_value"] = this.state[question.id];
+      break;
+      case 'options':
+      answer["possible_option_id"] = this.state[question.id];
+      break;
+      case 'boolean':
+      answer["boolean_value"] = this.state[question.id];
+      break;
     }
-    else {
-      return(
-        <ScrollView style={styles.container}>
-          <View style={styles.card}>
+    pollAnswers.answers.push(answer);
+  })
+  console.log("IMPRIMIENDO pollAnswers");
+  console.log(pollAnswers);
+  this.singletonBackButtonHandler.removeAllListeners();
+  this.props.navigator.push({id:'PollAnswered', pollAnswers:pollAnswers});
+}
+_getQuestion(question, i){
+  switch(question.type){
+    case 'text':
+    return (
+      <View key={i} style={styles.question}>
+      <Text style={styles.questionText}>{question.text}</Text>
+      <TextInput
+      style={styles.textInput}
+      onChangeText={(text) => this._addValueToState(question.id, text)}
+      value={this.state.text}
+      />
+      </View>
+    );
 
-          {attendedJson.questions.map((text, i) =>
-          (<View key={i} style={styles.question}>
-          <Text style={styles.questionText}>{text}</Text>
-          <MyStarRating onChange={(value) => this._handleStarChange(i.toString(), value)}/>
-          </View>)
-          )}
+    case 'number':
+    return (
+      <View key={i} style={styles.question}>
+      <Text style={styles.questionText}>{question.text}</Text>
+      <MyStarRating style={styles.stars} isDisabled={false} onChange={(value) => this._addValueToState(question.id, value)}/>
+      </View>
+    );
 
-          <View style={styles.question}>
-          <Text style={styles.questionText}>Si quieres déjanos un comentario</Text>
-          <TextInput
-          style={styles.textInput}
-          onChangeText={(text) => this.setState({text})}
-          value={this.state.text}
-          />
+    case 'options':
+    return (
+      <View key={i} style={styles.question}>
+      <Text style={styles.questionText}>{question.text}</Text>
+      <Picker
+      style={styles.picker}
+      selectedValue={this.state[question.id]}
+      onValueChange={(option) => this._addValueToState(question.id, option)}>
+      {this._getValues(question.OptionsContainer.PossibleOptions).map((option, i) => (
+        <Picker.Item key={i} label={option.value} value={option.id} />
+      ))}
+      </Picker>
+      </View>
+    );
 
-          </View>
-          <View style={styles.sendButton}>
-          <Button onPress={() => this._sendPoll()} title="Enviar encuesta" color="#841584"
-          accessibilityLabel="Envía la encuesta"
-          />
-          </View>
-
-          </View>
-        </ScrollView>
-      );
-    }
+    case 'boolean':
+    return (
+      <View key={i} style={styles.question}>
+      <Text style={styles.questionText}>{question.text}</Text>
+      <View style={styles.booleanButtonsContainer}>
+      <Button style={styles.booleanButton} onPress={() => this._addValueToState(question.id, true)} title="Sí" color="#841584"
+      accessibilityLabel="Envía la encuesta"
+      />
+      <Button style={styles.booleanButton} onPress={() => this._addValueToState(question.id, false)} title="No" color="#841584"
+      accessibilityLabel="Envía la encuesta"
+      />
+      </View>
+      </View>
+    )
   }
-  _handleStarChange(question, value){
-    newState = {};
-    newState[question] = value;
-    this.setState(newState);
-  }
-  _sendPoll(){
-    pollAnswers = {comment: this.state.text, stars: []}
-    for (i = 0; i < this.state.totalQuestions; i++) {
-      pollAnswers["stars"][i] = this.state[i.toString()];
-    }
-    pollData = this.props.pollData;
-    this.singletonBackButtonHandler.removeAllListeners();
-    this.props.navigator.push({id:'PollAnswered', pollData:pollData, pollAnswers:pollAnswers});
-  }
+}
+_getValues(possibleOptions){
+  var values = [];
+  values.push({"id": "null", "value": "-- Has tu elección --"})
+  possibleOptions.map((possibleOption) => {
+    var newValue = {"id": possibleOption.id, "value": possibleOption.value};
+    values.push(newValue);
+  })
+  return values;
+}
 }

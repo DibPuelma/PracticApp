@@ -22,11 +22,13 @@ module.exports = StyleSheet.create({
   },
   question: {
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 10,
+    marginBottom: 15
   },
   questionText: {
     textAlign: 'center',
-    fontSize: 20
+    fontSize: 20,
+    marginBottom: 10
   },
   answer: {
     justifyContent: 'flex-start',
@@ -39,7 +41,35 @@ module.exports = StyleSheet.create({
     height: 100,
     backgroundColor: 'white',
     marginTop: 10,
-    marginBottom: 20,
-    borderRadius: 5
+    marginBottom: 10,
+    borderRadius: 5,
+    elevation: 4
+  },
+  title: {
+    fontSize: 30,
+    textAlign: 'center'
+  },
+  sendButton: {
+    alignItems: 'center',
+    marginBottom: 20
+  },
+  stars: {
+    paddingBottom: 20
+  },
+  picker: {
+    width: 220,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#C6C6C6',
+    paddingLeft: 100,
+    elevation: 4
+  },
+  booleanButtonsContainer: {
+    flex: 1,
+    flexWrap: 'wrap'
+  },
+  booleanButton: {
+    flex: 2
   }
+
 });
