@@ -26,6 +26,7 @@ export default class Poll extends Component {
     "/poll/" +
     props.pollData.pollId
   }
+  console.log("URI: " + this.state.uri);
   this._backToPrevious = this._backToPrevious.bind(this);
   this.singletonBackButtonHandler = backButtonHandler.getInstance();
 }
@@ -48,6 +49,9 @@ componentDidMount(){
       keyValue[responseJson.Questions[i].id] = "";
       this.setState(keyValue);
     }
+    console.log("################# POLLDATA");
+    console.log(this.state.pollData);
+    console.log("################# POLLDATA");
   })
   .catch((error) => {
     console.error(error);

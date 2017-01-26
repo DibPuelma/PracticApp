@@ -71,9 +71,9 @@ export default class MyEvaluations extends Component{
         <ListView
         dataSource={this.state.dataSource}
         renderRow={(rowData) => (
-          <TouchableHighlight onPress={() => this._goToDetails(rowData.id)} >
+          <TouchableHighlight onPress={() => this._goToDetails(rowData.id, rowData.SellPoint !== null ? rowData.SellPoint.location : "Sin tienda",rowData.SellPoint !== null ? rowData.SellPoint.Company.logo : "http://www.herorewardsclub.com/images/default-merchant-logo.png")} >
           <View style={styles.listElement}>
-          <Image source={{uri:"http://zapalook.com.ar/wp-content/uploads/2015/07/logo-Amphora.jpg"}} style={styles.image} />
+          <Image source={{uri: rowData.SellPoint !== null ? rowData.SellPoint.Company.logo : "http://www.herorewardsclub.com/images/default-merchant-logo.png"}} style={styles.image} />
           {this._getComment(rowData.Answers)}
 
           <Text style={styles.average}>{rowData.id}</Text>
@@ -88,11 +88,6 @@ export default class MyEvaluations extends Component{
 
 }
 _getComment(answers){
-  {console.log("Answers es")}
-  {console.log("Typo   " + typeof(answers))}
-  {console.log(answers)}
-  {console.log("Primer elemento   ")}
-  {console.log(answers[0])}
   var comment = "No se registró ningún comentario"
   answers.map((data) => {
     if(data.string_value !== null){
@@ -101,7 +96,13 @@ _getComment(answers){
   })
   return (<Text numberOfLines={3} style={styles.comment}>{comment}</Text>)
 }
-_goToDetails(id){
-  this.props.navigator.push({id:'EvaluationDetails', answeredPollId: id})
+_goToDetails(id, name, logo){
+  var sellPointData = {
+    id:id,
+    logo:logo,
+    name:name
+  };
+
+  this.props.navigator.push({id:'EvaluationDetails', sellPointData:sellPointData})
 }
 }

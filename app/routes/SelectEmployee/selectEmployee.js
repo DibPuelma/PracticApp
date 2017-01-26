@@ -115,11 +115,12 @@ _backToPrevious() {
 }
 
 _buttonPressed(employeeId, wasAtended){
+  var sellPointPollId = wasAtended ? this.state.storeData.sellpoint.attended_poll_id : this.state.storeData.sellpoint.unattended_poll_id
   pollData = {
     wasAtended:wasAtended,
     companyId:this.state.storeData.sellpoint.company_id,
     employeeId:employeeId,
-    pollId:this.state.storeData.sellpoint.poll_id,
+    pollId:sellPointPollId,
     storeId:this.state.storeData.sellpoint.id,
     storeName:this.state.storeData.sellpoint.location
   }

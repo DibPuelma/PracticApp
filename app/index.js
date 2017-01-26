@@ -140,6 +140,17 @@ export default class Practicapp extends Component {
   }
   //Navigator.NavigationBar
   renderScene(route, navigator) {
+    // Set user if is a login request and and is not set
+    if ('login' in route && user == null) {
+      user = route.login.user;
+      console.log(user);
+    }
+
+    if (!('passProps' in route))
+      route.passProps = {};
+
+    if (user != null)
+      route.passProps.user = user;
     // Init
     if (route.id === 'SplashPage') {
       return (<Splash navigator={navigator} />);
@@ -175,7 +186,7 @@ export default class Practicapp extends Component {
         return (<MyEvaluations navigator={navigator} {...route.passProps} />);
       }
       if (route.id === 'EvaluationDetails') {
-        return(<EvaluationDetails navigator={navigator} answeredPollId={route.answeredPollId} />);
+        return(<EvaluationDetails navigator={navigator} answeredPollId={route.answeredPollId} sellPointData={route.sellPointData}/>);
       }
       if (route.id === 'Stores') {
         return (<Stores navigator={navigator} {...route.passProps} />);

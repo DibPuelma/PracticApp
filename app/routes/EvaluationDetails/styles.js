@@ -49,6 +49,10 @@ module.exports = StyleSheet.create({
   },
   textAnswer: {
     textAlign: 'center',
-    fontSize: 16
+    fontSize: 18
+  },
+  bigTextAnswer: {
+    textAlign: 'center',
+    fontSize: 24
   }
 })

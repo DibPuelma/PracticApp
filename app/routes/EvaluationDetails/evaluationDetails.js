@@ -17,7 +17,8 @@ export default class EvaluationDetails extends Component {
     super(props);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
     this._backToPrevious = this._backToPrevious.bind(this);
-    this.state = {ready: false, uri: 'https://practicapi.herokuapp.com/user/1/answered_poll/' + props.answeredPollId};
+
+    this.state = {ready: false, uri: 'https://practicapi.herokuapp.com/user/1/answered_poll/' + props.sellPointData.id};
   }
 
   componentDidMount(){
@@ -65,8 +66,8 @@ export default class EvaluationDetails extends Component {
       return(
         <View style={styles.background}>
         <ScrollView contentContainerStyle={styles.container}>
-        <Image style={styles.logo} source={{uri:"http://zapalook.com.ar/wp-content/uploads/2015/07/logo-Amphora.jpg"}} />
-        <Text style={styles.storeName}> Amphora </Text>
+        <Image style={styles.logo} source={{uri:this.props.sellPointData.logo}} />
+        <Text style={styles.storeName}> {this.props.sellPointData.name} </Text>
         {this.state.answeredPoll.Answers.map((answer, i) => {
           if(answer.number_value !== null){
             return (
@@ -84,12 +85,20 @@ export default class EvaluationDetails extends Component {
               </View>
             )
           }
+          //TODO: add boolean_value to DATABASE
+          // else if(answer.boolean_value !== null){
+          //   return (
+          //     <View key={i} style={styles.questionContainer}>
+          //     <Text style={styles.question}> {answer.Question.text} </Text>
+          //     <Text style={[styles.answer, styles.bigTextAnswer]}> {answer.boolean_value ? "Sí" : "No"}</Text>
+          //     </View>
+          //   )
+          // }
           else{
-            //TODO: Add possible option value
             return(
               <View key={i} style={styles.questionContainer}>
               <Text style={styles.question}> {answer.Question.text} </Text>
-              <Text style={[styles.answer, styles.textAnswer]}> opción número {answer.possible_option_id}</Text>
+              <Text style={[styles.answer, styles.bigTextAnswer]}> {answer.PossibleOption.value} </Text>
               </View>
             )
           }
