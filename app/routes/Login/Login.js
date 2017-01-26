@@ -164,6 +164,6 @@ export default class Login extends Component {
   }
 
   _goToMain() {
-    _navigator.replace({id: 'QRReader', passProps: {user: this.state.user}}); //
+    _navigator.replace({id: 'QRReader', login: {user: this.state.user}}); //
   }
 }

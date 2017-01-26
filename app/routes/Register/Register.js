@@ -270,6 +270,6 @@ export default class Register extends Component {
   }
 
   _goToMain() {
-    this.props.navigator.replace({id: 'QRReader', passProps: {user: this.state.user}});
+    this.props.navigator.replace({id: 'QRReader', login: {user: this.state.user}});
   }
 }

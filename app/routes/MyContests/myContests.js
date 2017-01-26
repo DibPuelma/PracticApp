@@ -5,9 +5,11 @@ import {
   Text,
   Image,
   ActivityIndicator,
+  ScrollView,
   TouchableHighlight
 } from 'react-native';
 
+import sampleData from './sampleData';
 import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import settings from '../../config/settings'
@@ -21,9 +23,12 @@ export default class MyContests extends Component{
   constructor(props) {
     super(props);
 
-    this.state = { status: MyContestsStatus.WAITING };
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
+
+     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+     this.state = { status: MyContestsStatus.WAITING,
+        dataSource: ds.cloneWithRows([]) };
   }
 
   componentDidMount() {
@@ -32,7 +37,6 @@ export default class MyContests extends Component{
 
   componentWillMount() {
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
-    this._userContestsRequest();
   }
 
   componentWillUnmount() {
@@ -44,29 +48,39 @@ export default class MyContests extends Component{
     return true; // This is important to prevent multiple calls
   }
 
-  /*
-  <ListView
-          dataSource={this.state.dataSource}
-          renderRow={(rowData) => (
-              <TouchableHighlight onPress={() => this._goToDetails(rowData)} >
+  render() {
+
+    if (this.state.status === MyContestsStatus.WAITING ) {
+      return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator animating={true} style={[styles.centering, {height: 50}]} size="large" color="#3FA9F5"/>
+      </View>
+      )
+    }
+    return (
+      <ScrollView style={styles.scrollview}>
+        <View style={styles.container}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={(rowData) => (
                 <View style={styles.listElement}>
-                  <Image source={{uri:rowData.logo}} style={styles.image} />
-                  <View style={styles.prize}>
-                    <Text numberOfLines={3} style={styles.prizeText}>{rowData.prize}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Image source={{uri:rowData.Company.logo}} style={styles.image} />
+                  </View>
+                  <View style={styles.info}>
+                    <Text numberOfLines={3} style={styles.companyName} textAlign='left'>
+                      {rowData.Company.name}
+                    </Text>
+                    <Text numberOfLines={3} style={styles.contestDate} textAlign='left'>
+                      {rowData.draw_date}
+                    </Text>
                   </View>
                 </View>
-              </TouchableHighlight>
-            )}
-        />
-  */
-
-  render() {
-    return (
-      <View style={styles.container}>
-        { this.state.status === MyContestsStatus.WAITING &&
-          <ActivityIndicator animating={true} style={[styles.centering, {height: 50}]} size="large" color="#3FA9F5"/>
-        }        
-      </View>
+              )}
+            enableEmptySections={true}
+          />
+        </View>
+      </ScrollView>
     );
   }
 
@@ -75,8 +89,6 @@ export default class MyContests extends Component{
   }
 
   _userContestsRequest() {
-    // TODO: change promise to API request to settings.USER_CONTESTS_REQUEST
-   
     /*
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
@@ -85,18 +97,33 @@ export default class MyContests extends Component{
     //this.setState({ dataSource: this.state.dataSource.cloneWithRows(prizesData.prizes)});
     */
 
+    var user_id = this.props.user.id;
+    var url = settings.USER_CONTESTS_REQUEST.replace(":id", user_id);
+    var promise = fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }, 
+    })
+    .then((response) => response.json());
+    
     var myContests = this;
 
-    var promise = new Promise(function(resolve, reject) {
+    /*promise = new Promise(function(resolve, reject) {
       setTimeout(function() {
         resolve("Stuff worked!");
-      }, 5000);
-    });
+      }, 100);
+    });*/
 
     promise.then(function(result) { 
-      console.log(result);      
-      myContests.setState({status: myContests.READY});
+      //result = sampleData;
 
+      console.log(result);      
+      myContests.setState({ status: myContests.READY });
+
+      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
+      myContests.setState({ dataSource: ds.cloneWithRows(result) });
     }, function(err) { // error
       console.log(err);    
     });

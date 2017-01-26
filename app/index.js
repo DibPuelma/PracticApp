@@ -64,9 +64,10 @@ OneSignal.configure({
   }
 });
 
-var burgerIcon = require('./images/ic_menu_black_48dp.png')
+var burgerIcon = require('./images/ic_menu_black_48dp.png');
 
 let _emitter = new EventEmitter();
+var user = null;
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ export default class Practicapp extends Component {
       console.log("LOADED: " + value);
 
       if (value) {
-        this._navigator.replace({id: 'QRReader', passProps: {user: JSON.parse(value)}});
+        this._navigator.replace({id: 'QRReader', login: {user: JSON.parse(value)}});
       } else {
         this._navigator.replace({id: 'HomePage', displayNavbar: false});
       }
@@ -99,12 +100,13 @@ export default class Practicapp extends Component {
     if (route.id === 'Logout') {
       // Delete user stored data
       AsyncStorage.setItem('user', '');
+      user = null;
 
       // TODO: Facebook logout
 
       // Add redirect
       this._navigator.replace({id: 'HomePage', displayNavbar: false});
-      this.openDrawer();
+      this.closeDrawer();
     } else {
       this._navigator.replace(route);
       this.closeDrawer();
@@ -141,6 +143,18 @@ export default class Practicapp extends Component {
   }
   //Navigator.NavigationBar
   renderScene(route, navigator) {
+    // Set user if is a login request and and is not set
+    if ('login' in route && user == null) {
+      user = route.login.user;
+      console.log(user);
+    }
+
+    if (!('passProps' in route))
+      route.passProps = {};
+    
+    if (user != null)
+      route.passProps.user = user;
+
     // Init
     if (route.id === 'SplashPage') {
       return (<Splash navigator={navigator} />);
@@ -277,7 +291,7 @@ export default class Practicapp extends Component {
       case 'QRReader'         : title = 'Escanner'; break;
       case 'MyAccount'        : title = 'Mi Cuenta'; break;
       case 'MyContests'       : title = 'Mis Sorteos'; break;
-      case 'PollAnswered'     : title = 'Mis Sorteos'; break;
+      case 'PollAnswered'     : title = 'Mis Sorteos'; break; // ?
       case 'MyPrizes'         : title = 'Mis Premios'; break;
       case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
       case 'Stores'           : title = 'Tiendas'; break;
