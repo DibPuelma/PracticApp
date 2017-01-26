@@ -8,9 +8,7 @@ module.exports = StyleSheet.create({
     flex: 1,
     paddingTop: 30,
     marginLeft: 0,
-    marginTop: 72,
-    marginRight: 0,
-    marginBottom: 0
+    marginTop: 30
   },
   card: {
     flexDirection: 'row',
@@ -25,14 +23,9 @@ module.exports = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 20
   },
-  imageChoice: {
-    width: 120,
-    height: 120,
-    margin: 5,
-  },
-  textContainer: {
-    width: 120,
-    height: 120,
+  imageContainer: {
+    width: 140,
+    height: 140,
     margin: 5,
     borderColor: '#C6C6C6',
     borderWidth: 0.5,
@@ -44,8 +37,15 @@ module.exports = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
   },
+  image: {
+    height: 110,
+    width: 110
+  },
   title: {
     fontSize: 30,
+    textAlign: 'center'
+  },
+  employeeName: {
     textAlign: 'center'
   }
 });

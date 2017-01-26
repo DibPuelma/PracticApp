@@ -175,7 +175,7 @@ export default class Practicapp extends Component {
         return (<MyEvaluations navigator={navigator} {...route.passProps} />);
       }
       if (route.id === 'EvaluationDetails') {
-        return(<EvaluationDetails navigator={navigator} evaluationData={route.evaluationData} />);
+        return(<EvaluationDetails navigator={navigator} answeredPollId={route.answeredPollId} />);
       }
       if (route.id === 'Stores') {
         return (<Stores navigator={navigator} {...route.passProps} />);

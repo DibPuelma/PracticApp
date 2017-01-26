@@ -8,12 +8,15 @@ import {
   Dimensions,
   View,
   BackAndroid,
-  Alert
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 
 import styles from './styles';
 import employeesData from './employeesData.json';
 import backButtonHandler from '../../lib/backButtonHandler';
+import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
 
 export default class SelectEmployee extends Component{
 
@@ -21,7 +24,35 @@ export default class SelectEmployee extends Component{
     super(props);
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
+    this.state = {
+      uri: 'https://practicapi.herokuapp.com/QR/' + props.codeData.data + '/sellpoint',
+      ready: false,
+      storeData: {},
+      validCode: false
+    }
   }
+
+  componentDidMount() {
+    fetch(this.state.uri, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({storeData: responseJson});
+      this.setState({ready: true});
+      if (responseJson.sellpoint){
+        this.setState({validCode: true});
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
   componentWillMount(){
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
@@ -30,100 +61,87 @@ export default class SelectEmployee extends Component{
     this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
   }
 
-  _backToPrevious() {
-    console.log("Poping SE");
-    Alert.alert(
-      '¿Quieres salir de la encuesta?',
-      'Recuerda que con solo 1 minuto de tu tiempo puedes ayudar a esta tienda a mejorar su servicio. Además estarás participando por premios mensuales',
-      [
-        {text: 'No', style: 'cancel'},
-        {text: 'Sí', onPress: () => this.props.navigator.replace({id: 'QRReader'})},
-      ]
-    )
-    return true; // This is important to prevent multiple calls
-  }
-
+  //TODO: Add error if code is invalid
   render(){
-    store = this.props.codeData.data;
-    switch (store) {
-      case 'encuesta1'://contentContainerStyle
-        return (
-          <ScrollView style={styles.container}>
-            <Text style={styles.title}> ¿Quién lo atendió hoy? </Text>
-
-            <View style={styles.card}>
-
-            {employeesData.images.map((source, i) => (
-              <TouchableHighlight style={styles.imageChoice} key={i} onPress={() => this._buttonPressed((i+1), true)}>
-              <Image style={styles.imageChoice}
-              source={{uri: source}}
-              />
-              </TouchableHighlight>
-            ))}
-
-            <TouchableHighlight style={styles.textContainer}
-            onPress={() => this._buttonPressed(0, true)}>
-            <Text style={styles.textChoice}> No lo recuerdo </Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight style={styles.textContainer}
-            onPress={() => this._buttonPressed(0, false)}>
-            <Text style={styles.textChoice}> No me atendieron </Text>
-            </TouchableHighlight>
-
-            </View>
-          </ScrollView>
-        );
-      case 'encuesta2':
-        return (
-          <ScrollView style={styles.container}>
-
-          <TouchableHighlight onPress={() => this._buttonPressed(1, true)}>
-          <Image style={{width: 150, height: 150}}
-          source={require('../../images/user.png')}
-          />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => this._buttonPressed(2, true)}>
-          <Image style={{width: 150, height: 150}}
-          source={require('../../images/user.png')}
-          />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => this._buttonPressed(3, true)}>
-          <Image style={{width: 150, height: 150}}
-          source={require('../../images/user.png')}
-          />
-          </TouchableHighlight>
-
-          <TouchableHighlight onPress={() => this._buttonPressed(4, true)}>
-          <Image style={{width: 150, height: 150}}
-          source={require('../../images/user.png')}
-          />
-          </TouchableHighlight>
-
-          <TouchableHighlight style={{width: 150, height: 150}}
-          onPress={() => this._buttonPressed(0, false)}>
-          <Text style={{fontSize:20}}> No lo recuerdo </Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight style={{width: 150, height: 150}}
-          onPress={() => this._buttonPressed(0, false)}>
-          <Text style={{fontSize:20}}> No me atendieron </Text>
-          </TouchableHighlight>
-
-          </ScrollView>
-        );
-      default:
-        return(
-          <View style={{flex:1, marginTop: 72}}>
-            <Text> Código no es válido </Text>
-          </View>
-        );
+    if(!this.state.ready) {
+      return (
+        <LoadingSpinner/>
+      );
     }
+    else if (this.state.ready && !this.state.validCode) {
+      return (
+        <CenteredMessage message="Código invalido, solamente puede escanear en locales adheridos" />
+      )
+    }
+    else if (this.state.ready && this.state.validCode) {
+      return (
+        <ScrollView style={styles.container}>
+        <Text style={styles.title}> Encuesta para {this.state.storeData.sellpoint.location} </Text>
+        <Text style={styles.title}> ¿Quién lo atendió hoy? </Text>
+
+        <View style={styles.card}>
+
+        {this.state.storeData.employees.map((employee, i) => {
+          return this._getEmployeePicture(employee, i);
+        })
+      }
+
+      <TouchableHighlight style={styles.imageContainer}
+      onPress={() => this._buttonPressed(0, true)}>
+      <Text style={styles.textChoice}> No lo recuerdo </Text>
+      </TouchableHighlight>
+
+      <TouchableHighlight style={styles.imageContainer}
+      onPress={() => this._buttonPressed(0, false)}>
+      <Text style={styles.textChoice}> No me atendieron </Text>
+      </TouchableHighlight>
+
+      </View>
+      </ScrollView>
+    );
   }
-  _buttonPressed(employeeId, wasAtended){
-    pollData = {wasAtended:wasAtended, store:this.props.codeData.data, employeeId:employeeId}
-    this.props.navigator.push({id:'Poll', pollData:pollData});
+}
+
+_backToPrevious() {
+  Alert.alert(
+    '¿Quieres salir de la encuesta?',
+    'Recuerda que con solo 1 minuto de tu tiempo puedes ayudar a esta tienda a mejorar su servicio. Además estarás participando por premios mensuales',
+    [
+      {text: 'No', style: 'cancel'},
+      {text: 'Sí', onPress: () => this.props.navigator.replace({id: 'QRReader'})},
+    ]
+  )
+  return true; // This is important to prevent multiple calls
+}
+
+_buttonPressed(employeeId, wasAtended){
+  pollData = {
+    wasAtended:wasAtended,
+    companyId:this.state.storeData.sellpoint.company_id,
+    employeeId:employeeId,
+    pollId:this.state.storeData.sellpoint.poll_id,
+    storeId:this.state.storeData.sellpoint.id,
+    storeName:this.state.storeData.sellpoint.location
   }
+  this.props.navigator.push({id:'Poll', pollData:pollData});
+}
+
+_getEmployeePicture(employee, i){
+  var imageSource = 'http://www.free-icons-download.net/images/user-icon-27998.png';
+  if(employee.picture !== "") {
+    console.log("distinto");
+    imageSource = employee.picture;
+  }
+  console.log(imageSource);
+  return (
+    <View key={i} style={styles.imageContainer}>
+    <TouchableHighlight onPress={() => this._buttonPressed(employee.id, true)}>
+    <Image style={styles.image}
+    source={{uri: imageSource}}
+    />
+    </TouchableHighlight>
+    <Text style={styles.employeeName}> {employee.name} </Text>
+    </View>
+  );
+}
 }
