@@ -38,17 +38,18 @@ module.exports = StyleSheet.create({
   },
   rowOfBadges: {
     flexDirection: 'row',
-    flex: 3,
+    flex: 2,
   },
   badge: {
     flex: 1,
     margin: 8,
+    paddingTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 4,
     borderWidth: 1,
     borderColor: '#C6C6C6',
-    backgroundColor: '#f84a4a',
+    backgroundColor: '#E4C005',
     borderRadius: 8
   },
   normalText: {
