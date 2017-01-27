@@ -31,12 +31,15 @@ module.exports = StyleSheet.create({
   mediumText: {
     textAlign: 'center',
     fontSize: 22,
-    marginBottom: 15
+    marginBottom: 10
   },
   normalText: {
     textAlign: 'center',
     fontSize: 24,
-    marginBottom: 20
+    marginBottom: 36
+  },
+  codeTitle: {
+    fontSize: 14
   },
   code: {
     fontSize: 50,

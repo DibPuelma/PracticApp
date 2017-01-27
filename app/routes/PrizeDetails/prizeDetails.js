@@ -37,6 +37,7 @@ export default class PrizeDetails extends Component {
           <Text style={styles.storeName}> { this.props.prizeData.Contest.Company.name }</Text>
           <Text style={styles.mediumText}> { this.props.prizeData.name }</Text>
           <Text style={styles.normalText}> { this.props.prizeData.description }</Text>
+          <Text style={styles.codeTitle}>Código:</Text>
           <Text style={styles.code}> {this.props.prizeData.code} </Text>
         </View>
       </ScrollView>

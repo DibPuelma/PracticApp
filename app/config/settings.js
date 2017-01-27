@@ -7,6 +7,6 @@ exports.LOGOUT_URL   = API_HOST + '/user/logout';
 exports.REGISTER_URL = API_HOST + '/user/';
 
 exports.USER_CONTESTS_REQUEST = API_HOST + "/user/:id/contests";
-exports.USER_PRIZES_REQUEST = API_HOST + "/user/:id/prizes";
-
+exports.USER_PRIZES_REQUEST   = API_HOST + "/user/:id/prizes";
+exports.COMPANIES_REQUEST     = API_HOST + "/company";
 

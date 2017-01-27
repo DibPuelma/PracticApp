@@ -4,27 +4,34 @@ import {
 } from 'react-native';
 
 module.exports = StyleSheet.create({
-  background: {
-    height: 600,
+  loadingContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center', 
+    justifyContent:'center',
+    marginTop: 72,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 10
+  },
+  scrollview: {
     flex: 1,
     marginLeft: 10,
     marginTop: 72,
     marginRight: 10,
-    marginBottom: 10,
-    elevation: 3,
-    backgroundColor: '#E6E6E6',
-    borderColor: '#C6C6C6',
-    borderWidth: 1
+    marginBottom: 10
+  },
+  container: {
+    elevation: 3
   },
   container: {
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    backgroundColor: '#E6E6E6',
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     margin: 10
   }
 });

@@ -51,7 +51,6 @@ export default class MyContests extends Component{
   }
 
   render() {
-
     if (this.state.status === MyContestsStatus.WAITING) {
       return (
       <View style={styles.loadingContainer}>
@@ -73,7 +72,7 @@ export default class MyContests extends Component{
                     {rowData.Company.name}
                   </Text>
                   <Text numberOfLines={3} style={styles.contestDate} textAlign='left'>
-                    {rowData.draw_date}
+                    {rowData.drawDateFormatted}
                   </Text>
                 </View>
               </View>
@@ -109,6 +108,13 @@ export default class MyContests extends Component{
 
       console.log(result);      
       myContests.setState({ status: myContests.READY });
+
+      result.map(function(company) {
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        var date = new Date(company.draw_date);
+        company.drawDateFormatted = date.toLocaleDateString('es-CL', options);
+        return company;
+      });
 
       const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
       myContests.setState({ dataSource: ds.cloneWithRows(result) });
