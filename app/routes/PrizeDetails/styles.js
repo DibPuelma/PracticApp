@@ -3,26 +3,24 @@ import {
   Dimensions
 } from 'react-native';
 
-module.exports = StyleSheet.create({
-  background: {
-    justifyContent: 'center',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
+module.exports = StyleSheet.create({  
   container: {
-    height: 400,
-    marginLeft: 20,
-    marginRight: 20,
+    marginLeft: 8,
+    marginRight: 8,
+    marginTop: 72,
+    marginBottom: 8,
+    paddingBottom: 40,
     elevation: 3,
     alignItems: 'center',
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#EEE',
     borderColor: '#C6C6C6',
-    borderWidth: 1
+    borderRadius: 10
   },
   logo: {
     width: 80,
     height: 80,
-    margin: 5
+    margin: 5,
+    marginTop: 40
   },
   storeName: {
     marginBottom: 5,
@@ -32,12 +30,12 @@ module.exports = StyleSheet.create({
   },
   mediumText: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 22,
     marginBottom: 15
   },
   normalText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 24,
     marginBottom: 20
   },
   code: {
