@@ -18,11 +18,10 @@ export default class EvaluationDetails extends Component {
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
     this._backToPrevious = this._backToPrevious.bind(this);
 
-    this.state = {ready: false, uri: 'https://practicapi.herokuapp.com/user/1/answered_poll/' + props.sellPointData.id};
+    this.state = {ready: false, uri: 'https://practicapi.herokuapp.com/user/' + props.user.id + '/answered_poll/' + props.sellPointData.id};
   }
 
   componentDidMount(){
-    //TODO: use user id
     console.log("uri: " + this.state.uri);
     fetch(this.state.uri, {
       method: 'GET',
@@ -56,7 +55,6 @@ export default class EvaluationDetails extends Component {
   }
 
   render(){
-    //TODO: add logo and name
     if(!this.state.ready) {
       return (
         <LoadingSpinner/>

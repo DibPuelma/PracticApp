@@ -71,7 +71,6 @@ _backToPrevious() {
   return true; // This is important to prevent multiple calls
 }
 
-//TODO: Hacer que el local tenga 2 encuestas, una para personas atendidas y otra para los que no
 render(){
   wasAtended = this.props.pollData.wasAtended;
   if(!this.state.ready) {
@@ -116,15 +115,13 @@ _sendPollAlert(){
 }
 _sendPoll(){
 
-  //TODO: poner user id como variable
   pollAnswers = {
     "employeeId":this.props.pollData.employeeId,
     "sellPointId":this.props.pollData.storeId,
-    "userId":1,
+    "userId":this.props.user.id,
     "pollId":this.props.pollData.pollId,
     "companyId":this.props.pollData.companyId,
     "answers":[]
-    // "userId":this.props.pollData.userId
   }
   this.state.pollData.Questions.map((question, i) => {
     var answer = {"question":question.id};

@@ -20,14 +20,13 @@ export default class MyEvaluations extends Component{
     this.state = {
       dataSource: ds.cloneWithRows(["row 1", "row 2"]),
       ready: false,
-      uri: 'https://practicapi.herokuapp.com/user/1/answered_poll'
+      uri: 'https://practicapi.herokuapp.com/user/' + props.user.id + '/answered_poll'
     };
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
 
   componentDidMount(){
-    //TODO: replace 3 for user_id or username.
     fetch(this.state.uri, {
       method: 'GET',
       headers: {

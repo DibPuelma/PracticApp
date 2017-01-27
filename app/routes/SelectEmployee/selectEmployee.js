@@ -61,7 +61,6 @@ export default class SelectEmployee extends Component{
     this.singletonBackButtonHandler.removeBackEvent(this._backToPrevious);
   }
 
-  //TODO: Add error if code is invalid
   render(){
     if(!this.state.ready) {
       return (

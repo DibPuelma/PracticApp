@@ -36,7 +36,6 @@ import Ranking from './routes/Ranking/Ranking';
 
 import PrizeDetails from './routes/PrizeDetails/prizeDetails'; //?
 
-// var _navigator; // If applicable, declare a variable for accessing your navigator object to handle payload.
 
 OneSignal.configure({
   onIdsAvailable: function(device) {
@@ -140,7 +139,7 @@ export default class Practicapp extends Component {
   }
   //Navigator.NavigationBar
   renderScene(route, navigator) {
-    // Set user if is a login request and and is not set
+    // Set user if is a login request and is not set
     if ('login' in route && user == null) {
       user = route.login.user;
       console.log(user);
