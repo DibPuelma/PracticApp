@@ -21,10 +21,12 @@ import MyStarRating from '../../components/MyStarRating/myStarRating';
 export default class Poll extends Component {
   constructor(props){
     super(props);
+    var pollToGet = props.pollData.wasAttended ? "/attended_poll" : "/unattended_poll";
     this.state = {uri: "https://practicapi.herokuapp.com/company/" +
     props.pollData.companyId +
-    "/poll/" +
-    props.pollData.pollId
+    "/sell_point/" +
+    props.pollData.sellPointId +
+    pollToGet
   }
   console.log("URI: " + this.state.uri);
   this._backToPrevious = this._backToPrevious.bind(this);
@@ -50,7 +52,7 @@ componentDidMount(){
       this.setState(keyValue);
     }
     console.log("################# POLLDATA");
-    console.log(this.state.pollData);
+    console.log(this.state.pollData.Questions);
     console.log("################# POLLDATA");
   })
   .catch((error) => {
@@ -114,10 +116,9 @@ _sendPollAlert(){
   )
 }
 _sendPoll(){
-
   pollAnswers = {
     "employeeId":this.props.pollData.employeeId,
-    "sellPointId":this.props.pollData.storeId,
+    "sellPointId":this.props.pollData.sellPointId,
     "userId":this.props.user.id,
     "pollId":this.props.pollData.pollId,
     "companyId":this.props.pollData.companyId,

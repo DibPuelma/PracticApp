@@ -57,7 +57,6 @@ export default class MyEvaluations extends Component{
     this.props.navigator.replace({id:'QRReader'});
     return true; // This is important to prevent multiple calls
   }
-  //TODO: add logo
   render() {
     if (!this.state.ready) {
       return (
@@ -70,12 +69,21 @@ export default class MyEvaluations extends Component{
         <ListView
         dataSource={this.state.dataSource}
         renderRow={(rowData) => (
-          <TouchableHighlight onPress={() => this._goToDetails(rowData.id, rowData.SellPoint !== null ? rowData.SellPoint.location : "Sin tienda",rowData.SellPoint !== null ? rowData.SellPoint.Company.logo : "http://www.herorewardsclub.com/images/default-merchant-logo.png")} >
+          <TouchableHighlight onPress={() => this._goToDetails(rowData.id, rowData.location,rowData.logo)} >
           <View style={styles.listElement}>
-          <Image source={{uri: rowData.SellPoint !== null ? rowData.SellPoint.Company.logo : "http://www.herorewardsclub.com/images/default-merchant-logo.png"}} style={styles.image} />
-          {this._getComment(rowData.Answers)}
 
-          <Text style={styles.average}>{rowData.id}</Text>
+          <View style={styles.sideContainer}>
+          <Image source={{uri: rowData.logo}} style={styles.image} />
+          </View>
+
+          <View style={styles.middleContainer}>
+          <Text numberOfLines={3} style={styles.comment}>{rowData.location}</Text>
+          </View>
+
+          <View style={styles.sideContainer}>
+          {this._getAverageColor(rowData.avg)}
+          </View>
+
           </View>
           </TouchableHighlight>
         )
@@ -94,6 +102,33 @@ _getComment(answers){
     }
   })
   return (<Text numberOfLines={3} style={styles.comment}>{comment}</Text>)
+}
+_getAverageColor(average) {
+  if(average === null){
+    return (
+      <Text style={[styles.average]}>N/A</Text>
+    );
+  }
+  if(average < 2){
+    return (
+      <Text style={[styles.average, {color: '#F03C02'}]}>{average.substring(0,3)}</Text>
+    );
+  }
+  else if(average < 4) {
+    return (
+      <Text style={[styles.average, {color: '#F38630'}]}>{average.substring(0,3)}</Text>
+    );
+  }
+  else if (average < 5){
+    return (
+      <Text style={[styles.average, {color: '#2DBB28'}]}>{average.substring(0,3)}</Text>
+    );
+  }
+  else {
+    return (
+      <Text style={[styles.average, {color: '#E4C005'}]}>{average.substring(0,3)}</Text>
+    );
+  }
 }
 _goToDetails(id, name, logo){
   var sellPointData = {

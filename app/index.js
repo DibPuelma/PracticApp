@@ -192,7 +192,7 @@ export default class Practicapp extends Component {
         return (<MyEvaluations navigator={navigator} {...route.passProps} />);
       }
       if (route.id === 'EvaluationDetails') {
-        return(<EvaluationDetails navigator={navigator} answeredPollId={route.answeredPollId} sellPointData={route.sellPointData}/>);
+        return(<EvaluationDetails navigator={navigator} answeredPollId={route.answeredPollId} sellPointData={route.sellPointData} {...route.passProps}/>);
       }
       if (route.id === 'Stores') {
         return (<Stores navigator={navigator} {...route.passProps} />);
@@ -207,13 +207,13 @@ export default class Practicapp extends Component {
 
       // Poll
       if (route.id === 'Poll') {
-        return (<Poll pollData={route.pollData} navigator={navigator}/>);
+        return (<Poll pollData={route.pollData} navigator={navigator} {...route.passProps}/>);
       }
       if (route.id === 'SelectEmployee') {
-        return(<SelectEmployee codeData={route.codeData} navigator={navigator} />);
+        return(<SelectEmployee codeData={route.codeData} navigator={navigator} {...route.passProps}/>);
       }
       if (route.id === 'PollAnswered') {
-        return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} />);
+        return(<PollAnswered pollData={route.pollData} navigator={navigator} pollAnswers={route.pollAnswers} {...route.passProps}/>);
       }
 
       return this._noRoute(navigator);

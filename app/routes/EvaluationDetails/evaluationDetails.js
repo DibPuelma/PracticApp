@@ -32,7 +32,6 @@ export default class EvaluationDetails extends Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
       this.setState({answeredPoll: responseJson});
       this.setState({ready: true});
     })
@@ -67,6 +66,9 @@ export default class EvaluationDetails extends Component {
         <Image style={styles.logo} source={{uri:this.props.sellPointData.logo}} />
         <Text style={styles.storeName}> {this.props.sellPointData.name} </Text>
         {this.state.answeredPoll.Answers.map((answer, i) => {
+            console.log("####################  ANSWER");
+            console.log(answer);
+            console.log("####################  ANSWER");
           if(answer.number_value !== null){
             return (
               <View key={i} style={styles.questionContainer}>
@@ -79,24 +81,23 @@ export default class EvaluationDetails extends Component {
             return (
               <View key={i} style={styles.questionContainer}>
               <Text style={styles.question}> {answer.Question.text} </Text>
-              <Text style={[styles.answer, styles.textAnswer]}> {answer.string_value}</Text>
+              <Text style={[styles.answer, styles.textAnswer]}> "{answer.string_value}"</Text>
               </View>
             )
           }
-          //TODO: add boolean_value to DATABASE
-          // else if(answer.boolean_value !== null){
-          //   return (
-          //     <View key={i} style={styles.questionContainer}>
-          //     <Text style={styles.question}> {answer.Question.text} </Text>
-          //     <Text style={[styles.answer, styles.bigTextAnswer]}> {answer.boolean_value ? "Sí" : "No"}</Text>
-          //     </View>
-          //   )
-          // }
+          else if(answer.boolean_value !== null){
+            return (
+              <View key={i} style={styles.questionContainer}>
+              <Text style={styles.question}> {answer.Question.text} </Text>
+              <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.boolean_value ? "Sí" : "No"}"</Text>
+              </View>
+            )
+          }
           else{
             return(
               <View key={i} style={styles.questionContainer}>
               <Text style={styles.question}> {answer.Question.text} </Text>
-              <Text style={[styles.answer, styles.bigTextAnswer]}> {answer.PossibleOption.value} </Text>
+              <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.PossibleOption.value}" </Text>
               </View>
             )
           }

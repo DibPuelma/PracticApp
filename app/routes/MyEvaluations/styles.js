@@ -22,14 +22,24 @@ module.exports = StyleSheet.create({
     width: 60,
     height: 60,
   },
-  comment: {
+  middleContainer: {
     flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  sideContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  comment: {
     marginLeft: 10,
-    marginRight: 10
+    marginRight: 10,
+    fontSize: 16
   },
   average: {
     flex: 1,
     fontSize: 30,
-    textAlign: 'center'
+    paddingTop: 8
   }
 })
