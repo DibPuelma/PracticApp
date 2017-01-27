@@ -16,12 +16,12 @@ import {
 import styles from './styles';
 
 import backButtonHandler from '../../lib/backButtonHandler';
-
+import settings from '../../config/settings'
 
 var LoginStatus = {
-  SLEEPING: 'slepping',
+  SLEEPING  : 'slepping',
   REQUESTING: 'requesting',
-  LOGGED: 'logged'
+  LOGGED    : 'logged'
 }
 
 var _navigator;
@@ -109,32 +109,40 @@ export default class Login extends Component {
     // Make a login request
     var login = this;
 
-    var promise = new Promise(function(resolve, reject) {
-      var response = login._validateAPI(username, password) ? {status: 'ok'} : {status: 'error'};
-
-      setTimeout(function() { // Wait for api simulation
-        if (response.status === 'ok') {
-          resolve("Stuff worked!");
-        } else {
-          reject(Error("It broke"));
-        }
-      }, 1000);
-    });
+    var promise = fetch(settings.LOGIN_URL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: username, password: password })  
+    })
+    .then((response) => response.json());
 
     promise.then(function(result) { // ok
       console.log(result);
+
+      if (result.code != "OK") {
+        switch (result.code) {
+          case 'WRONG_PASSWORD':
+            login._setError('Contraseña inválida');
+            break;
+          case 'USER_DOES_NOT_EXIT':
+            login._setError('El usuario no existe');
+            break;
+        } 
+        return;
+      }
+      
       login.setState({status: LoginStatus.LOGGED});
 
-      var user = {name: 'User1', lastName: 'User1', gender: 'm', age: 23, email: 'user1@abc.net'};
-      login.setState({user: user})
-
-      AsyncStorage.setItem("user", JSON.stringify(user));
+      login.setState({user: result.user})
+      AsyncStorage.setItem("user", JSON.stringify(result.user));
 
       login._goToMain();
-    }, function(err) { // error
-      // TODO: switch depending on response error
+    }, function(err) {
+      login._setError('Error interno, inténtalo de nuevo');
       console.log(err);
-      login._setError('Usuario o contraseña inválidos');
     });
   }
 
@@ -156,6 +164,6 @@ export default class Login extends Component {
   }
 
   _goToMain() {
-    _navigator.replace({id: 'QRReader', passProps: {user: this.state.user}}); //
+    _navigator.replace({id: 'QRReader', login: {user: this.state.user}}); //
   }
 }

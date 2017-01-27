@@ -33,6 +33,11 @@ class ControlPanel extends Component {
         </TouchableHighlight>
 
         <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
+          onPress={() => this.props.navigate({id: 'MyContests'})}>
+          <Text style={styles.fullWidthButtonText}>Mis Sorteos</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'MyPrizes'})}>
           <Text style={styles.fullWidthButtonText}>Mis Premios</Text>
         </TouchableHighlight>

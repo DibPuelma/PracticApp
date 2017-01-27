@@ -28,6 +28,7 @@ import SelectEmployee from './routes/SelectEmployee/selectEmployee';
 import PollAnswered from './routes/PollAnswered/pollAnswered';
 
 import MyAccount from './routes/MyAccount/myAccount';
+import MyContests from './routes/MyContests/myContests';
 import MyEvaluations from './routes/MyEvaluations/myEvaluations';
 import MyPrizes from './routes/MyPrizes/myPrizes';
 import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
@@ -62,9 +63,10 @@ OneSignal.configure({
   }
 });
 
-var burgerIcon = require('./images/ic_menu_black_48dp.png')
+var burgerIcon = require('./images/ic_menu_black_48dp.png');
 
 let _emitter = new EventEmitter();
+var user = null;
 
 export default class Practicapp extends Component {
   constructor(props) {
@@ -75,7 +77,7 @@ export default class Practicapp extends Component {
     var self = this;
 
     _emitter.addListener('openMenu', () => {
-      self._drawer.open();
+      this.openDrawer();
     });
 
     _emitter.addListener('back', () => {
@@ -86,7 +88,7 @@ export default class Practicapp extends Component {
       console.log("LOADED: " + value);
 
       if (value) {
-        this._navigator.replace({id: 'QRReader', passProps: {user: JSON.parse(value)}});
+        this._navigator.replace({id: 'QRReader', login: {user: JSON.parse(value)}});
       } else {
         this._navigator.replace({id: 'HomePage', displayNavbar: false});
       }
@@ -97,15 +99,16 @@ export default class Practicapp extends Component {
     if (route.id === 'Logout') {
       // Delete user stored data
       AsyncStorage.setItem('user', '');
+      user = null;
 
       // TODO: Facebook logout
 
       // Add redirect
       this._navigator.replace({id: 'HomePage', displayNavbar: false});
-      this._drawer.close();
+      this.closeDrawer();
     } else {
       this._navigator.replace(route);
-      this._drawer.close();
+      this.closeDrawer();
     }
   }
 
@@ -150,6 +153,7 @@ export default class Practicapp extends Component {
 
     if (user != null)
       route.passProps.user = user;
+
     // Init
     if (route.id === 'SplashPage') {
       return (<Splash navigator={navigator} />);
@@ -174,6 +178,9 @@ export default class Practicapp extends Component {
       }
       if (route.id === 'MyAccount') {
         return (<MyAccount navigator={navigator} {...route.passProps} />);
+      }
+      if (route.id === 'MyContests') {
+        return (<MyContests navigator={navigator} {...route.passProps} />);
       }
       if (route.id === 'MyPolls') {
         return (<MyPolls navigator={navigator} {...route.passProps} />);
@@ -224,11 +231,13 @@ export default class Practicapp extends Component {
     }
 
     openDrawer() {
-      this._drawer.open();
+      if (this._drawer != null)
+        this._drawer.open();
     }
 
     closeDrawer() {
-      this._drawer.close();
+      if (this._drawer != null)
+        this._drawer.close();
     }
   }
 
@@ -280,7 +289,8 @@ export default class Practicapp extends Component {
 
       case 'QRReader'         : title = 'Escanner'; break;
       case 'MyAccount'        : title = 'Mi Cuenta'; break;
-      case 'PollAnswered'     : title = 'Mis Sorteos'; break;
+      case 'MyContests'       : title = 'Mis Sorteos'; break;
+      case 'PollAnswered'     : title = 'Mis Sorteos'; break; // ?
       case 'MyPrizes'         : title = 'Mis Premios'; break;
       case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
       case 'Stores'           : title = 'Tiendas'; break;

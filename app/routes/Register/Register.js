@@ -18,6 +18,7 @@ import {
 import DatePicker from 'react-native-datepicker';
 import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
+import settings from '../../config/settings'
 
 var LoginStatus = {
   SLEEPING: 'slepping',
@@ -28,7 +29,7 @@ var LoginStatus = {
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = {name: '', lastName: '', email: '', password: '', confirmPassword: '', status: LoginStatus.SLEEPING};
+    this.state = {name: '', lastName: '', email: '', password: '', confirmPassword: '', gender: 'm', status: LoginStatus.SLEEPING};
     this._backToMainMenu = this._backToMainMenu.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
   }
@@ -84,7 +85,7 @@ export default class Register extends Component {
             </View>
 
             <View style={{flexDirection: 'row', marginBottom: 30}}>
-              <Picker style={{flex: 1}} onValueChange={(g) => this.setState({gender: g})}>
+              <Picker selectedValue={this.state.gender} style={{flex: 1}} onValueChange={(g) => this.setState({gender: g})}>
                 <Picker.Item label="Masculino" value="m" />
                 <Picker.Item label="Femenino" value="f" />
                 <Picker.Item label="Otro" value="o" />
@@ -179,35 +180,52 @@ export default class Register extends Component {
       return;
     }
 
-    // Make a login request
-    var login = this;
+    var newUser = {
+      email: email, 
+      first_name: name, 
+      last_name: lastName, 
+      birthdate: birthdate, 
+      gender: gender, 
+      password: password
+    };
+    console.log(newUser);
 
-    var promise = new Promise(function(resolve, reject) {
-      var response = login._validateAPI(email, password) ? {status: 'ok'} : {status: 'error'};
+    // Make a register request
+    var register = this;
 
-      setTimeout(function() { // Wait for api simulation
-        if (response.status === 'ok') {
-          resolve("Stuff worked!");
-        } else {
-          reject(Error("It broke"));
-        }
-      }, 1000);
-    });
+    var promise = fetch(settings.REGISTER_URL, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newUser)
+    })
+    .then((response) => response.json());
 
     promise.then(function(result) { // ok
       console.log(result);
-      login.setState({status: LoginStatus.LOGGED});
 
-      var user = {name: name, lastName: lastName, gender: gender, birthdate: birthdate, email: email};
-      login.setState({user: user});
+      if (result.code != "OK") {
+        switch (result.code) {
+          case 'VALIDATION_ERROR':
+            register._validationError(result.error);
+            break;
+        }
+        return;
+      }
+
+      var user = result.user;
+
+      register.setState({status: LoginStatus.LOGGED});
+      register.setState({user: user});
 
       AsyncStorage.setItem("user", JSON.stringify(user));
 
-      login._goToMain();
+      register._goToMain();
     }, function(err) { // error
-      // TODO: switch depending on response error
       console.log(err);
-      login._setError('Usuario o contraseña inválidos');
+      register._setError('Error interno, inténtalo de nuevo');
     });
   }
 
@@ -222,8 +240,24 @@ export default class Register extends Component {
     return {result: true};
   }
 
-  _validateAPI(email, password) {
-    return true;
+  _validationError(error) {
+    // TODO: handle multiple exceptions at the same time
+
+    switch (error[0].param) {
+      case 'email':
+        this._setError('Correo inválido');
+        break;
+      case 'password':
+        this._setError('Contraseña inválida, al menos 4 caracteres');
+        break;
+      case 'first_name': 
+      case 'last_name': 
+      case 'birthdate': 
+      case 'gender': 
+        this._setError('Error interno, inténtalo de nuevo');
+        break;
+    }
+    
   }
 
   _setError(message) {
@@ -236,7 +270,6 @@ export default class Register extends Component {
   }
 
   _goToMain() {
-    this.removeBackEvent();
-    this.props.navigator.push({id: 'QRReader', passProps: {user: this.state.user}});
+    this.props.navigator.replace({id: 'QRReader', login: {user: this.state.user}});
   }
 }
