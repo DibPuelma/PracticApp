@@ -47,10 +47,8 @@ export default class MyEvaluations extends Component{
     .then((responseJson) => {
       if(Object.keys(responseJson).length === 0) {
         this.setState({status: status.EMPTY})
-        console.log("IF " + responseJson);
       }
       else {
-        console.log("ELSE " + responseJson);
         this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseJson)});
         this.setState({ status: status.READY});
       }

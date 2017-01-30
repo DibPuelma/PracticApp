@@ -34,9 +34,6 @@ export default class EvaluationDetails extends Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log("################ RESPONSE");
-      console.log(responseJson);
-      console.log("################ RESPONSE");
       this.setState({userData: responseJson});
       this.setState({ ready: true});
     })

@@ -27,7 +27,6 @@ export default class PollAnswered extends Component {
   }
 
   componentDidMount(){
-    console.log("URI: " + this.state.uri);
     fetch(this.state.uri, {
       method: 'POST',
       headers: {
@@ -43,7 +42,6 @@ export default class PollAnswered extends Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      console.log(responseJson);
       this.setState({ready: true});
     })
     .catch((error) => {

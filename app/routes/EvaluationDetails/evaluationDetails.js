@@ -26,7 +26,6 @@ export default class EvaluationDetails extends Component {
   }
 
   componentDidMount(){
-    console.log("uri: " + this.state.uri);
     fetch(this.state.uri, {
       method: 'GET',
       headers: {
@@ -70,9 +69,6 @@ export default class EvaluationDetails extends Component {
         <Image style={styles.logo} source={{uri:this.props.sellPointData.logo}} />
         <Text style={styles.storeName}> {this.props.sellPointData.name} </Text>
         {this.state.answeredPoll.Answers.map((answer, i) => {
-            console.log("####################  ANSWER");
-            console.log(answer);
-            console.log("####################  ANSWER");
           if(answer.number_value !== null){
             return (
               <View key={i} style={styles.questionContainer}>
