@@ -12,6 +12,13 @@ import evaluationsData from './evaluationsData';
 import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+
+var status = {
+  WAITING: 'waiting',
+  EMPTY  : 'empty',
+  READY  : 'ready'
+};
 
 export default class MyEvaluations extends Component{
   constructor(props) {
@@ -19,7 +26,7 @@ export default class MyEvaluations extends Component{
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
       dataSource: ds.cloneWithRows(["row 1", "row 2"]),
-      ready: false,
+      status: status.WAITING,
       uri: 'https://practicapi.herokuapp.com/user/' + props.user.id + '/answered_poll'
     };
     this._backToPrevious = this._backToPrevious.bind(this);
@@ -36,8 +43,15 @@ export default class MyEvaluations extends Component{
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseJson)});
-      this.setState({ ready: true});
+      if(Object.keys(responseJson).length === 0) {
+        this.setState({status: status.EMPTY})
+        console.log("IF " + responseJson);
+      }
+      else {
+        console.log("ELSE " + responseJson);
+        this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseJson)});
+        this.setState({ status: status.READY});
+      }
     })
     .catch((error) => {
       console.error(error);
@@ -58,9 +72,14 @@ export default class MyEvaluations extends Component{
     return true; // This is important to prevent multiple calls
   }
   render() {
-    if (!this.state.ready) {
+    if (this.state.status === status.WAITING) {
       return (
         <LoadingSpinner/>
+      );
+    }
+    else if(this.state.status === status.EMPTY) {
+      return(
+        <CenteredMessage message="Aún no contestas ninguna encuesta. Escanea un código QR en alguno de nuestros locales adheridos para hacerlo." />
       );
     }
     else {

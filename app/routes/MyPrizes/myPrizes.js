@@ -13,8 +13,11 @@ import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import settings from '../../config/settings';
 
+import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+
 var MyPrizesStatus = {
   WAITING: 'waiting',
+  EMPTY  : 'empty',
   READY  : 'ready'
 };
 
@@ -56,6 +59,11 @@ export default class MyPrizes extends Component{
       </View>
       )
     }
+    else if(this.state.status === MyPrizesStatus.EMPTY) {
+      return(
+        <CenteredMessage message="Aún no ganas ningún premio. Pero tranquilo, sigue participando y de seguro alguno será tuyo" />
+      );
+    }
     return (
       <View style={styles.container}>
         <ListView
@@ -91,20 +99,26 @@ export default class MyPrizes extends Component{
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      }, 
+      },
     })
     .then((response) => response.json());
-    
+
     var myPrizes = this;
 
     promise.then(function(result) {
-      console.log(result);      
-      myPrizes.setState({ status: myPrizes.READY });
-
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}); 
-      myPrizes.setState({ dataSource: ds.cloneWithRows(result) });
+      if(Object.keys(result).length === 0) {
+        myPrizes.setState({ status: MyPrizesStatus.EMPTY})
+        console.log("RESULT ############");
+        console.log(myPrizes.state);
+        console.log("RESULT ############");
+      }
+      else{
+        myPrizes.setState({ status: MyPrizesStatus.READY });
+        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        myPrizes.setState({ dataSource: ds.cloneWithRows(result) });
+      }
     }, function(err) { // error
-      console.log(err);    
+      console.log(err);
     });
   }
 

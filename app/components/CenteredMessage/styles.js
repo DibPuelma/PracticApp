@@ -12,6 +12,7 @@ module.exports = StyleSheet.create({
   },
   message: {
     fontSize: 24,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 10
   }
 })

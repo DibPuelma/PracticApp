@@ -15,8 +15,11 @@ import backButtonHandler from '../../lib/backButtonHandler';
 import dateFormatter from '../../lib/dateFormatter';
 import settings from '../../config/settings'
 
+import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+
 var MyContestsStatus = {
   WAITING: 'waiting',
+  EMPTY  : 'empty',
   READY  : 'ready'
 };
 
@@ -57,6 +60,11 @@ export default class MyContests extends Component{
           </View>
         )
       }
+      if(this.state.status === MyContestsStatus.EMPTY) {
+        return(
+          <CenteredMessage message="Aún no estás participando en ningún sorteo. Realiza evaluaciones en locales adheridos para participar." />
+        );
+      }
       return (
         <ScrollView style={styles.scrollview}>
         <View style={styles.container}>
@@ -92,13 +100,6 @@ export default class MyContests extends Component{
     }
 
     _userContestsRequest() {
-      /*
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.state = {
-      dataSource: ds.cloneWithRows(["row 1", "row 2"])
-    };
-    //this.setState({ dataSource: this.state.dataSource.cloneWithRows(prizesData.prizes)});
-    */
 
     var user_id = this.props.user.id;
     var url = settings.USER_CONTESTS_REQUEST.replace(":id", user_id);
@@ -114,15 +115,14 @@ export default class MyContests extends Component{
     var myContests = this;
 
 promise.then(function(result) {
-  //result = sampleData;
+  if(Object.keys(result).length === 0){
+    myContests.setState({ status: MyContestsStatus.EMPTY });
 
-  console.log(result);
-  myContests.setState({ status: myContests.READY });
-  console.log("################## RESULT");
-  console.log(result);
-  console.log("################## RESULT");
-  const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-  myContests.setState({ dataSource: ds.cloneWithRows(result) });
+  } else {
+    myContests.setState({ status: MyContestsStatus.READY });
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    myContests.setState({ dataSource: ds.cloneWithRows(result) });
+  }
 }, function(err) { // error
   console.log(err);
 });
