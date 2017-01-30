@@ -37,37 +37,9 @@ import Ranking from './routes/Ranking/Ranking';
 
 import PrizeDetails from './routes/PrizeDetails/prizeDetails'; //?
 
-
-OneSignal.configure({
-  onIdsAvailable: function(device) {
-    console.log('UserId = ', device.userId);
-    console.log('PushToken = ', device.pushToken);
-  },
-  onNotificationReceived: function(notification) {
-    console.log("notification received: ", notification);
-  },
-  onNotificationOpened: function(openResult) {
-    console.log("ABIERTAAAAAAAAAA");
-    console.log('MESSAGE: ', openResult.notification.payload.body);
-    console.log('DATA: ', openResult.notification.payload.additionalData);
-    console.log('ISACTIVE: ', openResult.notification.isAppInFocus);
-    console.log('openResult: ', openResult);
-    // Do whatever you want with the objects here
-    // _navigator.to('main.post', data.title, { // If applicable
-    //  article: {
-    //    title: openResult.notification.payload.body,
-    //    link: openResult.notification.payload.launchURL,
-    //    action: data.openResult.notification.action.actionSelected
-    //  }
-    // });
-  }
-});
-
 var burgerIcon = require('./images/ic_menu_black_48dp.png');
-
 let _emitter = new EventEmitter();
 var user = null;
-
 export default class Practicapp extends Component {
   constructor(props) {
     super(props);
@@ -93,6 +65,20 @@ export default class Practicapp extends Component {
         this._navigator.replace({id: 'HomePage', displayNavbar: false});
       }
     }).done();
+
+
+    OneSignal.configure({
+      onIdsAvailable: (device) => {
+        console.log('UserId = ', device.userId);
+        console.log('PushToken = ', device.pushToken);
+      },
+      onNotificationReceived: (notification) => {
+        console.log("notification received: ", notification);
+      },
+      onNotificationOpened: (openResult) => {
+          this._processNotification(openResult);
+      }
+    });
   }
 
   navigate(route) {
@@ -113,6 +99,10 @@ export default class Practicapp extends Component {
   }
 
   render() {
+
+    if(this.state.lastNotification !== null) {
+      this._processNotification(this.state.lastNotification);
+    }
     return (
       <Drawer
       content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />}
@@ -149,10 +139,10 @@ export default class Practicapp extends Component {
     }
 
     if (!('passProps' in route))
-      route.passProps = {};
+    route.passProps = {};
 
     if (user != null)
-      route.passProps.user = user;
+    route.passProps.user = user;
 
     // Init
     if (route.id === 'SplashPage') {
@@ -229,12 +219,22 @@ export default class Practicapp extends Component {
 
     openDrawer() {
       if (this._drawer != null)
-        this._drawer.open();
+      this._drawer.open();
     }
 
     closeDrawer() {
       if (this._drawer != null)
-        this._drawer.close();
+      this._drawer.close();
+    }
+    _processNotification(openResult){
+      switch (openResult.notification.payload.additionalData.type) {
+        case 'prize':
+        this._navigator.replace({id: 'MyPrizes'});
+        break;
+        case 'evaluation':
+        this._navigator.replace({id: 'MyEvaluation'});
+        break;
+      }
     }
   }
 
