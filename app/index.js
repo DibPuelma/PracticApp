@@ -76,7 +76,7 @@ export default class Practicapp extends Component {
         console.log("notification received: ", notification);
       },
       onNotificationOpened: (openResult) => {
-          this._processNotification(openResult);
+        this._processNotification(openResult);
       }
     });
   }
@@ -98,11 +98,14 @@ export default class Practicapp extends Component {
     }
   }
 
-  render() {
+  componentWillUnmount() {
+    console.log("qljefahndfhbaskfhbaskldjfbaslkdfjbaslkdfj");
+    OneSignal.configure({
+      onNotificationOpened: () => {}
+    });
+  }
 
-    if(this.state.lastNotification !== null) {
-      this._processNotification(this.state.lastNotification);
-    }
+  render() {
     return (
       <Drawer
       content={<ControlPanel closeDrawer={this.closeDrawer.bind(this)} navigate={this.navigate.bind(this)} />}
