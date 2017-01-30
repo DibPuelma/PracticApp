@@ -12,7 +12,9 @@ module.exports = StyleSheet.create({
     marginBottom: 4
   },
   preview: {
-    flex: 1
+    flex: 1,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width
   },
   capture: {
     flex: 0,

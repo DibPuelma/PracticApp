@@ -19,12 +19,12 @@ export default class QRReader extends Component {
         aspect={Camera.constants.Aspect.fill}
         onBarCodeRead={this.props.onCodeRead}
         defaultOnFocusComponent={true}
-        onFocusChanged={this._onFocusChanged.bind(this)}>
+        onFocusChanged={() => {}}>
       </Camera>
       </View>
     );
   }
   _onFocusChanged() {
-
+    console.log("lsdflsfh");
   }
 }
