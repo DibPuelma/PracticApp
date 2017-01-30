@@ -10,15 +10,17 @@ import accountData from './accountData';
 import backButtonHandler from '../../lib/backButtonHandler';
 import styles from './styles';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import settings from '../../config/settings';
 
 export default class EvaluationDetails extends Component {
   constructor(props){
     super(props);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
     this._backToPrevious = this._backToPrevious.bind(this);
+    var uri = settings.USER_REQUEST.replace(":id", props.user.id);
     this.state = {
       ready: false,
-      uri: 'https://practicapi.herokuapp.com/user/' + props.user.id
+      uri: uri
     };
   }
 

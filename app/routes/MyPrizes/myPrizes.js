@@ -108,9 +108,6 @@ export default class MyPrizes extends Component{
     promise.then(function(result) {
       if(Object.keys(result).length === 0) {
         myPrizes.setState({ status: MyPrizesStatus.EMPTY})
-        console.log("RESULT ############");
-        console.log(myPrizes.state);
-        console.log("RESULT ############");
       }
       else{
         myPrizes.setState({ status: MyPrizesStatus.READY });

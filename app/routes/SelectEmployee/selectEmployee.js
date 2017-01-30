@@ -17,6 +17,7 @@ import employeesData from './employeesData.json';
 import backButtonHandler from '../../lib/backButtonHandler';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
 import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+import settings from '../../config/settings';
 
 export default class SelectEmployee extends Component{
 
@@ -24,8 +25,9 @@ export default class SelectEmployee extends Component{
     super(props);
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
+    var uri = settings.SELLPOINT_BY_CODE_REQUEST.replace(":code", props.codeData.data)
     this.state = {
-      uri: 'https://practicapi.herokuapp.com/QR/' + props.codeData.data + '/sellpoint',
+      uri: uri,
       ready: false,
       storeData: {},
       validCode: false

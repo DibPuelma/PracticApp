@@ -17,16 +17,16 @@ import backButtonHandler from '../../lib/backButtonHandler';
 
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
 import MyStarRating from '../../components/MyStarRating/myStarRating';
+import settings from '../../config/settings';
 
 export default class Poll extends Component {
   constructor(props){
     super(props);
-    var pollToGet = props.pollData.wasAttended ? "/attended_poll" : "/unattended_poll";
-    this.state = {uri: "https://practicapi.herokuapp.com/company/" +
-    props.pollData.companyId +
-    "/sell_point/" +
-    props.pollData.sellPointId +
-    pollToGet
+    var pollToGet = props.pollData.wasAttended ? "attended_poll" : "unattended_poll";
+    var uri = settings.SELLPOINT_POLL_REQUEST.replace(":company_id", props.pollData.companyId).replace(":sell_point_id", props.pollData.sellPointId).replace(":poll_type", pollToGet);
+    this.state = {
+      ready: false,
+      uri: uri
   }
   console.log("URI: " + this.state.uri);
   this._backToPrevious = this._backToPrevious.bind(this);

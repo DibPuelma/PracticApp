@@ -11,14 +11,18 @@ import MyStarRating from '../../components/MyStarRating/myStarRating';
 import backButtonHandler from '../../lib/backButtonHandler';
 import styles from './styles';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import settings from '../../config/settings';
 
 export default class EvaluationDetails extends Component {
   constructor(props){
     super(props);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
     this._backToPrevious = this._backToPrevious.bind(this);
-
-    this.state = {ready: false, uri: 'https://practicapi.herokuapp.com/user/' + props.user.id + '/answered_poll/' + props.sellPointData.id};
+    var uri = settings.EVALUATIONS_DETAILS_REQUEST.replace(":user_id", props.user.id).replace(":answered_poll_id", props.sellPointData.id);
+    this.state = {
+      ready: false,
+      uri: uri
+    };
   }
 
   componentDidMount(){

@@ -13,6 +13,7 @@ import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
 import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+import settings from '../../config/settings';
 
 var status = {
   WAITING: 'waiting',
@@ -24,10 +25,11 @@ export default class MyEvaluations extends Component{
   constructor(props) {
     super(props);
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+    var uri = settings.USER_EVALUATIONS_REQUEST.replace(":id", props.user.id);
     this.state = {
       dataSource: ds.cloneWithRows(["row 1", "row 2"]),
       status: status.WAITING,
-      uri: 'https://practicapi.herokuapp.com/user/' + props.user.id + '/answered_poll'
+      uri: uri
     };
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
