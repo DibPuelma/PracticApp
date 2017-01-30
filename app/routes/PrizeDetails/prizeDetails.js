@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   Image,
   Text,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 
 import backButtonHandler from '../../lib/backButtonHandler';
@@ -28,17 +29,18 @@ export default class PrizeDetails extends Component {
     return true; // This is important to prevent multiple calls
   }
 
-  render(){
-    return(
-      <View style={styles.background}>
-      <View style={styles.container}>
-      <Image style={styles.logo} source={{uri:this.props.prizeData.logo}} />
-      <Text style={styles.storeName}> {this.props.prizeData.store}</Text>
-      <Text style={styles.mediumText}> ¡Felicitaciones! Has ganado {this.props.prizeData.prize} pesos en productos {this.props.prizeData.store}.</Text>
-      <Text style={styles.normalText}> Para canjearlos anda a cualquier tienda de la marca y muestra el código que aparece a continuación a cualquier vendedor</Text>
-      <Text style={styles.code}> {this.props.prizeData.code} </Text>
-      </View>
-      </View>
+  render() {
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          <Image style={styles.logo} source={{uri:this.props.prizeData.Contest.Company.logo}} />
+          <Text style={styles.storeName}> { this.props.prizeData.Contest.Company.name }</Text>
+          <Text style={styles.mediumText}> { this.props.prizeData.name }</Text>
+          <Text style={styles.normalText}> { this.props.prizeData.description }</Text>
+          <Text style={styles.codeTitle}>Código:</Text>
+          <Text style={styles.code}> {this.props.prizeData.code} </Text>
+        </View>
+      </ScrollView>
     );
   }
 }

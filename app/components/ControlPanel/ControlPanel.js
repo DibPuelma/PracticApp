@@ -51,12 +51,7 @@ class ControlPanel extends Component {
           onPress={() => this.props.navigate({id: 'Stores'})}>
           <Text style={styles.fullWidthButtonText}>Tiendas</Text>
         </TouchableHighlight>
-
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
-          onPress={() => this.props.navigate({id: 'Ranking'})}>
-          <Text style={styles.fullWidthButtonText}>Ranking</Text>
-        </TouchableHighlight>
-
+        
         <TouchableHighlight style={styles.exitButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'Logout'})}>
           <Text style={styles.fullWidthButtonText}>Salir</Text>

@@ -113,12 +113,6 @@ export default class MyContests extends Component{
 
     var myContests = this;
 
-    /*promise = new Promise(function(resolve, reject) {
-    setTimeout(function() {
-    resolve("Stuff worked!");
-  }, 100);
-});*/
-
 promise.then(function(result) {
   //result = sampleData;
 

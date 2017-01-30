@@ -197,9 +197,6 @@ export default class Practicapp extends Component {
       if (route.id === 'Stores') {
         return (<Stores navigator={navigator} {...route.passProps} />);
       }
-      if (route.id === 'Ranking') {
-        return (<Ranking navigator={navigator} {...route.passProps} />);
-      }
 
       if (route.id === 'PrizeDetails') {
         return(<PrizeDetails navigator={navigator} prizeData={route.prizeData}/>);
@@ -294,7 +291,6 @@ export default class Practicapp extends Component {
       case 'MyPrizes'         : title = 'Mis Premios'; break;
       case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
       case 'Stores'           : title = 'Tiendas'; break;
-      case 'Ranking'          : title = 'Ranking'; break;
     }
 
     return (

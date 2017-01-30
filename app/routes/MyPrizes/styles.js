@@ -1,34 +1,47 @@
-import {
-  StyleSheet,
-  Dimensions
-} from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native';
 
 module.exports = StyleSheet.create({
-  container:{
+  scrollview: {
+  },
+  container: {
+    flex: 1,
+    marginTop: 72,
+    marginLeft: 10,
+    marginBottom: 10,
+    marginRight: 10
+  },
+  loadingContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center', 
+    justifyContent:'center',
     marginTop: 72,
     marginLeft: 10,
     marginBottom: 10,
     marginRight: 10
   },
   listElement: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'row',
-    width: Dimensions.get('window').width,
-    padding: 2,
-    borderBottomWidth: 1,
-    borderColor: '#969696'
+    marginBottom: 4,
+    padding: 4,
+    borderRadius: 8,
+    backgroundColor: '#EEE'
   },
   image: {
     flex: 1,
-    height: 80,
+    height: 80
+  },
+  info: {
+    flex: 3,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    paddingLeft: 10
+  },
+  companyName: {
+    fontSize: 22,
   },
   prize: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#E6E6E6'
-  },
-  prizeText: {
-    fontSize: 25
+    fontSize: 16
   }
-})
+});
