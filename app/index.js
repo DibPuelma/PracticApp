@@ -284,7 +284,7 @@ export default class Practicapp extends Component {
       case 'LoginPage'        : title = ''; break;
       case 'RegisterPage'     : title = ''; break;
 
-      case 'QRReader'         : title = 'Escanner'; break;
+      case 'QRReader'         : title = 'Escaner'; break;
       case 'MyAccount'        : title = 'Mi Cuenta'; break;
       case 'MyContests'       : title = 'Mis Sorteos'; break;
       case 'PollAnswered'     : title = 'Mis Sorteos'; break; // ?
