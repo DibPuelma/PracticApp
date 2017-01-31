@@ -35,7 +35,8 @@ import EvaluationDetails from './routes/EvaluationDetails/evaluationDetails';
 import Stores from './routes/Stores/stores';
 import Ranking from './routes/Ranking/Ranking';
 
-import PrizeDetails from './routes/PrizeDetails/prizeDetails'; //?
+import PrizeDetails from './routes/PrizeDetails/prizeDetails';
+
 
 var burgerIcon = require('./images/ic_menu_black_48dp.png');
 let _emitter = new EventEmitter();
@@ -43,10 +44,50 @@ var user = null;
 export default class Practicapp extends Component {
   constructor(props) {
     super(props);
+
   }
 
   componentDidMount() {
     var self = this;
+
+    console.log("MOUNTMOUNTMOUNT");
+
+    OneSignal.configure({
+      onIdsAvailable: (device) => {
+        // console.log('UserId = ', device.userId);
+        // console.log('PushToken = ', device.pushToken);
+      },
+      onNotificationReceived: (notification) => {
+        AsyncStorage.setItem("notification", JSON.stringify(notification));
+      },
+      onNotificationOpened: (openResult) => {
+        switch (openResult.notification.payload.additionalData.type) {
+          case 'prize':
+          this._navigator.replace({id: 'MyPrizes'});
+          break;
+          case 'evaluation':
+          this._navigator.replace({id: 'MyEvaluations'});
+          break;
+        }
+      }
+    });
+
+    AsyncStorage.getItem("notification").then((value) => {
+      console.log("LOADED NOTIFICATION: " + value);
+      if (value !== null) {
+        AsyncStorage.removeItem("notification");
+        var result = JSON.parse(value);
+        console.log("UNMOUNTED PROCESSING     :    ", result);
+        switch (result.payload.additionalData.type) {
+          case 'prize':
+          console.log("PRIZE");
+          this._navigator.replace({id: 'MyPrizes'});
+          case 'evaluation':
+          console.log("EVALUATION");
+          this._navigator.replace({id: 'MyEvaluations'});
+        }
+      }
+    }).done();
 
     _emitter.addListener('openMenu', () => {
       this.openDrawer();
@@ -57,28 +98,12 @@ export default class Practicapp extends Component {
     });
 
     AsyncStorage.getItem("user").then((value) => {
-      console.log("LOADED: " + value);
-
       if (value) {
         this._navigator.replace({id: 'QRReader', login: {user: JSON.parse(value)}});
       } else {
         this._navigator.replace({id: 'HomePage', displayNavbar: false});
       }
     }).done();
-
-
-    OneSignal.configure({
-      onIdsAvailable: (device) => {
-        console.log('UserId = ', device.userId);
-        console.log('PushToken = ', device.pushToken);
-      },
-      onNotificationReceived: (notification) => {
-        console.log("notification received: ", notification);
-      },
-      onNotificationOpened: (openResult) => {
-        this._processNotification(openResult);
-      }
-    });
   }
 
   navigate(route) {
@@ -138,7 +163,6 @@ export default class Practicapp extends Component {
     // Set user if is a login request and is not set
     if ('login' in route && user == null) {
       user = route.login.user;
-      console.log(user);
     }
 
     if (!('passProps' in route))
@@ -228,16 +252,6 @@ export default class Practicapp extends Component {
     closeDrawer() {
       if (this._drawer != null)
       this._drawer.close();
-    }
-    _processNotification(openResult){
-      switch (openResult.notification.payload.additionalData.type) {
-        case 'prize':
-        this._navigator.replace({id: 'MyPrizes'});
-        break;
-        case 'evaluation':
-        this._navigator.replace({id: 'MyEvaluation'});
-        break;
-      }
     }
   }
 
