@@ -1,3 +1,4 @@
+// var API_HOST = 'http://192.168.1.176:8000';
 var API_HOST = 'https://practicapi.herokuapp.com';
 
 exports.API_HOST = API_HOST;
