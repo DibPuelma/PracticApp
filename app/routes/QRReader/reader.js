@@ -4,6 +4,7 @@ import {
   View,
   TouchableHighlight
 } from 'react-native';
+
 import styles from './styles';
 import Camera from 'react-native-camera';
 

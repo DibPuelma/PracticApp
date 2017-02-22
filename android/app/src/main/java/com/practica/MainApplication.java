@@ -18,14 +18,14 @@ import com.facebook.soloader.SoLoader;
 import java.util.Arrays;
 import java.util.List;
 
+import com.geektime.reactnativeonesignal.ReactNativeOneSignalPackage;
+
+public class MainApplication extends Application implements ReactApplication {
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 
-public class MainApplication extends Application 
-  implements ReactApplication {
-  
   private static CallbackManager mCallbackManager =
     CallbackManager.Factory.create();
 
@@ -33,9 +33,9 @@ public class MainApplication extends Application
     return mCallbackManager;
   }
 
-  private final ReactNativeHost mReactNativeHost = 
+  private final ReactNativeHost mReactNativeHost =
     new ReactNativeHost(this) {
-    
+
     @Override
     protected boolean getUseDeveloperSupport() {
       return BuildConfig.DEBUG;
@@ -45,7 +45,7 @@ public class MainApplication extends Application
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
-            new ReactNativeOneSignalPackage(),
+        new ReactNativeOneSignalPackage(),
         new FBSDKPackage(mCallbackManager),
         new RCTCameraPackage()
       );
