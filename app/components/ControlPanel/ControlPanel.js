@@ -31,17 +31,17 @@ class ControlPanel extends Component {
           onPress={() => this.props.navigate({id: 'MyAccount'})}>
           <Text style={styles.fullWidthButtonText}>Mi Cuenta</Text>
         </TouchableHighlight>
-
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
-          onPress={() => this.props.navigate({id: 'MyContests'})}>
-          <Text style={styles.fullWidthButtonText}>Mis Sorteos</Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
-          onPress={() => this.props.navigate({id: 'MyPrizes'})}>
-          <Text style={styles.fullWidthButtonText}>Mis Premios</Text>
-        </TouchableHighlight>
-
+        {
+        // <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
+        //   onPress={() => this.props.navigate({id: 'MyContests'})}>
+        //   <Text style={styles.fullWidthButtonText}>Mis Sorteos</Text>
+        // </TouchableHighlight>
+        //
+        // <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
+        //   onPress={() => this.props.navigate({id: 'MyPrizes'})}>
+        //   <Text style={styles.fullWidthButtonText}>Mis Premios</Text>
+        // </TouchableHighlight>
+        }
         <TouchableHighlight style={styles.fullWidthButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'MyEvaluations'})}>
           <Text style={styles.fullWidthButtonText}>Mis Evaluaciones</Text>
@@ -51,7 +51,7 @@ class ControlPanel extends Component {
           onPress={() => this.props.navigate({id: 'Stores'})}>
           <Text style={styles.fullWidthButtonText}>Tiendas</Text>
         </TouchableHighlight>
-        
+
         <TouchableHighlight style={styles.exitButton} underlayColor="#FFF"
           onPress={() => this.props.navigate({id: 'Logout'})}>
           <Text style={styles.fullWidthButtonText}>Salir</Text>

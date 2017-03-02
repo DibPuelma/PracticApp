@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import { List, ListItem } from 'react-native-elements'
+
 import {
-  View,
-  ListView,
+  ScrollView,
   Text,
   Image,
   TouchableHighlight,
@@ -49,8 +50,11 @@ export default class MyEvaluations extends Component{
         this.setState({status: status.EMPTY})
       }
       else {
-        this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseJson)});
-        this.setState({ status: status.READY});
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseJson),
+          status: status.READY,
+          rawData: responseJson
+        });
       }
     })
     .catch((error) => {
@@ -59,7 +63,6 @@ export default class MyEvaluations extends Component{
   }
 
   componentWillMount(){
-
     this.singletonBackButtonHandler.addBackEvent(this._backToPrevious);
   }
 
@@ -83,32 +86,25 @@ export default class MyEvaluations extends Component{
       );
     }
     else {
+      console.log(this.state.rawData);
       return (
-        <View style={styles.container}>
-        <ListView
-        dataSource={this.state.dataSource}
-        renderRow={(rowData) => (
-          <TouchableHighlight onPress={() => this._goToDetails(rowData.id, rowData.location,rowData.logo)} >
-          <View style={styles.listElement}>
-
-          <View style={styles.sideContainer}>
-          <Image source={{uri: rowData.logo}} style={styles.image} />
-          </View>
-
-          <View style={styles.middleContainer}>
-          <Text numberOfLines={3} style={styles.comment}>{rowData.location}</Text>
-          </View>
-
-          <View style={styles.sideContainer}>
-          {this._getAverageColor(rowData.avg)}
-          </View>
-
-          </View>
-          </TouchableHighlight>
-        )
-      }
-      />
-      </View>
+        <ScrollView style={styles.container}>
+        <List containerStyle={{marginTop: 20}}>
+        {
+          this.state.rawData.map((evaluation, i) => {
+            return (
+              <ListItem
+              onPress={() => this._goToDetails(evaluation.id, evaluation.location,evaluation.logo)}
+              avatar={{uri:evaluation.logo}}
+              key={i}
+              title={evaluation.location}
+              subtitle={evaluation.avg !== null ? 'Promedio: ' + evaluation.avg.substring(0,3) : 'No existe promedio'}
+              />
+            )
+          })
+        }
+        </List>
+      </ScrollView>
     );
   }
 
