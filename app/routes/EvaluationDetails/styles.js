@@ -10,39 +10,50 @@ module.exports = StyleSheet.create({
     marginTop: 72,
     marginRight: 10,
     marginBottom: 10,
-    elevation: 3,
+    elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#E6E6E6',
     borderColor: '#C6C6C6',
     borderWidth: 1
   },
   container: {
-    alignItems: 'center',
-    backgroundColor: '#E6E6E6',
+    alignItems: 'center'
+  },
+  iconAndTextContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   logo: {
     width: 80,
     height: 80,
-    margin: 10
+    margin: 5
   },
   storeName: {
-    marginTop: 5,
     fontSize: 25,
+    marginBottom: 10,
     fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'right',
+    borderBottomColor: '#c6c6c6',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
   },
   questionContainer: {
     alignItems: 'center',
-    marginLeft: 15,
-    marginRight: 15,
-    marginTop: 15
+    marginTop: 5,
+    marginBottom: 5,
+    paddingBottom: 20,
+    borderBottomColor: '#e6e6e6',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
   },
   question: {
     fontSize: 20,
     textAlign: 'center',
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    flex:4
   },
   answer: {
     marginTop: 10

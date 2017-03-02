@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Icon } from 'react-native-elements'
+
 import {
   Image,
   Text,
@@ -72,7 +74,15 @@ export default class EvaluationDetails extends Component {
           if(answer.number_value !== null){
             return (
               <View key={i} style={styles.questionContainer}>
+              <View style={styles.iconAndTextContainer}>
+              <Icon
+              reverse
+              name='star'
+              type='material-icon'
+              color='#517fa4'
+              />
               <Text style={styles.question}> {answer.Question.text} </Text>
+              </View>
               <MyStarRating isDisabled={true} style={styles.starAnswer} initialRate={answer.number_value}/>
               </View>
             )
@@ -80,7 +90,15 @@ export default class EvaluationDetails extends Component {
           else if(answer.string_value !== null){
             return (
               <View key={i} style={styles.questionContainer}>
+              <View style={styles.iconAndTextContainer}>
+              <Icon
+              reverse
+              name='comment'
+              type='material-icon'
+              color='#517fa4'
+              />
               <Text style={styles.question}> {answer.Question.text} </Text>
+              </View>
               <Text style={[styles.answer, styles.textAnswer]}> "{answer.string_value}"</Text>
               </View>
             )
@@ -88,7 +106,15 @@ export default class EvaluationDetails extends Component {
           else if(answer.boolean_value !== null){
             return (
               <View key={i} style={styles.questionContainer}>
+              <View style={styles.iconAndTextContainer}>
+              <Icon
+              reverse
+              name='hdr-strong'
+              type='material-icon'
+              color='#517fa4'
+              />
               <Text style={styles.question}> {answer.Question.text} </Text>
+              </View>
               <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.boolean_value ? "Sí" : "No"}"</Text>
               </View>
             )
@@ -96,7 +122,15 @@ export default class EvaluationDetails extends Component {
           else{
             return(
               <View key={i} style={styles.questionContainer}>
+              <View style={styles.iconAndTextContainer}>
+              <Icon
+              reverse
+              name='group-work'
+              type='material-icon'
+              color='#517fa4'
+              />
               <Text style={styles.question}> {answer.Question.text} </Text>
+              </View>
               <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.PossibleOption.value}" </Text>
               </View>
             )
