@@ -13,22 +13,31 @@ module.exports = StyleSheet.create({
 
   },
   card: {
-    margin: 20,
+    margin: 10,
     borderWidth: 0.5,
-    borderRadius: 5,
     borderColor: '#E6E6E6',
-    backgroundColor: '#E6E6E6',
+    backgroundColor: '#FFFFFF',
     elevation: 3
+  },
+  iconAndTextContainer: {
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   question: {
     alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 15
+    marginTop: 5,
+    marginBottom: 5,
+    paddingBottom: 20,
+    borderBottomColor: '#e6e6e6',
+    borderBottomWidth: 1,
+    borderStyle: 'solid'
   },
   questionText: {
     textAlign: 'center',
     fontSize: 20,
-    marginBottom: 10
+    flex: 4
   },
   answer: {
     justifyContent: 'flex-start',

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import { Button, Icon } from 'react-native-elements'
+
 import {
   AppRegistry,
   View,
   Text,
-  Button,
   TextInput,
   BackAndroid,
   ScrollView,
@@ -26,7 +27,8 @@ export default class Poll extends Component {
     var uri = settings.SELLPOINT_POLL_REQUEST.replace(":company_id", props.pollData.companyId).replace(":sell_point_id", props.pollData.sellPointId).replace(":poll_type", pollToGet);
     this.state = {
       ready: false,
-      uri: uri
+      uri: uri,
+      error: ''
   }
   console.log("URI: " + this.state.uri);
   this._backToPrevious = this._backToPrevious.bind(this);
@@ -83,16 +85,33 @@ render(){
   else {
     return(
       <ScrollView style={styles.container}>
-      <Text style={styles.title}> Encuesta para {this.props.pollData.storeName} </Text>
+      <View style={styles.iconAndTextContainer}>
+      <Icon
+      reverse
+      name='assignment'
+      type='material-icon'
+      color='#517fa4'
+      />
+      </View>
+      <Text style={styles.title}>
+      {this.props.pollData.employeeName !== null ? 'Encuesta para ' + this.props.pollData.employeeName : 'Local ' + this.props.pollData.storeName }
+      </Text>
       <View style={styles.card}>
       {this.state.pollData.Questions.map((question, i) => {
         return this._getQuestion(question, i);
       })}
 
       <View style={styles.sendButton}>
-      <Button onPress={() => this._sendPollAlert()} title="Enviar encuesta" color="#841584"
-      accessibilityLabel="Envía la encuesta"
-      />
+      <Text style={{color: 'red', margin: 5, textAlign: 'center'}}> {this.state.error} </Text>
+      <Button
+        raised
+        iconRight
+        buttonStyle={{marginTop: 10, width: 250}}
+        backgroundColor='#517fa4'
+        icon={{name: 'send', type: 'material-icon'}}
+        title='ENVIAR ENCUESTA'
+        onPress={() => this._sendPollAlert()}
+        />
       </View>
 
       </View>
@@ -124,7 +143,14 @@ _sendPoll(){
     "companyId":this.props.pollData.companyId,
     "answers":[]
   }
+  for (var i = 0; i < this.state.pollData.Questions.length; i++) {
+    if(this.state[this.state.pollData.Questions[i].id] === null || this.state[this.state.pollData.Questions[i].id] === ''){
+      this.setState({error: 'Hubo un error, verifica que contestaste todas las preguntas'})
+      return;
+    }
+  }
   this.state.pollData.Questions.map((question, i) => {
+
     var answer = {"question":question.id};
     switch (question.type) {
       case 'text':
@@ -152,7 +178,15 @@ _getQuestion(question, i){
     case 'text':
     return (
       <View key={i} style={styles.question}>
-      <Text style={styles.questionText}>{question.text}</Text>
+      <View style={styles.iconAndTextContainer}>
+      <Icon
+      reverse
+      name='comment'
+      type='material-icon'
+      color='#517fa4'
+      />
+      <Text style={styles.questionText}>{question.text} (opcional)</Text>
+      </View>
       <TextInput
       style={styles.textInput}
       onChangeText={(text) => this._addValueToState(question.id, text)}
@@ -164,7 +198,15 @@ _getQuestion(question, i){
     case 'number':
     return (
       <View key={i} style={styles.question}>
+      <View style={styles.iconAndTextContainer}>
+      <Icon
+      reverse
+      name='star'
+      type='material-icon'
+      color='#517fa4'
+      />
       <Text style={styles.questionText}>{question.text}</Text>
+      </View>
       <MyStarRating style={styles.stars} isDisabled={false} onChange={(value) => this._addValueToState(question.id, value)}/>
       </View>
     );
@@ -172,7 +214,15 @@ _getQuestion(question, i){
     case 'options':
     return (
       <View key={i} style={styles.question}>
+      <View style={styles.iconAndTextContainer}>
+      <Icon
+      reverse
+      name='group-work'
+      type='material-icon'
+      color='#517fa4'
+      />
       <Text style={styles.questionText}>{question.text}</Text>
+      </View>
       <Picker
       style={styles.picker}
       selectedValue={this.state[question.id]}
@@ -187,7 +237,15 @@ _getQuestion(question, i){
     case 'boolean':
     return (
       <View key={i} style={styles.question}>
+      <View style={styles.iconAndTextContainer}>
+      <Icon
+      reverse
+      name='hdr-strong'
+      type='material-icon'
+      color='#517fa4'
+      />
       <Text style={styles.questionText}>{question.text}</Text>
+      </View>
       <View style={styles.booleanButtonsContainer}>
       <Button style={styles.booleanButton} onPress={() => this._addValueToState(question.id, true)} title="Sí" color="#841584"
       accessibilityLabel="Envía la encuesta"

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { Button } from 'react-native-elements'
+
 import {
   Text,
   View,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } from 'react-native';
 
 import styles from './styles';
@@ -32,12 +35,21 @@ export default class QRReader extends Component {
     }
     else {
       return (
-        <View style={styles.container}>
-        <Text style={styles.instructionsText}> Cuando estés en algún local adherido a nuestro servicio, simplemente presiona el botón para escanear el código QR.
-        Con esto podrás evaluar el servicio, lo que te permite participar por premios y descuentos </Text>
-        <TouchableHighlight onPress={() => {this.setState({showCamera:true})}}>
-        <Text style={styles.buttonText}> ESCANEAR </Text>
-        </TouchableHighlight>
+        <View style={styles.contentContainer}>
+        <Image
+          style={styles.QRImage}
+          source={require('../../images/qr_code.png')}
+        />
+        <Text style={styles.instructionsText}> Busca el código QR en los locales adheridos, escanéalo y gana descuentos y productos gratis instantáneamente </Text>
+
+        <Button
+          raised
+          iconLeft
+          buttonStyle={{marginTop: 40, height: 60, width: 250}}
+          icon={{name: 'qrcode', type: 'font-awesome'}}
+          title='ESCANEAR CÓDIGO'
+          onPress={() => {this.setState({showCamera:true})}}
+          />
         </View>
       );
     }

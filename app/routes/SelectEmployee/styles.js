@@ -14,7 +14,7 @@ module.exports = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     flexWrap: 'wrap',
-    margin: 20,
+    margin: 15,
     borderWidth: 0.5,
     borderRadius: 5,
     borderColor: '#E6E6E6',
@@ -42,8 +42,9 @@ module.exports = StyleSheet.create({
     width: 110
   },
   title: {
-    fontSize: 30,
-    textAlign: 'center'
+    fontSize: 24,
+    textAlign: 'center',
+    marginTop: 10
   },
   employeeName: {
     textAlign: 'center'

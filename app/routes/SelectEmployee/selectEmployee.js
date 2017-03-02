@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { List, ListItem } from 'react-native-elements'
 import {
   Text,
   Image,
@@ -26,6 +27,7 @@ export default class SelectEmployee extends Component{
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
     var uri = settings.SELLPOINT_BY_CODE_REQUEST.replace(":code", props.codeData.data)
+    console.log('uri: ', uri);
     this.state = {
       uri: uri,
       ready: false,
@@ -44,10 +46,13 @@ export default class SelectEmployee extends Component{
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      this.setState({storeData: responseJson});
-      this.setState({ready: true});
-      if (responseJson.sellpoint){
-        this.setState({validCode: true});
+      console.log('responseJson: ', responseJson);
+      if(responseJson !== null){
+        this.setState({
+          storeData: responseJson,
+          ready: true,
+          validCode: true
+        });
       }
     })
     .catch((error) => {
@@ -77,73 +82,71 @@ export default class SelectEmployee extends Component{
     else if (this.state.ready && this.state.validCode) {
       return (
         <ScrollView style={styles.container}>
-        <Text style={styles.title}> Encuesta para {this.state.storeData.sellpoint.location} </Text>
-        <Text style={styles.title}> ¿Quién lo atendió hoy? </Text>
-
-        <View style={styles.card}>
-
-        {this.state.storeData.employees.map((employee, i) => {
-          return this._getEmployeePicture(employee, i);
-        })
-      }
-
-      <TouchableHighlight style={styles.imageContainer}
-      onPress={() => this._buttonPressed(0, true)}>
-      <Text style={styles.textChoice}> No lo recuerdo </Text>
-      </TouchableHighlight>
-
-      <TouchableHighlight style={styles.imageContainer}
-      onPress={() => this._buttonPressed(0, false)}>
-      <Text style={styles.textChoice}> No me atendieron </Text>
-      </TouchableHighlight>
-
-      </View>
-      </ScrollView>
-    );
+        <Text style={styles.title}> Local {this.state.storeData.location} </Text>
+        <List containerStyle={{marginTop: 20}}>
+        {
+          this.state.storeData.Employees.map((employee, i) => {
+            return (
+              <ListItem
+              roundAvatar
+              onPress={() => this._buttonPressed(employee.id, true, employee.name)}
+              avatar={{uri:this._getEmployeePicture(employee.picture)}}
+              key={i}
+              title={employee.name + ' ' + employee.last_name}
+              />
+            )
+          })
+        }
+        <ListItem
+        roundAvatar
+        onPress={() => this._buttonPressed(0, true, null)}
+        avatar={{uri:this._getEmployeePicture('')}}
+        key='noRemember'
+        title='No lo recuerdo'
+        />
+        <ListItem
+        roundAvatar
+        onPress={() => this._buttonPressed(0, false, null)}
+        avatar={{uri:this._getEmployeePicture('')}}
+        key='notAttended'
+        title='No me atendieron'
+        />
+        </List>
+        </ScrollView>
+      );
+    }
   }
-}
 
-_backToPrevious() {
-  Alert.alert(
-    '¿Quieres salir de la encuesta?',
-    'Recuerda que con solo 1 minuto de tu tiempo puedes ayudar a esta tienda a mejorar su servicio. Además estarás participando por premios mensuales',
-    [
-      {text: 'No', style: 'cancel'},
-      {text: 'Sí', onPress: () => this.props.navigator.replace({id: 'QRReader'})},
-    ]
-  )
-  return true; // This is important to prevent multiple calls
-}
-
-_buttonPressed(employeeId, wasAttended){
-  var sellPointPollId = wasAttended ? this.state.storeData.sellpoint.attended_poll_id : this.state.storeData.sellpoint.unattended_poll_id
-  pollData = {
-    wasAttended:wasAttended,
-    companyId:this.state.storeData.sellpoint.company_id,
-    employeeId:employeeId,
-    pollId:sellPointPollId,
-    sellPointId:this.state.storeData.sellpoint.id,
-    storeName:this.state.storeData.sellpoint.location
+  _backToPrevious() {
+    Alert.alert(
+      '¿Quieres salir de la encuesta?',
+      'Recuerda que con solo 1 minuto de tu tiempo puedes ayudar a esta tienda a mejorar su servicio. Además estarás participando por premios mensuales',
+      [
+        {text: 'No', style: 'cancel'},
+        {text: 'Sí', onPress: () => this.props.navigator.replace({id: 'QRReader'})},
+      ]
+    )
+    return true; // This is important to prevent multiple calls
   }
-  this.props.navigator.push({id:'Poll', pollData:pollData});
-}
 
-_getEmployeePicture(employee, i){
-  var imageSource = 'http://www.free-icons-download.net/images/user-icon-27998.png';
-  if(employee.picture !== "") {
-    console.log("distinto");
-    imageSource = employee.picture;
+  _buttonPressed(employeeId, wasAttended, employeeName){
+    var sellPointPollId = wasAttended ? this.state.storeData.attended_poll_id : this.state.storeData.unattended_poll_id
+    pollData = {
+      wasAttended:wasAttended,
+      companyId:this.state.storeData.company_id,
+      employeeId:employeeId,
+      pollId:sellPointPollId,
+      sellPointId:this.state.storeData.id,
+      storeName:this.state.storeData.location,
+      employeeName:employeeName
+    }
+    this.props.navigator.push({id:'Poll', pollData:pollData});
   }
-  console.log(imageSource);
-  return (
-    <View key={i} style={styles.imageContainer}>
-    <TouchableHighlight onPress={() => this._buttonPressed(employee.id, true)}>
-    <Image style={styles.image}
-    source={{uri: imageSource}}
-    />
-    </TouchableHighlight>
-    <Text style={styles.employeeName}> {employee.name} </Text>
-    </View>
-  );
-}
+
+  _getEmployeePicture(picture){
+    if(picture !== "") {
+      return picture;
+    }
+    return 'http://www.free-icons-download.net/images/user-icon-27998.png';
+  }
 }

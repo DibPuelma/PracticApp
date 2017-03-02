@@ -317,10 +317,14 @@ export default class Practicapp extends Component {
       case 'QRReader'         : title = 'Escaner'; break;
       case 'MyAccount'        : title = 'Mi Cuenta'; break;
       case 'MyContests'       : title = 'Mis Sorteos'; break;
-      case 'PollAnswered'     : title = 'Mis Sorteos'; break; // ?
+      case 'PollAnswered'     : title = 'Encuesta contestada'; break; // ?
       case 'MyPrizes'         : title = 'Mis Premios'; break;
       case 'MyEvaluations'    : title = 'Mis Evaluaciones'; break;
       case 'Stores'           : title = 'Tiendas'; break;
+      case 'EvaluationDetails': title = 'Detalles de la evaluación'; break;
+      case 'SelectEmployee'   : title = 'Seleccione quién lo atendió'; break;
+      case 'Poll'             : title = 'Conteste la encuesta'; break;
+
     }
 
     return (

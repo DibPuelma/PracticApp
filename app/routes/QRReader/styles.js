@@ -11,6 +11,14 @@ module.exports = StyleSheet.create({
     marginRight: 4,
     marginBottom: 4
   },
+  contentContainer: {
+    marginLeft: 6,
+    marginTop: 68,
+    marginRight: 4,
+    marginBottom: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   preview: {
     flex: 1
   },
@@ -24,16 +32,16 @@ module.exports = StyleSheet.create({
   },
   instructionsText: {
     textAlign: 'center',
-    fontSize: 20,
-    paddingTop: 80,
-    paddingBottom: 80,
-    borderColor: '#FFFFFF',
-    borderBottomColor: '#E6E6E6',
-    borderWidth: 2
+    fontSize: 20
+  },
+  QRImage: {
+    width: 200,
+    height: 200,
+    margin: 40
   },
   buttonText: {
     textAlign: 'center',
-    marginTop: 80,
+    marginTop: 40,
     borderColor: '#A6A6A6',
     borderWidth: 1,
     fontSize: 30,

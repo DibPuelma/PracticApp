@@ -12,7 +12,7 @@ exports.USER_PRIZES_REQUEST      = API_HOST + "/user/:id/prizes";
 exports.USER_EVALUATIONS_REQUEST = API_HOST + "/user/:id/answered_poll";
 exports.EVALUATIONS_DETAILS_REQUEST = API_HOST + "/user/:user_id/answered_poll/:answered_poll_id";
 
-exports.SELLPOINT_BY_CODE_REQUEST = API_HOST + "/QR/:code/sellpoint";
+exports.SELLPOINT_BY_CODE_REQUEST = API_HOST + "/sell_point/:code";
 exports.SELLPOINT_POLL_REQUEST = API_HOST + "/company/:company_id/sell_point/:sell_point_id/:poll_type";
 
 exports.COMPANIES_REQUEST     = API_HOST + "/company";
