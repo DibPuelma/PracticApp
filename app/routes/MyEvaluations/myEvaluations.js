@@ -49,8 +49,10 @@ export default class MyEvaluations extends Component{
         this.setState({status: status.EMPTY})
       }
       else {
-        this.setState({ dataSource: this.state.dataSource.cloneWithRows(responseJson)});
-        this.setState({ status: status.READY});
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseJson),
+          status: status.READY
+        });
       }
     })
     .catch((error) => {

@@ -126,7 +126,6 @@ export default class Practicapp extends Component {
   }
 
   componentWillUnmount() {
-    console.log("qljefahndfhbaskfhbaskldjfbaslkdfjbaslkdfj");
     OneSignal.configure({
       onNotificationOpened: () => {}
     });
