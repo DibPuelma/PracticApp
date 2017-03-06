@@ -16,3 +16,5 @@ exports.SELLPOINT_BY_CODE_REQUEST = API_HOST + "/sell_point/:code";
 exports.SELLPOINT_POLL_REQUEST = API_HOST + "/company/:company_id/sell_point/:sell_point_id/:poll_type";
 
 exports.COMPANIES_REQUEST     = API_HOST + "/company";
+
+exports.POLL_ANSWERED        = API_HOST + "/company/:company_id/poll/:poll_id/answered_poll"

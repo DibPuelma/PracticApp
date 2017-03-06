@@ -4,7 +4,8 @@ import {
   Image,
   Text,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  NetInfo
 } from 'react-native';
 
 import storeData from './storeData';
@@ -12,9 +13,13 @@ import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import settings from '../../config/settings';
 
+import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import NotConnected from '../../components/NotConnected/NotConnected';
+
 var StoresStatus = {
-  WAITING: 'waiting',
-  READY  : 'ready'
+  WAITING     : 'waiting',
+  READY       : 'ready',
+  NOTCONNECTED: 'notConnected'
 };
 
 export default class Stores extends Component {
@@ -23,14 +28,15 @@ export default class Stores extends Component {
     super(props);
     this._backToPrevious = this._backToPrevious.bind(this);
     this.singletonBackButtonHandler = backButtonHandler.getInstance();
-    this.state = { 
+    this.state = {
       status: StoresStatus.WAITING,
-      storeData: []
+      storeData: [],
+      uri: settings.COMPANIES_REQUEST
     };
   }
 
   componentDidMount() {
-    this._companiesRequest();
+    this._checkNetwork();
   }
 
   componentWillMount() {
@@ -48,11 +54,14 @@ export default class Stores extends Component {
 
   render() {
     if (this.state.status === StoresStatus.WAITING) {
+      return(
+        <LoadingSpinner/>
+      );
+    }
+    else if(this.state.status === StoresStatus.NOTCONNECTED) {
       return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator animating={true} style={[styles.centering, {height: 50}]} size="large" color="#3FA9F5"/>
-      </View>
-      )
+        <NotConnected tryAgain={this._checkNetwork} />
+      );
     }
     return(
       <ScrollView style={styles.scrollview}>
@@ -69,23 +78,37 @@ export default class Stores extends Component {
     );
   }
 
-  _companiesRequest() {
-    var url = settings.COMPANIES_REQUEST;
-    var promise = fetch(url, {
+  _checkNetwork = () => {
+    this.setState({status: StoresStatus.WAITING});
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected){
+        this._load();
+      }
+      else {
+        this.setState({status: StoresStatus.NOTCONNECTED})
+      }
+    });
+  }
+
+  _load = () => {
+    var promise = fetch(this.state.uri, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      }, 
+      },
     })
     .then((response) => response.json());
-    
+
     var stores = this;
 
     promise.then(function(result) {
-      stores.setState({ status: StoresStatus.READY , storeData: result });
+      stores.setState({
+        status: StoresStatus.READY,
+        storeData: result
+      });
     }, function(err) { // error
-      console.log(err);    
+      console.log(err);
     });
   }
 }

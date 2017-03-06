@@ -3,14 +3,22 @@ import {
   Image,
   Text,
   View,
-  ScrollView
+  ScrollView,
+  NetInfo
 } from 'react-native';
 
 import accountData from './accountData';
 import backButtonHandler from '../../lib/backButtonHandler';
 import styles from './styles';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import NotConnected from '../../components/NotConnected/NotConnected';
 import settings from '../../config/settings';
+
+var status = {
+  READY: 'ready',
+  WAITING: 'waiting',
+  NOTCONNECTED: 'notConnected'
+}
 
 export default class EvaluationDetails extends Component {
   constructor(props){
@@ -19,27 +27,13 @@ export default class EvaluationDetails extends Component {
     this._backToPrevious = this._backToPrevious.bind(this);
     var uri = settings.USER_REQUEST.replace(":id", props.user.id);
     this.state = {
-      ready: false,
+      status: status.WAITING,
       uri: uri
     };
   }
 
   componentDidMount(){
-    fetch(this.state.uri, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({userData: responseJson});
-      this.setState({ ready: true});
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    this._checkNetwork();
   }
 
   componentWillMount(){
@@ -56,9 +50,14 @@ export default class EvaluationDetails extends Component {
   }
 
   render(){
-    if (!this.state.ready) {
+    if (this.state.status === status.WAITING) {
       return (
         <LoadingSpinner/>
+      );
+    }
+    else if(this.state.status === status.NOTCONNECTED) {
+      return (
+        <NotConnected tryAgain={this._checkNetwork} />
       );
     }
     else {
@@ -115,5 +114,36 @@ export default class EvaluationDetails extends Component {
         </View>
       );
     }
+  }
+  _checkNetwork = () => {
+    this.setState({status: status.WAITING});
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected){
+        this._load();
+      }
+      else {
+        this.setState({status: status.NOTCONNECTED})
+      }
+    });
+  }
+
+  _load = () => {
+    fetch(this.state.uri, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        userData: responseJson,
+        status: status.READY
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 }

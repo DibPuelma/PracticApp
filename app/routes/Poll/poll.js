@@ -9,7 +9,8 @@ import {
   BackAndroid,
   ScrollView,
   Picker,
-  Alert
+  Alert,
+  NetInfo
 } from 'react-native';
 
 import styles from './styles';
@@ -17,8 +18,15 @@ import attendedJson from './jsonattended.json';
 import backButtonHandler from '../../lib/backButtonHandler';
 
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import NotConnected from '../../components/NotConnected/NotConnected';
 import MyStarRating from '../../components/MyStarRating/myStarRating';
 import settings from '../../config/settings';
+
+var status = {
+  WAITING     : 'waiting',
+  READY       : 'ready',
+  NOTCONNECTED: 'notConnected'
+};
 
 export default class Poll extends Component {
   constructor(props){
@@ -26,7 +34,7 @@ export default class Poll extends Component {
     var pollToGet = props.pollData.wasAttended ? "attended_poll" : "unattended_poll";
     var uri = settings.SELLPOINT_POLL_REQUEST.replace(":company_id", props.pollData.companyId).replace(":sell_point_id", props.pollData.sellPointId).replace(":poll_type", pollToGet);
     this.state = {
-      ready: false,
+      status: status.WAITING,
       uri: uri,
       error: ''
   }
@@ -36,30 +44,7 @@ export default class Poll extends Component {
 }
 
 componentDidMount(){
-  fetch(this.state.uri, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    }
-  })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    this.setState({pollData: responseJson});
-    this.setState({ready: true});
-    this.setState({totalQuestions: responseJson.Questions.length});
-    for(i = 0; i < this.state.totalQuestions; i++){
-      var keyValue = {}
-      keyValue[responseJson.Questions[i].id] = "";
-      this.setState(keyValue);
-    }
-    console.log("################# POLLDATA");
-    console.log(this.state.pollData.Questions);
-    console.log("################# POLLDATA");
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+  this._checkNetwork();
 }
 
 componentWillMount(){
@@ -76,11 +61,15 @@ _backToPrevious() {
 }
 
 render(){
-  wasAtended = this.props.pollData.wasAtended;
-  if(!this.state.ready) {
+  if(this.state.status === status.WAITING) {
     return(
       <LoadingSpinner/>
     )
+  }
+  else if(this.state.status === status.NOTCONNECTED) {
+    return (
+      <NotConnected tryAgain={this._checkNetwork} />
+    );
   }
   else {
     return(
@@ -118,6 +107,44 @@ render(){
       </ScrollView>
     );
   }
+}
+
+_checkNetwork = () => {
+  this.setState({status: status.WAITING});
+  NetInfo.isConnected.fetch().then(isConnected => {
+    if(isConnected){
+      this._load();
+    }
+    else {
+      this.setState({status: status.NOTCONNECTED})
+    }
+  });
+}
+
+_load = () => {
+  fetch(this.state.uri, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    this.setState({
+      pollData: responseJson,
+      status: status.READY,
+      totalQuestions: responseJson.Questions.length
+    });
+    for(i = 0; i < this.state.totalQuestions; i++){
+      var keyValue = {}
+      keyValue[responseJson.Questions[i].id] = "";
+      this.setState(keyValue);
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
 }
 _addValueToState(question, value){
   var newValue = {};
@@ -168,8 +195,6 @@ _sendPoll(){
     }
     pollAnswers.answers.push(answer);
   })
-  console.log("IMPRIMIENDO pollAnswers");
-  console.log(pollAnswers);
   this.singletonBackButtonHandler.removeAllListeners();
   this.props.navigator.push({id:'PollAnswered', pollAnswers:pollAnswers});
 }

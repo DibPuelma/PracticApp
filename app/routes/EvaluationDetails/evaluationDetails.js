@@ -4,6 +4,7 @@ import { Icon } from 'react-native-elements'
 import {
   Image,
   Text,
+  NetInfo,
   View,
   ScrollView,
   ActivityIndicator
@@ -13,7 +14,14 @@ import MyStarRating from '../../components/MyStarRating/myStarRating';
 import backButtonHandler from '../../lib/backButtonHandler';
 import styles from './styles';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import NotConnected from '../../components/NotConnected/NotConnected';
 import settings from '../../config/settings';
+
+var status = {
+  WAITING: 'waiting',
+  READY: 'ready',
+  NOTCONNECTED: 'notConnected'
+};
 
 export default class EvaluationDetails extends Component {
   constructor(props){
@@ -22,27 +30,13 @@ export default class EvaluationDetails extends Component {
     this._backToPrevious = this._backToPrevious.bind(this);
     var uri = settings.EVALUATIONS_DETAILS_REQUEST.replace(":user_id", props.user.id).replace(":answered_poll_id", props.sellPointData.id);
     this.state = {
-      ready: false,
+      status: status.WAITING,
       uri: uri
     };
   }
 
   componentDidMount(){
-    fetch(this.state.uri, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      this.setState({answeredPoll: responseJson});
-      this.setState({ready: true});
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    this._checkNetwork();
   }
 
   componentWillMount(){
@@ -58,10 +52,47 @@ export default class EvaluationDetails extends Component {
     return true; // This is important to prevent multiple calls
   }
 
+  _checkNetwork = () => {
+    this.setState({status: status.WAITING});
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected){
+        this._load();
+      }
+      else {
+        this.setState({status: status.NOTCONNECTED})
+      }
+    });
+  }
+
+  _load = () => {
+    fetch(this.state.uri, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      this.setState({
+        answeredPoll: responseJson,
+        status: status.READY
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  }
+
   render(){
-    if(!this.state.ready) {
+    if(this.state.status === status.WAITING) {
       return (
         <LoadingSpinner/>
+      );
+    }
+    else if(this.state.status === status.NOTCONNECTED) {
+      return (
+        <NotConnected tryAgain={this._checkNetwork} />
       );
     }
     else {

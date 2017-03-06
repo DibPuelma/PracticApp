@@ -6,7 +6,9 @@ import {
   Text,
   Image,
   TouchableHighlight,
-  ActivityIndicator
+  NetInfo,
+  ActivityIndicator,
+  ListView
 } from 'react-native';
 
 import evaluationsData from './evaluationsData';
@@ -14,12 +16,15 @@ import styles from './styles';
 import backButtonHandler from '../../lib/backButtonHandler';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
 import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
+import NotConnected from '../../components/NotConnected/NotConnected';
+
 import settings from '../../config/settings';
 
 var status = {
-  WAITING: 'waiting',
-  EMPTY  : 'empty',
-  READY  : 'ready'
+  WAITING      : 'waiting',
+  EMPTY        : 'empty',
+  READY        : 'ready',
+  NOTCONNECTED : 'notConnected'
 };
 
 export default class MyEvaluations extends Component{
@@ -37,29 +42,7 @@ export default class MyEvaluations extends Component{
   }
 
   componentDidMount(){
-    fetch(this.state.uri, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      if(Object.keys(responseJson).length === 0) {
-        this.setState({status: status.EMPTY})
-      }
-      else {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseJson),
-          status: status.READY,
-          rawData: responseJson
-        });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    this._checkNetwork()
   }
 
   componentWillMount(){
@@ -85,8 +68,12 @@ export default class MyEvaluations extends Component{
         <CenteredMessage message="Aún no contestas ninguna encuesta. Escanea un código QR en alguno de nuestros locales adheridos para hacerlo." />
       );
     }
+    else if(this.state.status === status.NOTCONNECTED) {
+      return (
+        <NotConnected tryAgain={this._checkNetwork} />
+      );
+    }
     else {
-      console.log(this.state.rawData);
       return (
         <ScrollView style={styles.container}>
         <List containerStyle={{marginTop: 20}}>
@@ -107,8 +94,46 @@ export default class MyEvaluations extends Component{
       </ScrollView>
     );
   }
-
 }
+
+_checkNetwork = () => {
+  this.setState({status: status.WAITING});
+  NetInfo.isConnected.fetch().then(isConnected => {
+    if(isConnected){
+      this._load();
+    }
+    else {
+      this.setState({status: status.NOTCONNECTED})
+    }
+  });
+}
+
+_load = () => {
+  fetch(this.state.uri, {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
+  .then((response) => response.json())
+  .then((responseJson) => {
+    if(Object.keys(responseJson).length === 0) {
+      this.setState({status: status.EMPTY})
+    }
+    else {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(responseJson),
+        status: status.READY,
+        rawData: responseJson
+      });
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+}
+
 _getComment(answers){
   var comment = "No se registró ningún comentario"
   answers.map((data) => {

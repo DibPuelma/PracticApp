@@ -10,15 +10,23 @@ import {
   View,
   BackAndroid,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  NetInfo
 } from 'react-native';
 
 import styles from './styles';
 import employeesData from './employeesData.json';
 import backButtonHandler from '../../lib/backButtonHandler';
 import LoadingSpinner from '../../components/LoadingSpinner/loadingSpinner';
+import NotConnected from '../../components/NotConnected/NotConnected';
 import CenteredMessage from '../../components/CenteredMessage/centeredMessage';
 import settings from '../../config/settings';
+
+var status = {
+  WAITING: 'waiting',
+  READY: 'ready',
+  NOTCONNECTED: 'notConnected'
+};
 
 export default class SelectEmployee extends Component{
 
@@ -30,34 +38,14 @@ export default class SelectEmployee extends Component{
     console.log('uri: ', uri);
     this.state = {
       uri: uri,
-      ready: false,
+      status: status.WAITING,
       storeData: {},
       validCode: false
     }
   }
 
   componentDidMount() {
-    fetch(this.state.uri, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      }
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log('responseJson: ', responseJson);
-      if(responseJson !== null){
-        this.setState({
-          storeData: responseJson,
-          ready: true,
-          validCode: true
-        });
-      }
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    this._checkNetwork();
   }
 
   componentWillMount(){
@@ -69,17 +57,22 @@ export default class SelectEmployee extends Component{
   }
 
   render(){
-    if(!this.state.ready) {
+    if(this.state.status === status.WAITING) {
       return (
         <LoadingSpinner/>
       );
     }
-    else if (this.state.ready && !this.state.validCode) {
+    else if (this.state.status === status.READY && !this.state.validCode) {
       return (
         <CenteredMessage message="Código invalido, solamente puede escanear en locales adheridos" />
       )
     }
-    else if (this.state.ready && this.state.validCode) {
+    else if(this.state.status === status.NOTCONNECTED) {
+      return (
+        <NotConnected tryAgain={this._checkNetwork} />
+      );
+    }
+    else if (this.state.status === status.READY && this.state.validCode) {
       return (
         <ScrollView style={styles.container}>
         <Text style={styles.title}> Local {this.state.storeData.location} </Text>
@@ -115,6 +108,41 @@ export default class SelectEmployee extends Component{
         </ScrollView>
       );
     }
+  }
+
+  _checkNetwork = () => {
+    this.setState({status: status.WAITING});
+    NetInfo.isConnected.fetch().then(isConnected => {
+      if(isConnected){
+        this._load();
+      }
+      else {
+        this.setState({status: status.NOTCONNECTED})
+      }
+    });
+  }
+
+  _load = () => {
+    fetch(this.state.uri, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson !== null){
+        this.setState({
+          storeData: responseJson,
+          status: status.READY,
+          validCode: true
+        });
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
   }
 
   _backToPrevious() {
