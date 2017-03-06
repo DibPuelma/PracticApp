@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Icon } from 'react-native-elements'
 
 import {
   Image,
@@ -106,12 +105,6 @@ export default class EvaluationDetails extends Component {
             return (
               <View key={i} style={styles.questionContainer}>
               <View style={styles.iconAndTextContainer}>
-              <Icon
-              reverse
-              name='star'
-              type='material-icon'
-              color='#517fa4'
-              />
               <Text style={styles.question}> {answer.Question.text} </Text>
               </View>
               <MyStarRating isDisabled={true} style={styles.starAnswer} initialRate={answer.number_value}/>
@@ -122,12 +115,6 @@ export default class EvaluationDetails extends Component {
             return (
               <View key={i} style={styles.questionContainer}>
               <View style={styles.iconAndTextContainer}>
-              <Icon
-              reverse
-              name='comment'
-              type='material-icon'
-              color='#517fa4'
-              />
               <Text style={styles.question}> {answer.Question.text} </Text>
               </View>
               <Text style={[styles.answer, styles.textAnswer]}> "{answer.string_value}"</Text>
@@ -138,12 +125,6 @@ export default class EvaluationDetails extends Component {
             return (
               <View key={i} style={styles.questionContainer}>
               <View style={styles.iconAndTextContainer}>
-              <Icon
-              reverse
-              name='hdr-strong'
-              type='material-icon'
-              color='#517fa4'
-              />
               <Text style={styles.question}> {answer.Question.text} </Text>
               </View>
               <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.boolean_value ? "Sí" : "No"}"</Text>
@@ -154,12 +135,6 @@ export default class EvaluationDetails extends Component {
             return(
               <View key={i} style={styles.questionContainer}>
               <View style={styles.iconAndTextContainer}>
-              <Icon
-              reverse
-              name='group-work'
-              type='material-icon'
-              color='#517fa4'
-              />
               <Text style={styles.question}> {answer.Question.text} </Text>
               </View>
               <Text style={[styles.answer, styles.bigTextAnswer]}> "{answer.PossibleOption.value}" </Text>
